@@ -44,12 +44,12 @@ class FieldPanel extends React.Component {
 		}
 
 		return(
-				<div className="fieldPanel">
-					<h1>Fields</h1>
-					<br/>
-					{fields}
-				</div>
-			)
+			<div className="fieldPanel">
+				<h1>Fields</h1>
+				<br/>
+				{fields}
+			</div>
+		)
 
 	}
 }

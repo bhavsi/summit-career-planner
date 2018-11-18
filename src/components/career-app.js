@@ -44,7 +44,6 @@ class CareerApp extends React.Component {
 			}
 			else if (type == 'field')
 			{
-				console.log('CareerApp: Got inside field');
 				targets[target].field = name;
 				console.log('New Target Field' + targets[target].field);
 			}
@@ -55,9 +54,6 @@ class CareerApp extends React.Component {
 
 	}
 	render(){
-
-		
-
 		return(
 				<div className="careerApp">
 					<FieldPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
@@ -68,7 +64,7 @@ class CareerApp extends React.Component {
 						))}
 					</div>
 				</div>
-			)
+		)
 
 	}
 }

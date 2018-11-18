@@ -21,7 +21,7 @@ const itemSource = {
 	console.log("Drop Result: " + monitor.getDropResult().id);
 	console.log("Source Type: " + props.type);
 	console.log("Source Name: " + props.item.name);
-	return props.handleDrop(monitor.getDropResult().id, props.type, props.item.name); {/*If this stops working, use props.item.id instead*/}
+	return props.handleDrop(monitor.getDropResult().id, props.type, props.item.name);
 	}
 }
 
@@ -43,12 +43,7 @@ class DraggableSource extends React.Component {
 			<div className={this.props.type} style={{ opacity }}>
 				<span>{item.name}</span>
 			</div>
-			)
-		{/*return(
-			<div className = "careerItem">
-				{this.props.name}
-			</div>
-			);*/}
+		)
 	}
 }
 export default DragSource('item', itemSource, collect)(DraggableSource)

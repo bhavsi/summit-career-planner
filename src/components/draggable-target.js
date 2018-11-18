@@ -29,8 +29,6 @@ class DraggableTarget extends React.Component {
 		
 		let content;
 
-		
-
 		if (this.props.career === '' && this.props.field === '')
 		{
 			content = <p>{this.props.prompt}</p>;
@@ -48,7 +46,7 @@ class DraggableTarget extends React.Component {
 			<div className = "target" style = {{ background: backgroundColor }}>
 				{content}
 			</div>
-			);
+		);
 	}
 }
 export default DropTarget('item', itemTarget, collect)(DraggableTarget);

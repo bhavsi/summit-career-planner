@@ -44,12 +44,12 @@ class CareerPanel extends React.Component {
 		}
 
 		return(
-				<div className="careerPanel">
-					<h1>Careers</h1>
-					<br/>
-					{careers}
-				</div>
-			)
+			<div className="careerPanel">
+				<h1>Careers</h1>
+				<br/>
+				{careers}
+			</div>
+		)
 
 	}
 }
