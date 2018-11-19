@@ -38,19 +38,14 @@ import SandwichesPage from './pages/sandwiches';
    --------
  */
 
-const firebaseConfig = {
-    /*
-       --------
-       REPLACE WITH YOUR FIREBASE CREDENTIALS
-       --------
-     */
-    apiKey: "AIzaSyAc_q2GfZSdtql6W76zbP6J3LG3s6OD3e4",
-    authDomain: "cooper-csesg-project-template.firebaseapp.com",
-    databaseURL: "https://cooper-csesg-project-template.firebaseio.com",
-    projectId: "cooper-csesg-project-template",
-    storageBucket: "cooper-csesg-project-template.appspot.com",
-    messagingSenderId: "871061605870"
-};
+const firebaseConfig ={
+    apiKey: "AIzaSyAO2qUWEOu6UUpUd5ISrKQvE1Iid3euZ1A",
+    authDomain: "summit-career-planner.firebaseapp.com",
+    databaseURL: "https://summit-career-planner.firebaseio.com",
+    projectId: "summit-career-planner",
+    storageBucket: "summit-career-planner.appspot.com",
+    messagingSenderId: "544240782338"
+  };
 
 // react-redux-firebase config
 const rrfConfig = {
