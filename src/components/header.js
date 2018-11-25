@@ -89,7 +89,7 @@ class Header extends React.Component{
 		    <Toolbar>
 			    <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
 				<Link to="/">
-				    Cooper Union CSESG Summer 2018 Boilerplate
+				    Summit Career Planner
 				</Link>
 			    </Typography>
 			<div>

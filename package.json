@@ -1,4 +1,5 @@
 {
+
 			"name": "cooper-csesg",
 			"version": "0.0.2",
 			"description": "WIP boilerplate for Cooper Union Computer Science and Entrepreneurship for Social Good course",
@@ -38,4 +39,5 @@
 						"whatwg-fetch": "^2.0.4"
 			},
 			"devDependencies": {}
+
 }

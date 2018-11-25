@@ -1,13 +1,13 @@
 import React from 'react';
-import drawer from '../components/drawer.js'
+import CareerApp from '../components/career-app.js';
+
 
 class HomePage extends React.Component{
     render(){
 	return(
 	    <div>
-		<p>
-		    Welcome to the boiler plate
-		</p>
+
+	    	<CareerApp/>
 
 	    </div>
 	)
