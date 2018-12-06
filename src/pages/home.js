@@ -5,9 +5,11 @@ import CareerApp from '../components/career-app.js';
 class HomePage extends React.Component{
     render(){
 	return(
+
 	    <div>
 
 	    	<CareerApp/>
+
 
 	    </div>
 	)
@@ -15,3 +17,4 @@ class HomePage extends React.Component{
 };
 
 export default HomePage
+
