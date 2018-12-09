@@ -35,15 +35,19 @@ class DraggableTarget extends React.Component {
 		}
 		else if (this.props.career === '')
 		{
-			content = <div id="confirmed">{this.props.field}</div>;
+			content = <div>{this.props.field}</div>;
+		}
+		else if(this.props.field === '')
+		{
+			content = <div id="confirmed">{this.props.career}</div>;
 		}
 		else
 		{
-			content = <div id="confirmed">{this.props.career} in {this.props.field}</div>;
+			content = <div id="confirmed">{this.props.career} in {this.props.field}</div>
 		}
 
 		return connectDropTarget(
-			<div className = "target" style = {{ background: backgroundColor }}>
+			<div className = "target" style = {{ background: backgroundColor}}>
 				{content}
 			</div>
 		);
