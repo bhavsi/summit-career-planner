@@ -16,6 +16,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
+import TemporaryDrawer from './TemporaryDrawer.js';
+
 
 class CareerApp extends React.Component {
 	state = {
@@ -56,8 +58,7 @@ class CareerApp extends React.Component {
 	render(){
 		return(
 				<div className="careerApp">
-					<FieldPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
-					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
+					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 					<div id="inline">
 					{this.state.targets.map((item, index) => (
 						<DraggableTarget prompt={item.prompt} index={index} career={item.career} field={item.field}/>
