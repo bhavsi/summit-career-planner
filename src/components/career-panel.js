@@ -14,6 +14,7 @@ import DraggableSource from './draggable-source.js';
 
 class CareerPanel extends React.Component {
 	state = {
+		lowerBound: 0,
 	}
 
 	constructor(props){
@@ -23,23 +24,33 @@ class CareerPanel extends React.Component {
 
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
-		console.log('target: ' + target);
-		console.log('type: ' + type);
-		console.log('name: ' + name);
+		//Customization: Eliminate all lower-level career options
+		this.setState(prevState =>{
+			let newState = prevState;
+			let newLowerBound;
+			for (var i = 0; i < this.props.options.careers.length; i++)
+			{
+				if (this.props.options.careers[i].name == name) newLowerBound = i;
+			}
+			if (newLowerBound == this.props.options.careers.length - 1) newLowerBound--;
+			newState.lowerBound = newLowerBound + 1;
+			return newState;
+		})
+
 		return this.props.handleDrop(target, type, name);
 	}
 
 	render(){
-
+		
 		let careers;
 
 		if(isLoaded(this.props.options))
 		{
+			let careerList = this.props.options.careers.slice(this.state.lowerBound);
 			careers = <div className="innerCareers">
-						{this.props.options.careers.map((item, index) => (
-							<DraggableSource key={index} type="career" index={index} item={item} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-
-							))}
+						{careerList.map((item, index) => (
+							<DraggableSource key={index} type="career" index={index+this.state.lowerBound} item={item} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						))}
 					</div>;
 		}
 
@@ -50,7 +61,6 @@ class CareerPanel extends React.Component {
 				{careers}
 			</div>
 		)
-
 	}
 }
 

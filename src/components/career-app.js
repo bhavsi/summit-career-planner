@@ -3,10 +3,6 @@
 //    Holds everything inside
 //***************************************************
 
-/*Tasks:
-	- Show/Hide Respective Targets
-*/
-
 import React from 'react';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
