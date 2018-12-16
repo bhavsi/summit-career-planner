@@ -9,6 +9,7 @@ import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Suggestions from './suggestions.js'
+import { withStyles } from '@material-ui/core/styles';
 
 class Search extends Component {
   state = {
