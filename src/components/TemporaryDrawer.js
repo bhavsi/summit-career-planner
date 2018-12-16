@@ -40,6 +40,7 @@ class TemporaryDrawer extends React.Component {
 
     const sideList = (
       <div className={classes.list}>
+                <Search/>
         <FieldPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
           <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
       </div>
@@ -52,10 +53,9 @@ class TemporaryDrawer extends React.Component {
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
+            //onClick={this.toggleDrawer('left', false)}
+            //onKeyDown={this.toggleDrawer('left', false)}
           >
-          <Search/>
             {sideList}
           </div>
         </Drawer>
