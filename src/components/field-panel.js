@@ -11,7 +11,6 @@ import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableSource from './draggable-source.js';
-import Search from './search-bar.js'
 
 class FieldPanel extends React.Component {
 	state = {
@@ -46,7 +45,6 @@ class FieldPanel extends React.Component {
 
 		return(
 			<div className="fieldPanel">
-			<Search/>
 				<h1>Fields</h1>
 				<br/>
 				{fields}

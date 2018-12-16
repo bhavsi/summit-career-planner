@@ -1,3 +1,8 @@
+//***************************************************
+//    suggestions.js    Author: Sira Nassoko
+//    Suggestions for the search-bar.js component
+//***************************************************
+
 import React from 'react'
 
 const Suggestions = (props) => {
