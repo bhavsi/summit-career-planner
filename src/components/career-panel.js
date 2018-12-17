@@ -25,17 +25,20 @@ class CareerPanel extends React.Component {
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
 		//Customization: Eliminate all lower-level career options
-		this.setState(prevState =>{
-			let newState = prevState;
-			let newLowerBound;
-			for (var i = 0; i < this.props.options.careers.length; i++)
-			{
-				if (this.props.options.careers[i].name == name) newLowerBound = i;
-			}
-			if (newLowerBound == this.props.options.careers.length - 1) newLowerBound--;
-			newState.lowerBound = newLowerBound + 1;
-			return newState;
-		})
+		if (target == 0)
+		{
+			this.setState(prevState =>{
+				let newState = prevState;
+				let newLowerBound;
+				for (var i = 0; i < this.props.options.careers.length; i++)
+				{
+					if (this.props.options.careers[i].name == name) newLowerBound = i;
+				}
+				if (newLowerBound == this.props.options.careers.length - 1) newLowerBound--;
+				newState.lowerBound = newLowerBound + 1;
+				return newState;
+			})
+		}
 
 		return this.props.handleDrop(target, type, name);
 	}

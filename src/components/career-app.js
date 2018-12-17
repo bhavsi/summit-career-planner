@@ -56,18 +56,20 @@ class CareerApp extends React.Component {
 			else if (type == 'field')
 			{
 				targets[target].field = name;
-				console.log('New Target Field' + targets[target].field);
 			}
 
 			if(target == 0 && targets[0].career != "")
 			{
-				openGradDate = true;
 				targets[1].isVisible = true;
 			}
-
 			else if(target == 1 && targets[1].career != "")
 			{
 				buttonIsVisible = true;
+			}
+
+			if(type == 'career' && target == 0 && name != 'Occupation')
+			{
+				openGradDate = true;
 			}
 
 			//Upon receiving this info, additional timeline items can be inserted HERE
@@ -81,7 +83,11 @@ class CareerApp extends React.Component {
 			newState.openGradDate = false;
 			return newState;
 		})
-	} 
+	}
+
+	handleChange = name => event => {
+    this.setState({ [name]: Number(event.target.value) });
+  	}
 	
 	render(){
 		const style = {
@@ -117,7 +123,7 @@ class CareerApp extends React.Component {
  						<DialogTitle>Expected Graduation Date</DialogTitle>
  						<DialogContent>
  							<FormControl>
- 								<Select value={this.state.gradDate}>
+ 								<Select value={this.state.gradDate} onChange={this.handleChange('gradDate')}>
  									<option value=""/>
  									<option value={2018}>2018</option>
  									<option value={2019}>2019</option>
@@ -135,5 +141,4 @@ class CareerApp extends React.Component {
 		)
 	}
 }
-
 export default DragDropContext(HTML5Backend)(CareerApp);
