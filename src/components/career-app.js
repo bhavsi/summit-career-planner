@@ -81,8 +81,8 @@ class CareerApp extends React.Component {
 			newState.openGradDate = false;
 			return newState;
 		})
-	} 
-	
+	}
+
 	render(){
 		const style = {
 		background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -110,7 +110,7 @@ class CareerApp extends React.Component {
 
 					{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field}/>}
 					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field}/>}
-			
+
 					{this.state.buttonIsVisible && <Button style={style}>How do I get there?</Button>}
 					</div>
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>

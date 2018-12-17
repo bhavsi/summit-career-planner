@@ -1,9 +1,15 @@
+//***************************************************
+//    search-bar.js    Author: Sira Nassoko
+//    A search bar for the fields component
+//***************************************************
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Suggestions from './suggestions.js'
+import { withStyles } from '@material-ui/core/styles';
 
 class Search extends Component {
   state = {
@@ -38,7 +44,7 @@ class Search extends Component {
       <form className = "searchBar">
         <input
           className = 'searchBarInput'
-          placeholder="Search"
+          placeholder="Search for a Field!"
           ref={input => this.search = input}
           onChange={this.handleInputChange}
         />
