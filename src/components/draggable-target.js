@@ -23,6 +23,18 @@ function collect(connect, monitor){
 }
 
 class DraggableTarget extends React.Component {
+	
+	handleDrop = (target, type, name) => {
+		if (target < 0)
+		{
+			return this.props.handleDrop(this.props.index + .1, type, name);
+		}
+		else
+		{
+			return this.props.handleDrop(target, type, name);
+		}
+	}
+
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
 		const backgroundColor = hovered ? 'lightblue' : 'white';
