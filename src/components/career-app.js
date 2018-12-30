@@ -27,6 +27,7 @@ class CareerApp extends React.Component {
 			{ prompt: 'You Are Here', career: '', field: '', isVisible: true},
 			{ prompt: "In the future, I'd like too ...", career: '', field: '', isVisible: false},
 		],
+		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
 		gradDate: 2020,
@@ -34,44 +35,64 @@ class CareerApp extends React.Component {
 
 	constructor(props){
 		super(props);
-
 	};
 
 	//Executed whenever a field/career is selected
 	updateTarget = (target, type, name) => {
-		console.log('target' + target);
-		console.log('type: ' + type);
-		console.log('name: ' + name);
-
 		this.setState(prevState => {
 			let targets = prevState.targets;
+			let lowerBound = prevState.lowerBound;
 			let buttonIsVisible = prevState.buttonIsVisible;
 			let openGradDate = prevState.openGradDate;
 			let gradDate = prevState.gradDate;
 
-			if(type == 'career')
+			//ADD SOURCE TO TARGET
+			if (target % 1 == 0)
 			{
-				targets[target].career = name;
-			}
-			else if (type == 'field')
-			{
-				targets[target].field = name;
-				console.log('New Target Field' + targets[target].field);
+				if(type == 'career')
+				{
+					targets[target].career = name;
+				}
+				else if (type == 'field')
+				{
+					targets[target].field = name;
+				}
+
+				if(target == 0 && targets[0].career != "")
+				{
+					targets[1].isVisible = true;
+				}
+				else if(target == 1 && targets[1].career != "")
+				{
+					buttonIsVisible = true;
+				}
+
+				if(type == 'career' && target == 0 && name != 'Occupation')
+				{
+					openGradDate = true;
+				}
 			}
 
-			if(target == 0 && targets[0].career != "")
+			//REMOVE SOURCE FROM TARGET
+			else
 			{
-				openGradDate = true;
-				targets[1].isVisible = true;
-			}
+				if (type == 'career')
+				{
+					targets[target-.1].career = "";
+				}
+				else
+				{
+					targets[target-.1].field = "";
+				}
 
-			else if(target == 1 && targets[1].career != "")
-			{
-				buttonIsVisible = true;
+				if (type == 'career' && target-.1 == 0)
+				{
+					lowerBound = 0;
+				}
 			}
 
 			//Upon receiving this info, additional timeline items can be inserted HERE
-			return {targets,buttonIsVisible, openGradDate, gradDate};
+			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate};
 		});
 	}
 
@@ -83,6 +104,18 @@ class CareerApp extends React.Component {
 		})
 	}
 
+	handleChange = name => event => {
+    	this.setState({ [name]: Number(event.target.value) });
+  	}
+
+  	changeLB = (newLB) => {
+  		this.setState(prevState => {
+  			let newState = prevState;
+  			newState.lowerBound = newLB;
+  			return newState;
+  		});
+  	}
+	
 	render(){
 		const style = {
 		background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -104,12 +137,12 @@ class CareerApp extends React.Component {
 				<div className="careerApp">
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 
-					<FieldPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
-					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
+					<FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
+					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>
 					<div id="inline">
 
-					{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field}/>}
-					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field}/>}
+					{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 
 					{this.state.buttonIsVisible && <Button style={style}>How do I get there?</Button>}
 					</div>
@@ -117,7 +150,7 @@ class CareerApp extends React.Component {
  						<DialogTitle>Expected Graduation Date</DialogTitle>
  						<DialogContent>
  							<FormControl>
- 								<Select value={this.state.gradDate}>
+ 								<Select value={this.state.gradDate} onChange={this.handleChange('gradDate')}>
  									<option value=""/>
  									<option value={2018}>2018</option>
  									<option value={2019}>2019</option>
@@ -135,5 +168,4 @@ class CareerApp extends React.Component {
 		)
 	}
 }
-
 export default DragDropContext(HTML5Backend)(CareerApp);
