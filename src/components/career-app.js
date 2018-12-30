@@ -25,12 +25,13 @@ class CareerApp extends React.Component {
 	state = {
 		targets: [
 			{ prompt: 'You Are Here', career: '', field: '', isVisible: true},
-			{ prompt: "In the future, I'd like too ...", career: '', field: '', isVisible: false},
+			{ prompt: "In the future, I'd like to ...", career: '', field: '', isVisible: false},
 		],
 		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
 		gradDate: 2020,
+		showPanels: true,
 	}
 
 	constructor(props){
@@ -62,7 +63,7 @@ class CareerApp extends React.Component {
 				{
 					targets[1].isVisible = true;
 				}
-				else if(target == 1 && targets[1].career != "")
+				else if(targets[target].prompt == "In the future, I'd like to ..." && targets[target].career != "")
 				{
 					buttonIsVisible = true;
 				}
@@ -115,6 +116,23 @@ class CareerApp extends React.Component {
   			return newState;
   		});
   	}
+
+  	buildTimeline = () => {
+  		console.log("Building Timeline ...");
+  		this.setState(prevState => {
+  			let newState = prevState;
+			newState.showPanels = false;
+  			newState.buttonIsVisible = false;
+
+  			//***SAMPLE CODE***
+  			//For test purposes only.
+  			//Ultimately, relevant cards will be placed here.
+  			newState.targets.splice(1,0,{prompt: '', career: 'Bachelors', field: 'Engineering', isVisible: true});
+  			newState.targets.splice(2,0,{prompt: '', career: 'Masters', field: 'Computer Science', isVisible: true});
+  			
+  			return newState;
+  		});
+  	}
 	
 	render(){
 		const style = {
@@ -137,14 +155,25 @@ class CareerApp extends React.Component {
 				<div className="careerApp">
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 
-					<FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
-					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>
+					{this.state.showPanels && <FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+					{this.state.showPanels && <CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
+					
+
+					{this.state.targets.map((item, index) => (
+						<div id="inline">
+						{this.state.targets[index].isVisible && <DraggableTarget prompt={this.state.targets[index].prompt} 
+																				 index={index}
+																				 career={this.state.targets[index].career} 
+																				 field={this.state.targets[index].field} 
+																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+						</div>
+					))}
+					
+					{/*{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}*/}
+
 					<div id="inline">
-
-					{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-
-					{this.state.buttonIsVisible && <Button style={style}>How do I get there?</Button>}
+					{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
 					</div>
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>
  						<DialogTitle>Expected Graduation Date</DialogTitle>
