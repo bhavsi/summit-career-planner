@@ -42,9 +42,6 @@ class FieldPanel extends React.Component {
 		return this.props.handleDrop(target, type, name);
 	}
 
-refine(index) {
-	fields = {this.props.options.fields.map((item, index)
-}
 
 
 	render(){
@@ -60,9 +57,8 @@ refine(index) {
 							<DraggableSource
 							key={index}
 							type="field"
-							index={index} 
+							index={index}
 							item={item}
-							onClick={refine()}
 							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 
 							))}
