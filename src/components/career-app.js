@@ -103,7 +103,6 @@ class CareerApp extends React.Component {
 		return(
 				<div className="careerApp">
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-
 					<FieldPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
 					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
 					<div id="inline">

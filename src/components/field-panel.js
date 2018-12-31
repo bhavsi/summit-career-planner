@@ -11,6 +11,8 @@ import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableSource from './draggable-source.js';
+import BackButton from './back-button.js';
+import Search from './search-bar.js';
 
 class FieldPanel extends React.Component {
 	state = {
@@ -29,15 +31,27 @@ class FieldPanel extends React.Component {
 		return this.props.handleDrop(target, type, name);
 	}
 
+refine(index) {
+	fields = {this.props.options.fields.map((item, index)
+}
+
+
 	render(){
 
 		let fields;
+
 
 		if(isLoaded(this.props.options))
 		{
 			fields = <div className="innerFields">
 						{this.props.options.fields.map((item, index) => (
-							<DraggableSource key={index} type="field" index={index} item={item} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+							<DraggableSource
+							key={index}
+							type="field"
+							index={index} 
+							item={item}
+							onClick={refine()}
+							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 
 							))}
 					</div>;
@@ -46,8 +60,9 @@ class FieldPanel extends React.Component {
 		return(
 			<div className="fieldPanel">
 				<h1>Fields</h1>
-				<br/>
+							<Search/>
 				{fields}
+				<BackButton/>
 			</div>
 		)
 
