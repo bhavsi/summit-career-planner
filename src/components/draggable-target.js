@@ -4,9 +4,9 @@
 //   Structure: Place inside entire timeline app
 //***************************************************
 
-
 import React from 'react';
 import { DropTarget } from 'react-dnd';
+import DraggableSource from './draggable-source.js';
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -23,6 +23,18 @@ function collect(connect, monitor){
 }
 
 class DraggableTarget extends React.Component {
+	
+	handleDrop = (target, type, name) => {
+		if (target < 0)
+		{
+			return this.props.handleDrop(this.props.index + .1, type, name);
+		}
+		else
+		{
+			return this.props.handleDrop(target, type, name);
+		}
+	}
+
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
 		const backgroundColor = hovered ? 'lightblue' : 'white';
@@ -35,20 +47,24 @@ class DraggableTarget extends React.Component {
 		}
 		else if (this.props.career === '')
 		{
-			content = <div>{this.props.field}</div>;
+			content = <DraggableSource type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
 		else if(this.props.field === '')
 		{
-			content = <div id="confirmed">{this.props.career}</div>;
+			content = <DraggableSource type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
 		else
 		{
-			content = <div id="confirmed">{this.props.career} in {this.props.field}</div>
+			content = <div>
+						<DraggableSource targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						<p>in</p>
+						<DraggableSource targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+					  </div>
 		}
 
 		return connectDropTarget(
 			<div className = "target" style = {{ background: backgroundColor}}>
-				{content}
+				<span>{content}</span>
 			</div>
 		);
 	}

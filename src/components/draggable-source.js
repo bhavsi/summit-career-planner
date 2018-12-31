@@ -18,9 +18,7 @@ const itemSource = {
 	if(!monitor.didDrop()) {
 		return;
 	}
-	console.log("Drop Result: " + monitor.getDropResult().id);
-	console.log("Source Type: " + props.type);
-	console.log("Source Name: " + props.item.name);
+
 	return props.handleDrop(monitor.getDropResult().id, props.type, props.item.name);
 	}
 }
@@ -34,7 +32,6 @@ function collect(connect, monitor) {
 }
 
 class DraggableSource extends React.Component {
-
 	render(){
 		const { isDragging, connectDragSource, item } = this.props;
 		const opacity = isDragging ? 0 : 1;

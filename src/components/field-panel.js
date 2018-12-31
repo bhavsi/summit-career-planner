@@ -10,9 +10,24 @@ import { connect } from 'react-redux'
 import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
 import BackButton from './back-button.js';
 import Search from './search-bar.js';
+
+const itemTarget = {
+	drop(props, monitor, component){
+		return {id: -1};
+	}
+}
+
+function collect(connect, monitor){
+	return{
+		connectDropTarget: connect.dropTarget(),
+		hovered: monitor.isOver(),
+		item: monitor.getItem(),
+	}
+}
 
 class FieldPanel extends React.Component {
 	state = {
@@ -20,14 +35,10 @@ class FieldPanel extends React.Component {
 
 	constructor(props){
 		super(props);
-
 	};
 
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
-		console.log('target: ' + target);
-		console.log('type: ' + type);
-		console.log('name: ' + name);
 		return this.props.handleDrop(target, type, name);
 	}
 
@@ -37,6 +48,7 @@ refine(index) {
 
 
 	render(){
+		const { connectDropTarget, hovered, item } = this.props;
 
 		let fields;
 
@@ -57,7 +69,7 @@ refine(index) {
 					</div>;
 		}
 
-		return(
+		return connectDropTarget(
 			<div className="fieldPanel">
 				<h1>Fields</h1>
 							<Search/>
@@ -65,13 +77,12 @@ refine(index) {
 				<BackButton/>
 			</div>
 		)
-
 	}
 }
 
-export default compose(
+export default DropTarget('item', itemTarget, collect)(compose(
 	firebaseConnect(props => [{ path: 'options'}]),
 	connect((state, props) => ({
 		options: state.firebase.data.options
 	}))
-	)(FieldPanel)
+	)(FieldPanel))
