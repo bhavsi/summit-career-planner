@@ -5,7 +5,7 @@
 //***************************************************
 
 import React from 'react';
-import { DropTarget } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
 
 const itemTarget = {
@@ -62,9 +62,43 @@ class DraggableTarget extends React.Component {
 					  </div>
 		}
 
+		let label;
+
+		if (this.props.prompt == 'You Are Here' && this.props.career != '')
+		{
+			label = <center><p><b>You Are Here</b></p></center>
+		}
+		else if (this.props.prompt == "In the future, I'd like to ..." && this.props.career != '')
+		{
+			label = <center><p><b>Your Goal</b></p></center>
+		}
+		else
+		{
+			label = <p id="clear">.</p>
+		}
+
+		let costEarnings 
+
+		if (this.props.finance > 0)
+		{
+			costEarnings = <div className="earnings"><p>+{this.props.finance}</p></div>
+		}
+		else if (this.props.finance < 0)
+		{
+			costEarnings = <div className="cost"><p>{this.props.finance}</p></div>
+		}
+		else
+		{
+			costEarnings = <div className="zilch"></div>;
+		}
+
 		return connectDropTarget(
-			<div className = "target" style = {{ background: backgroundColor}}>
-				<span>{content}</span>
+			<div>
+				<div className = "target" style = {{ background: backgroundColor}}>
+					<span>{content}</span>
+				</div>
+				{label}
+				<center>{costEarnings}</center>
 			</div>
 		);
 	}
