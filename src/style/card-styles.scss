@@ -114,6 +114,40 @@ p{
 	align: right;
 }
 
+.earnings{
+	width: 250px;
+	height: 70px;
+	font-family: "Helvetica";
+	letter-spacing: 1px;
+	color: white;
+	background-color: #00b300;
+	text-align: center;
+	padding-top: 30px;
+	border-radius: 6px;
+}
+
+.cost{
+	width: 250px;
+	height: 70px;
+	font-family: "Helvetica";
+	letter-spacing: 1px;
+	color: white;
+	background-color: #ff3333;
+	text-align: center;
+	padding-top: 30px;
+	border-radius: 6px;
+}
+
+.zilch{
+	width: 250px;
+	height: 100px;
+	transparency: 0;
+}
+
+.filler{
+	width: 250px;
+	height: 315px;
+}
 span{
 	display: inline-block;
  	vertical-align: middle;

@@ -77,12 +77,28 @@ class DraggableTarget extends React.Component {
 			label = <p id="clear">.</p>
 		}
 
+		let costEarnings 
+
+		if (this.props.finance > 0)
+		{
+			costEarnings = <div className="earnings"><p>+{this.props.finance}</p></div>
+		}
+		else if (this.props.finance < 0)
+		{
+			costEarnings = <div className="cost"><p>{this.props.finance}</p></div>
+		}
+		else
+		{
+			costEarnings = <div className="zilch"></div>;
+		}
+
 		return connectDropTarget(
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
 					<span>{content}</span>
 				</div>
 				{label}
+				<center>{costEarnings}</center>
 			</div>
 		);
 	}
