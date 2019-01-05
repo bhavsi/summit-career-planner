@@ -15,9 +15,17 @@ import DraggableTarget from './draggable-target.js';
 import Search from './search-bar.js'
 
 const styles = {
+  root: {
+      backgroundColor: "transparent",
+  },
+
   list: {
     width: 540,
   },
+
+  paper: {
+    backgroundColor: "transparent",
+  }
 };
 
 class TemporaryDrawer extends React.Component {

@@ -151,7 +151,7 @@ class CareerApp extends React.Component {
   			return newState;
   		});
   	}
-	
+
 	render(){
 		const style = {
 		background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
