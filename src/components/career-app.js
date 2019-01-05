@@ -24,13 +24,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 class CareerApp extends React.Component {
 	state = {
 		targets: [
-			{ prompt: 'You Are Here', career: '', field: '', isVisible: true},
-			{ prompt: "In the future, I'd like too ...", career: '', field: '', isVisible: false},
+			{ prompt: 'You Are Here', career: '', field: '', finance: 0, isVisible: true},
+			{ prompt: "In the future, I'd like to ...", career: '', field: '', finance: 0, isVisible: false},
 		],
 		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
 		gradDate: 2020,
+		showPanels: true,
+		showNet: false,
+		net: 0,
 	}
 
 	constructor(props){
@@ -45,6 +48,9 @@ class CareerApp extends React.Component {
 			let buttonIsVisible = prevState.buttonIsVisible;
 			let openGradDate = prevState.openGradDate;
 			let gradDate = prevState.gradDate;
+			let showPanels = prevState.showPanels;
+			let showNet = prevState.showNet;
+			let net = prevState.net;
 
 			//ADD SOURCE TO TARGET
 			if (target % 1 == 0)
@@ -62,7 +68,7 @@ class CareerApp extends React.Component {
 				{
 					targets[1].isVisible = true;
 				}
-				else if(target == 1 && targets[1].career != "")
+				else if(targets[target].prompt == "In the future, I'd like to ..." && targets[target].career != "")
 				{
 					buttonIsVisible = true;
 				}
@@ -92,7 +98,7 @@ class CareerApp extends React.Component {
 			}
 
 			//Upon receiving this info, additional timeline items can be inserted HERE
-			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate};
+			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate, showPanels, showNet, net};
 		});
 	}
 
@@ -116,6 +122,36 @@ class CareerApp extends React.Component {
   		});
   	}
 
+  	buildTimeline = () => {
+  		console.log("Building Timeline ...");
+  		this.setState(prevState => {
+  			let newState = prevState;
+			newState.showPanels = false;
+  			newState.buttonIsVisible = false;
+  			newState.showNet = true;
+
+  			//***SAMPLE CODE***
+  			//For test purposes only.
+  			//Ultimately, relevant data/cards will be placed here.
+			newState.targets[1].finance = 80000;
+  			newState.targets.splice(1,0,{prompt: '', career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true});
+  			newState.targets.splice(2,0,{prompt: '', career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true});
+
+  			let newNet = 0;
+  			console.log("***NEW TARGETS LENGTH: " + newState.targets.length);
+  			for (var i = 0; i < newState.targets.length; i++)
+  			{
+  				console.log("***TARGET #" + i + " FINANCE: " + newState.targets[i].finance);
+  				newNet += newState.targets[i].finance;
+  			}
+
+  			console.log('***NEW NET: ' + newNet);
+  			newState.net = newNet;
+  			
+  			return newState;
+  		});
+  	}
+
 	render(){
 		const style = {
 		background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -133,18 +169,39 @@ class CareerApp extends React.Component {
 	  	letterSpacing: 1,
 		};
 
+		let netBox;
+
+		if (this.state.net < 0)
+		{
+			netBox = <div><section className="filler"></section><section className="cost"><p>Net Loss: ${this.state.net}</p></section></div>
+		}
+		else
+		{
+			netBox = <div><section className="filler"></section><section className="earnings"><p>Net Gain: ${this.state.net}</p></section></div>
+		}
+
 		return(
 				<div className="careerApp">
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 
-					<FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
-					<CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>
+					{this.state.showPanels && <FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+					{this.state.showPanels && <CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
+					
+
+					{this.state.targets.map((item, index) => (
+						<div id="inline">
+						{this.state.targets[index].isVisible && <DraggableTarget prompt={this.state.targets[index].prompt} 
+																				 index={index}
+																				 career={this.state.targets[index].career} 
+																				 field={this.state.targets[index].field} 
+																				 finance={this.state.targets[index].finance}
+																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+						</div>
+					))}
+					
 					<div id="inline">
-
-					{this.state.targets[0].isVisible && <DraggableTarget prompt={this.state.targets[0].prompt} index={0} career={this.state.targets[0].career} field={this.state.targets[0].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-					{this.state.targets[1].isVisible && <DraggableTarget prompt={this.state.targets[1].prompt} index={1} career={this.state.targets[1].career} field={this.state.targets[1].field} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-
-					{this.state.buttonIsVisible && <Button style={style}>How do I get there?</Button>}
+						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
+						{this.state.showNet && <div>{netBox}</div>}
 					</div>
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>
  						<DialogTitle>Expected Graduation Date</DialogTitle>
