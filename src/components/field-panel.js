@@ -42,19 +42,17 @@ class FieldPanel extends React.Component {
 		return this.props.handleDrop(target, type, name);
 	}
 
-
-
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
 
 		let fields;
-
 
 		if(isLoaded(this.props.options))
 		{
 			fields = <div className="innerFields">
 						{this.props.options.fields.map((item, index) => (
 							<DraggableSource
+							canDrag={this.props.canDrag}
 							key={index}
 							type="field"
 							index={index}

@@ -22,11 +22,18 @@ p{
 	opacity: 0.0;
 }
 
+#hide{
+	opacity: 0.5;
+}
+
 #inline{
-	display: inline-block;
-	margin-left: 50px;
-	margin-bottom: 600px;
+	display:inline-block;
 	vertical-align: middle;
+}
+
+.inlineCard{
+	margin-left: 50px;
+	//margin-bottom: 600px;
 }
 
 .careerApp{
@@ -48,7 +55,7 @@ p{
 	background-color: #b2f3ff;
 	text-align: center;
 	width: 270px;
-	height: 550px;
+	height: 73vh;
 	overflow-y: scroll;
 }
 
@@ -79,7 +86,7 @@ p{
 	background-color: #ffb5ca;
 	text-align: center;
 	width: 270px;
-	height: 550px;
+	height: 80vh;
 	overflow-y: scroll;
 }
 
@@ -103,7 +110,6 @@ p{
 	font-family: "Helvetica";
 	letter-spacing: 1px;
 	color: black;
-	//line-height: 250px;
 	margin-top: 15px;
 	margin-bottom: 15px;
 	margin-left: 15px;
