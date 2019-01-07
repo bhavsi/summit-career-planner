@@ -13,6 +13,7 @@ import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
 import TemporaryDrawer from './TemporaryDrawer.js';
+import SandBox from './Sandbox.js';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,6 +21,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
+import CareerCards from './CareerCards.js';
 
 class CareerApp extends React.Component {
 	state = {
@@ -147,7 +149,7 @@ class CareerApp extends React.Component {
 
   			console.log('***NEW NET: ' + newNet);
   			newState.net = newNet;
-  			
+
   			return newState;
   		});
   	}
@@ -186,20 +188,22 @@ class CareerApp extends React.Component {
 
 					{this.state.showPanels && <FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 					{this.state.showPanels && <CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
-					
+
 
 					{this.state.targets.map((item, index) => (
 						<div id="inline">
-						{this.state.targets[index].isVisible && <DraggableTarget prompt={this.state.targets[index].prompt} 
+						{this.state.targets[index].isVisible && <DraggableTarget prompt={this.state.targets[index].prompt}
 																				 index={index}
-																				 career={this.state.targets[index].career} 
-																				 field={this.state.targets[index].field} 
+																				 career={this.state.targets[index].career}
+																				 field={this.state.targets[index].field}
 																				 finance={this.state.targets[index].finance}
 																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 						</div>
 					))}
-					
+
 					<div id="inline">
+		
+					<SandBox/>
 						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
 						{this.state.showNet && <div>{netBox}</div>}
 					</div>

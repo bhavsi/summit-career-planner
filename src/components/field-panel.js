@@ -33,16 +33,25 @@ class FieldPanel extends React.Component {
 	state = {
 	}
 
-	constructor(props){
-		super(props);
-	};
+	constructor(props) {
+    super(props);
+    this.state = {isToggleOn: false};
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+
+	handleClick() {
+	    this.setState(prevState => ({
+	      isToggleOn: !prevState.isToggleOn
+	    }));
+	  }
 
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
 		return this.props.handleDrop(target, type, name);
 	}
-
-
 
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
@@ -52,7 +61,8 @@ class FieldPanel extends React.Component {
 
 		if(isLoaded(this.props.options))
 		{
-			fields = <div className="innerFields">
+			fields = <div className="innerFields"
+			onClick={this.handleClick}>
 						{this.props.options.fields.map((item, index) => (
 							<DraggableSource
 							key={index}
@@ -60,17 +70,27 @@ class FieldPanel extends React.Component {
 							index={index}
 							item={item}
 							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-
 							))}
 					</div>;
 		}
+
+		if(this.state.isToggleOn == true) {
+			fields =  <div className="innerFields">
+				<div>Computer Science</div>
+				<div>Electrician</div>
+				<div>Engineer</div>
+				<div>Game Developer</div>
+				<div>Teacher</div>
+						</div>;
+		}
+
 
 		return connectDropTarget(
 			<div className="fieldPanel">
 				<h1>Fields</h1>
 							<Search/>
 				{fields}
-				<BackButton/>
+						<BackButton/>
 			</div>
 		)
 	}

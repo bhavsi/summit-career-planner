@@ -13,20 +13,9 @@ import { withStyles } from '@material-ui/core/styles';
 class BackButton extends Component {
   constructor(props) {
     super(props);
-    //this.state = {isToggleOn: true};
-
-    // This binding is necessary to make `this` work in the callback
-    //this.handleClick = this.handleClick.bind(this);
   }
 
-  /*handleClick() {
-    this.setState(prevState => ({
-      isToggleOn: !prevState.isToggleOn
-    }));
-  }*/
-
-goBack() {
-  window.history.back();
+handleClick() {
   console.log("working");
 }
 
@@ -34,7 +23,7 @@ goBack() {
     return (
       <button
       className="backButton"
-      onClick={this.goBack()}>
+      onClick={this.handleClick()}>
         BACK
       </button>
     );
