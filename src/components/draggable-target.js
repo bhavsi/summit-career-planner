@@ -47,28 +47,28 @@ class DraggableTarget extends React.Component {
 		}
 		else if (this.props.career === '')
 		{
-			content = <DraggableSource type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
+			content = <DraggableSource canDrag={this.props.canDrag} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
 		else if(this.props.field === '')
 		{
-			content = <DraggableSource type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
+			content = <DraggableSource canDrag={this.props.canDrag} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
 		else
 		{
 			content = <div>
-						<DraggableSource targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 						<p>in</p>
-						<DraggableSource targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 					  </div>
 		}
 
 		let label;
 
-		if (this.props.prompt == 'You Are Here' && this.props.career != '')
+		if (this.props.prompt == "Right now, I'm in ..." && this.props.career != '')
 		{
 			label = <center><p><b>You Are Here</b></p></center>
 		}
-		else if (this.props.prompt == "In the future, I'd like to ..." && this.props.career != '')
+		else if (this.props.prompt == "In the future, I'd like to have ..." && this.props.career != '')
 		{
 			label = <center><p><b>Your Goal</b></p></center>
 		}
@@ -77,7 +77,7 @@ class DraggableTarget extends React.Component {
 			label = <p id="clear">.</p>
 		}
 
-		let costEarnings 
+		let costEarnings; 
 
 		if (this.props.finance > 0)
 		{
