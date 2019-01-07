@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext as DragCardsContext } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
@@ -21,11 +23,29 @@ import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const getItemSpecs = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  ...draggableStyle,
+});
+
+const getListSpecs = isDraggingOver => ({
+  display: 'flex',
+  overflow: 'auto',
+});
+
 class CareerApp extends React.Component {
 	state = {
 		targets: [
-			{ prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
-			{ prompt: "In the future, I'd like to have ...", career: '', field: '', finance: 0, isVisible: false},
+			{ id: "item-0", prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
+			{ id: "item-1", prompt: "In the future, I'd like to have ...", career: '', field: '', finance: 0, isVisible: false},
 		],
 		lowerBound: 0,
 		buttonIsVisible: false,
@@ -40,6 +60,7 @@ class CareerApp extends React.Component {
 
 	constructor(props){
 		super(props);
+		this.onDragEnd = this.onDragEnd.bind(this);
 	};
 
 	//Executed whenever a field/career is selected
@@ -162,8 +183,8 @@ class CareerApp extends React.Component {
   			//For test purposes only.
   			//Ultimately, relevant data/cards will be placed here.
 			newState.targets[1].finance = 80000;
-  			newState.targets.splice(1,0,{prompt: '', career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true});
-  			newState.targets.splice(2,0,{prompt: '', career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true});
+  			newState.targets.splice(1,0,{id: "item-2", prompt: '', career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true});
+  			newState.targets.splice(2,0,{id: "item-3",prompt: '', career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true});
 
   			let newNet = 0;
   			console.log("***NEW TARGETS LENGTH: " + newState.targets.length);
@@ -177,6 +198,24 @@ class CareerApp extends React.Component {
   			newState.net = newNet;
   			
   			return newState;
+  		});
+  	}
+
+  	onDragEnd(result) {
+  		if (!result.destination)
+  		{
+  			return;
+  		}
+
+  		const newTargets = reorder(
+  			this.state.targets,
+  			result.source.index,
+      		result.destination.index
+  		);
+
+  		this.setState(prevState => {
+  			let newState = prevState;
+  			newState.targets = newTargets;
   		});
   	}
 
@@ -220,24 +259,40 @@ class CareerApp extends React.Component {
 						</section>
 					</div>}
 					
-					{this.state.targets.map((item, index) => (
-						<div id="inline" className="inlineCard">
-						{this.state.targets[index].isVisible && <DraggableTarget canDrag={true}
-																				 prompt={this.state.targets[index].prompt} 
-																				 index={index}
-																				 career={this.state.targets[index].career} 
-																				 field={this.state.targets[index].field} 
-																				 finance={this.state.targets[index].finance}
-																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-						{!this.state.targets[index].isVisible && <div id="hide"><DraggableTarget canDrag={false}
-																				 prompt={this.state.targets[index].prompt} 
-																			  	 index={index}
-																				 career={this.state.targets[index].career} 
-																				 field={this.state.targets[index].field} 
-																				 finance={this.state.targets[index].finance}
-																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
-						</div>
-					))}
+					{/*THE ACTUAL TIMELINE*/}
+					<div id="inline">
+					<DragCardsContext onDragEnd={this.onDragEnd}>
+						<Droppable droppableId="droppable" direction="horizontal">
+							{(provided, snapshot) => (
+								<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
+									{this.state.targets.map((item, index) => (
+										<Draggable key={item.id} draggableId={item.id} index={index}>
+											{(provided, snapshot) => (
+											<div ref={provided.innerRef}  {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} id="inline" className="inlineCard">
+											{this.state.targets[index].isVisible && <DraggableTarget canDrag={true}
+																									 prompt={this.state.targets[index].prompt} 
+																									 index={index}
+																									 career={this.state.targets[index].career} 
+																									 field={this.state.targets[index].field} 
+																									 finance={this.state.targets[index].finance}
+																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+											{!this.state.targets[index].isVisible && <div id="hide"><DraggableTarget canDrag={false}
+																									 prompt={this.state.targets[index].prompt} 
+																								  	 index={index}
+																									 career={this.state.targets[index].career} 
+																									 field={this.state.targets[index].field} 
+																									 finance={this.state.targets[index].finance}
+																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+											</div>
+											)}
+										</Draggable>
+									))}
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
+					</DragCardsContext>
+					</div>
 					
 					{this.state.onIntro && <div id="inline" className="inlineCard">
 						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
