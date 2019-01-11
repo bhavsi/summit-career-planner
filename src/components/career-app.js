@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext as DragCardsContext } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
@@ -23,23 +25,44 @@ import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 import CareerCards from './CareerCards.js';
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const getItemSpecs = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  ...draggableStyle,
+});
+
+const getListSpecs = isDraggingOver => ({
+  display: 'flex',
+  overflow: 'auto',
+});
+
 class CareerApp extends React.Component {
 	state = {
 		targets: [
-			{ prompt: 'You Are Here', career: '', field: '', finance: 0, isVisible: true},
-			{ prompt: "In the future, I'd like to ...", career: '', field: '', finance: 0, isVisible: false},
+			{ id: "item-0", prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
+			{ id: "item-1", prompt: "In the future, I'd like to have ...", career: '', field: '', finance: 0, isVisible: false},
 		],
 		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
 		gradDate: 2020,
-		showPanels: true,
+		onIntro: true,
+		showFields: false,
+		showCareers: true,
 		showNet: false,
 		net: 0,
 	}
 
 	constructor(props){
 		super(props);
+		this.onDragEnd = this.onDragEnd.bind(this);
 	};
 
 	//Executed whenever a field/career is selected
@@ -50,13 +73,15 @@ class CareerApp extends React.Component {
 			let buttonIsVisible = prevState.buttonIsVisible;
 			let openGradDate = prevState.openGradDate;
 			let gradDate = prevState.gradDate;
-			let showPanels = prevState.showPanels;
+			let showFields = prevState.showFields;
+			let showCareers = prevState.showCareers;
 			let showNet = prevState.showNet;
 			let net = prevState.net;
 
-			//ADD SOURCE TO TARGET
+			//***ADD SOURCE TO TARGET***
 			if (target % 1 == 0)
 			{
+				//Transfer Information
 				if(type == 'career')
 				{
 					targets[target].career = name;
@@ -66,22 +91,14 @@ class CareerApp extends React.Component {
 					targets[target].field = name;
 				}
 
-				if(target == 0 && targets[0].career != "")
-				{
-					targets[1].isVisible = true;
-				}
-				else if(targets[target].prompt == "In the future, I'd like to ..." && targets[target].career != "")
-				{
-					buttonIsVisible = true;
-				}
-
+				//Prompt Graduation Date
 				if(type == 'career' && target == 0 && name != 'Occupation')
 				{
 					openGradDate = true;
 				}
 			}
 
-			//REMOVE SOURCE FROM TARGET
+			//***REMOVE SOURCE FROM TARGET***
 			else
 			{
 				if (type == 'career')
@@ -99,8 +116,38 @@ class CareerApp extends React.Component {
 				}
 			}
 
+			//***UPDATE VISIBILITIES***
+
+			//Visbility: Check if 1st spot is filled
+			if (targets[0].career != "")
+			{
+				showFields = true;
+				for (var i = 1; i < targets.length; i++)
+				{
+					targets[i].isVisible = true;
+				}
+			}
+			else
+			{
+				showFields = false;
+				for (var i = 1; i < targets.length; i++)
+				{
+					targets[i].isVisible = false;
+				}
+			}
+
+			//Visibility: Check if 1st & 2nd spot are occupied
+			if (targets[0].career != "" && targets[1].career != "" && targets.length == 2)
+			{
+				buttonIsVisible = true;
+			}
+			else
+			{
+				buttonIsVisible = false;
+			}
+
 			//Upon receiving this info, additional timeline items can be inserted HERE
-			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate, showPanels, showNet, net};
+			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate, showFields, showCareers, showNet, net};
 		});
 	}
 
@@ -128,16 +175,18 @@ class CareerApp extends React.Component {
   		console.log("Building Timeline ...");
   		this.setState(prevState => {
   			let newState = prevState;
-			newState.showPanels = false;
+			newState.showFields = false;
+			newState.showCareers = false;
   			newState.buttonIsVisible = false;
   			newState.showNet = true;
+  			newState.onIntro = false;
 
   			//***SAMPLE CODE***
   			//For test purposes only.
   			//Ultimately, relevant data/cards will be placed here.
 			newState.targets[1].finance = 80000;
-  			newState.targets.splice(1,0,{prompt: '', career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true});
-  			newState.targets.splice(2,0,{prompt: '', career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true});
+  			newState.targets.splice(1,0,{id: "item-2", prompt: '', career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true});
+  			newState.targets.splice(2,0,{id: "item-3",prompt: '', career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true});
 
   			let newNet = 0;
   			console.log("***NEW TARGETS LENGTH: " + newState.targets.length);
@@ -151,6 +200,24 @@ class CareerApp extends React.Component {
   			newState.net = newNet;
 
   			return newState;
+  		});
+  	}
+
+  	onDragEnd(result) {
+  		if (!result.destination)
+  		{
+  			return;
+  		}
+
+  		const newTargets = reorder(
+  			this.state.targets,
+  			result.source.index,
+      		result.destination.index
+  		);
+
+  		this.setState(prevState => {
+  			let newState = prevState;
+  			newState.targets = newTargets;
   		});
   	}
 
@@ -184,27 +251,59 @@ class CareerApp extends React.Component {
 
 		return(
 				<div className="careerApp">
+        <SandBox/>
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+					{this.state.onIntro && <div id="inline">
+						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
+						<section id="inline">
+							{this.state.showFields && <FieldPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+							{!this.state.showFields && <div id="hide"><FieldPanel canDrag={false} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+						</section>
+					</div>}
 
-					{this.state.showPanels && <FieldPanel  handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-					{this.state.showPanels && <CareerPanel handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
-
-
-					{this.state.targets.map((item, index) => (
-						<div id="inline">
-						{this.state.targets[index].isVisible && <DraggableTarget prompt={this.state.targets[index].prompt}
-																				 index={index}
-																				 career={this.state.targets[index].career}
-																				 field={this.state.targets[index].field}
-																				 finance={this.state.targets[index].finance}
-																				 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
-						</div>
-					))}
-
+					{/*THE ACTUAL TIMELINE*/}
 					<div id="inline">
-		
-					<SandBox/>
+					<DragCardsContext onDragEnd={this.onDragEnd}>
+						<Droppable droppableId="droppable" direction="horizontal">
+							{(provided, snapshot) => (
+								<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
+									{this.state.targets.map((item, index) => (
+										<Draggable key={item.id} draggableId={item.id} index={index}>
+											{(provided, snapshot) => (
+											<div ref={provided.innerRef}  {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} id="inline" className="inlineCard">
+											{this.state.targets[index].isVisible && <DraggableTarget canDrag={true}
+																									 prompt={this.state.targets[index].prompt}
+																									 index={index}
+																									 career={this.state.targets[index].career}
+																									 field={this.state.targets[index].field}
+																									 finance={this.state.targets[index].finance}
+																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+											{!this.state.targets[index].isVisible && <div id="hide"><DraggableTarget canDrag={false}
+																									 prompt={this.state.targets[index].prompt}
+																								  	 index={index}
+																									 career={this.state.targets[index].career}
+																									 field={this.state.targets[index].field}
+																									 finance={this.state.targets[index].finance}
+																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+											</div>
+											)}
+										</Draggable>
+									))}
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
+					</DragCardsContext>
+					</div>
+
+					{this.state.onIntro && <div id="inline" className="inlineCard">
 						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
+						{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}
+						<p id="clear">.</p>
+						<div className="zilch"></div>
+					</div>}
+
+					<div id="inline" className="inlineCard">
 						{this.state.showNet && <div>{netBox}</div>}
 					</div>
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>

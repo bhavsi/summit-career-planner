@@ -58,13 +58,13 @@ class FieldPanel extends React.Component {
 
 		let fields;
 
-
 		if(isLoaded(this.props.options))
 		{
 			fields = <div className="innerFields"
 			onClick={this.handleClick}>
 						{this.props.options.fields.map((item, index) => (
 							<DraggableSource
+							canDrag={this.props.canDrag}
 							key={index}
 							type="field"
 							index={index}

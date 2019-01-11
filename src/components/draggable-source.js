@@ -8,6 +8,9 @@ import React from 'react';
 import { DragSource } from 'react-dnd';
 
 const itemSource = {
+	canDrag(props, monitor){
+		return props.canDrag;
+	},
 	beginDrag(props){
 		console.log(props.item.name);
 		console.log("Index: " + props.index);

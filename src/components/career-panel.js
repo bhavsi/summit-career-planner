@@ -63,7 +63,7 @@ class CareerPanel extends React.Component {
 			let careerList = this.props.options.careers.slice(this.props.lowerBound);
 			careers = <div className="innerCareers">
 						{careerList.map((item, index) => (
-							<DraggableSource key={index} type="career" index={index+this.state.lowerBound} item={item} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+							<DraggableSource canDrag={this.props.canDrag} key={index} type="career" index={index+this.state.lowerBound} item={item} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 						))}
 					</div>;
 		}
