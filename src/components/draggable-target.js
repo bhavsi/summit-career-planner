@@ -68,6 +68,10 @@ class DraggableTarget extends React.Component {
 		{
 			label = <center><p><b>You Are Here</b></p></center>
 		}
+		else if (this.props.prompt == "In the future, I'd like to have ..." && this.props.career == '' && this.props.field != "")
+		{
+			label = <center><p><i>Please enter a career</i></p></center>
+		}
 		else if (this.props.prompt == "In the future, I'd like to have ..." && this.props.career != '')
 		{
 			label = <center><p><b>Your Goal</b></p></center>

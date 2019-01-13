@@ -244,7 +244,7 @@ class CareerApp extends React.Component {
 		}
 		else
 		{
-			netBox = <div><section className="filler"></section><section className="earnings"><p>Net Gain: ${this.state.net}</p></section></div>
+			netBox = <div className="earnings"><p>Net Gain: ${this.state.net}</p></div>
 		}
 
 		return(
@@ -301,9 +301,12 @@ class CareerApp extends React.Component {
 						<div className="zilch"></div>
 					</div>}
 
-					<div id="inline" className="inlineCard">
-						{this.state.showNet && <div>{netBox}</div>}
-					</div>
+					{!this.state.onIntro && <div id="inline" className="inlineCard">
+						<div className="target" id="whiteBackground">Timeline 1</div>
+						<p id="clear">.</p>
+						<center>{netBox}</center>
+					</div>}
+
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>
  						<DialogTitle>Expected Graduation Date</DialogTitle>
  						<DialogContent>
