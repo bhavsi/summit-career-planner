@@ -15,6 +15,7 @@ import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
 import TemporaryDrawer from './TemporaryDrawer.js';
+import SandBox from './Sandbox.js';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Dialog from '@material-ui/core/Dialog';
@@ -22,6 +23,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
+import CareerCards from './CareerCards.js';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -196,7 +198,7 @@ class CareerApp extends React.Component {
 
   			console.log('***NEW NET: ' + newNet);
   			newState.net = newNet;
-  			
+
   			return newState;
   		});
   	}
@@ -249,8 +251,8 @@ class CareerApp extends React.Component {
 
 		return(
 				<div className="careerApp">
+        <SandBox/>
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-
 					{this.state.onIntro && <div id="inline">
 						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
 						<section id="inline">
@@ -258,7 +260,7 @@ class CareerApp extends React.Component {
 							{!this.state.showFields && <div id="hide"><FieldPanel canDrag={false} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
 						</section>
 					</div>}
-					
+
 					{/*THE ACTUAL TIMELINE*/}
 					<div id="inline">
 					<DragCardsContext onDragEnd={this.onDragEnd}>
@@ -270,17 +272,17 @@ class CareerApp extends React.Component {
 											{(provided, snapshot) => (
 											<div ref={provided.innerRef}  {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} id="inline" className="inlineCard">
 											{this.state.targets[index].isVisible && <DraggableTarget canDrag={true}
-																									 prompt={this.state.targets[index].prompt} 
+																									 prompt={this.state.targets[index].prompt}
 																									 index={index}
-																									 career={this.state.targets[index].career} 
-																									 field={this.state.targets[index].field} 
+																									 career={this.state.targets[index].career}
+																									 field={this.state.targets[index].field}
 																									 finance={this.state.targets[index].finance}
 																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 											{!this.state.targets[index].isVisible && <div id="hide"><DraggableTarget canDrag={false}
-																									 prompt={this.state.targets[index].prompt} 
+																									 prompt={this.state.targets[index].prompt}
 																								  	 index={index}
-																									 career={this.state.targets[index].career} 
-																									 field={this.state.targets[index].field} 
+																									 career={this.state.targets[index].career}
+																									 field={this.state.targets[index].field}
 																									 finance={this.state.targets[index].finance}
 																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
 											</div>
@@ -293,7 +295,7 @@ class CareerApp extends React.Component {
 						</Droppable>
 					</DragCardsContext>
 					</div>
-					
+
 					{this.state.onIntro && <div id="inline" className="inlineCard">
 						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
 						{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}

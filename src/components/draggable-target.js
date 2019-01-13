@@ -7,6 +7,8 @@
 import React from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
+import Button from '@material-ui/core/Button';
+import Search from './search-bar.js';
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -22,8 +24,34 @@ function collect(connect, monitor){
 	}
 }
 
+
 class DraggableTarget extends React.Component {
-	
+	constructor(){
+	super();
+
+ this.state = {
+       displayMenu: false,
+     };
+
+  this.showDropdownMenu = this.showDropdownMenu.bind(this);
+  this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+}
+
+showDropdownMenu(event) {
+    event.preventDefault();
+    this.setState({ displayMenu: true }, () => {
+    document.addEventListener('click', this.hideDropdownMenu);
+    });
+  }
+
+  hideDropdownMenu() {
+    this.setState({ displayMenu: false }, () => {
+      document.removeEventListener('click', this.hideDropdownMenu);
+    });
+
+  }
+
+
 	handleDrop = (target, type, name) => {
 		if (target < 0)
 		{
@@ -38,7 +66,7 @@ class DraggableTarget extends React.Component {
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
 		const backgroundColor = hovered ? 'lightblue' : 'white';
-		
+
 		let content;
 
 		if (this.props.career === '' && this.props.field === '')
@@ -77,7 +105,7 @@ class DraggableTarget extends React.Component {
 			label = <p id="clear">.</p>
 		}
 
-		let costEarnings; 
+		let costEarnings;
 
 		if (this.props.finance > 0)
 		{
@@ -92,15 +120,47 @@ class DraggableTarget extends React.Component {
 			costEarnings = <div className="zilch"></div>;
 		}
 
+		let location;
+
+
+
+
 		return connectDropTarget(
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
 					<span>{content}</span>
+							<Button
+							onClick={() => {alert('You can drage a field/career from the left!');}}>Edit</Button>
+							<Button
+							onClick={this.deleteCard()}>Delete</Button>
+							<Button onClick={this.exploreCard()}>Explore</Button>
+							<Button className="button" onClick={this.showDropdownMenu}>Add Location</Button>
+	          { this.state.displayMenu ? (
+	          <ul>
+	         <li>New York City</li>
+	         <li>Miami</li>
+	         <li>London</li>
+	         <li>Milan</li>
+	         <li>Paris</li>
+	         <li>Chicago</li>
+	          </ul>
+	        ):(null)
+	        }
 				</div>
 				{label}
 				<center>{costEarnings}</center>
 			</div>
 		);
 	}
+
+
+		deleteCard () {
+
+			}
+	exploreCard () {
+
+		}
+
+
 }
 export default DropTarget('item', itemTarget, collect)(DraggableTarget);

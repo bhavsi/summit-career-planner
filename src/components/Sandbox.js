@@ -9,10 +9,6 @@ import { connect } from 'react-redux'
 import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import FieldPanel from './field-panel.js';
-import CareerPanel from './career-panel.js';
-import DraggableTarget from './draggable-target.js';
-import Search from './search-bar.js'
 
 const styles = {
   root: {
@@ -28,9 +24,9 @@ const styles = {
   }
 };
 
-class TemporaryDrawer extends React.Component {
+class SandBox extends React.Component {
   state = {
-    left: false,
+    right: false,
   };
 
   toggleDrawer = (side, open) => () => {
@@ -48,19 +44,24 @@ class TemporaryDrawer extends React.Component {
 
     const sideList = (
       <div className={classes.list}>
-        <FieldPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-          <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+            <div className="editableTimeline">Timeline 1</div>
+            <div className="editableTimeline">Timeline 2</div>
+            <div className="editableTimeline">Timeline 3</div>
       </div>
     );
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer('left', true)}>Open Menu</Button>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+        <Button
+        className="sandBoxButton"
+        onClick={this.toggleDrawer('right', true)}>Open Sandbox</Button>
+        <Drawer
+        anchor="right"
+        open={this.state.right}
+        onClose={this.toggleDrawer('right', false)}>
           <div
             tabIndex={0}
-            role="button"
-          >
+            role="button">
             {sideList}
           </div>
         </Drawer>
@@ -69,8 +70,8 @@ class TemporaryDrawer extends React.Component {
   }
 }
 
-TemporaryDrawer.propTypes = {
+SandBox.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TemporaryDrawer);
+export default withStyles(styles)(SandBox);
