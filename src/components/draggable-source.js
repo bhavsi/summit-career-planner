@@ -34,6 +34,7 @@ function collect(connect, monitor) {
 	}
 }
 
+
 class DraggableSource extends React.Component {
 	render(){
 		const { isDragging, connectDragSource, item } = this.props;
