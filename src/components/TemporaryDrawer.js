@@ -12,6 +12,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
+import DraggableSource from './draggable-source.js';
+import { DragSource } from 'react-dnd';
 import Search from './search-bar.js'
 
 const styles = {
@@ -30,13 +32,15 @@ const styles = {
 
 class TemporaryDrawer extends React.Component {
   state = {
-    left: false,
+    open: false,
   };
 
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
   };
 
   handleDrop = (target, type, name) => {
@@ -45,24 +49,29 @@ class TemporaryDrawer extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { open } = this.state;
 
-    const sideList = (
+  const sideList = (
       <div className={classes.list}>
         <FieldPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
           <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
       </div>
     );
 
+
+
     return (
       <div>
-        <Button onClick={this.toggleDrawer('left', true)}>Open Menu</Button>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-          >
+        <Button onClick={this.handleDrawerOpen}>Open Menu</Button>
+        <Drawer
+        variant="persistent"
+        open={open}
+        onClose={this.handleDrawerClose}>
             {sideList}
-          </div>
+
+          <Button onClick={this.handleDrawerClose}>
+            CLOSE
+          </Button>
         </Drawer>
       </div>
     );

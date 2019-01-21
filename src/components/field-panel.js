@@ -31,22 +31,35 @@ function collect(connect, monitor){
 
 class FieldPanel extends React.Component {
 	state = {
+		level: -1,
+		isToggleOn: false,
+		showFields: false,
 	}
 
 	constructor(props) {
     super(props);
-    this.state = {isToggleOn: false};
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
+		this.showFields = this.showFields.bind(this);
   }
 
 
 	handleClick() {
 	    this.setState(prevState => ({
-	      isToggleOn: !prevState.isToggleOn
+				level: 4,
+				isToggleOn: !prevState.isToggleOn,
+				showFields: !prevState.showFields,
 	    }));
 	  }
+
+	showFields() {
+		this.setState(prevState => ({
+				showFields: !prevState.showFields,
+		}));
+console.log("prsssed");
+
+}
 
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
@@ -58,8 +71,8 @@ class FieldPanel extends React.Component {
 
 		let fields;
 
-		if(isLoaded(this.props.options))
-		{
+		if(isLoaded(this.props.options)){
+			if (this.state.level < 0 || this.state.showFields) {
 			fields = <div className="innerFields"
 			onClick={this.handleClick}>
 						{this.props.options.fields.map((item, index) => (
@@ -73,24 +86,48 @@ class FieldPanel extends React.Component {
 							))}
 					</div>;
 		}
-
-		if(this.state.isToggleOn == true) {
-			fields =  <div className="innerFields">
-				<div>Computer Science</div>
-				<div>Electrician</div>
-				<div>Engineer</div>
-				<div>Game Developer</div>
-				<div>Teacher</div>
+else {
+			fields =  <div className="innerFields"
+			onClick={this.handleClick}>
+					{this.props.options.fields[this.state.level].sublevels.map((item, index) => (
+				<DraggableSource
+				canDrag={this.props.canDrag}
+				key={index}
+				type="field"
+				index={index}
+				item={item}
+				handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+				))}
 						</div>;
-		}
 
+	}
+
+if (this.state.showFields){
+		fields = <div className="innerFields"
+		onClick={this.handleClick}>
+					{this.props.options.fields.map((item, index) => (
+						<DraggableSource
+						canDrag={this.props.canDrag}
+						key={index}
+						type="field"
+						index={index}
+						item={item}
+						handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						))}
+				</div>;
+	}
+}
 
 		return connectDropTarget(
 			<div className="fieldPanel">
 				<h1>Fields</h1>
 							<Search/>
 				{fields}
-						<BackButton/>
+					<button
+						className="backButton"
+						onClick={this.showFields}>
+					BACK
+				</button>
 			</div>
 		)
 	}

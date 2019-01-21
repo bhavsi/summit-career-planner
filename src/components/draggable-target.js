@@ -87,7 +87,7 @@ showDropdownMenu(event) {
 						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 						<p>in</p>
 						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-					  </div>
+						</div>
 		}
 
 		let label;
@@ -120,46 +120,17 @@ showDropdownMenu(event) {
 			costEarnings = <div className="zilch"></div>;
 		}
 
-		let location;
-
-
-
-
 		return connectDropTarget(
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
 					<span>{content}</span>
-							<Button
-							onClick={() => {alert('You can drage a field/career from the left!');}}>Edit</Button>
-							<Button
-							onClick={this.deleteCard()}>Delete</Button>
-							<Button onClick={this.exploreCard()}>Explore</Button>
-							<Button className="button" onClick={this.showDropdownMenu}>Add Location</Button>
-	          { this.state.displayMenu ? (
-	          <ul>
-	         <li>New York City</li>
-	         <li>Miami</li>
-	         <li>London</li>
-	         <li>Milan</li>
-	         <li>Paris</li>
-	         <li>Chicago</li>
-	          </ul>
-	        ):(null)
-	        }
 				</div>
 				{label}
 				<center>{costEarnings}</center>
 			</div>
 		);
+
 	}
-
-
-		deleteCard () {
-
-			}
-	exploreCard () {
-
-		}
 
 
 }
