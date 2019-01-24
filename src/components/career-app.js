@@ -283,11 +283,11 @@ class CareerApp extends React.Component {
 
     if (this.state.buttonIsVisible == false) {
       buttons = <div className="cardButtons">
-                     <Button className="individualButtons" onClick = {this.editButton}>Edit</Button>
-                     <Button className="individualButtons" onClick = {this.addButton}>Add</Button>
-                     <Button className="individualButtons" onClick = {this.deleteButton}>Delete</Button>
-                     <Button className="individualButtons" onClick = {this.exploreButton}>Explore</Button>
-                     <Button className="individualButtons" onClick = {this.locationButton}>Location</Button>
+                     <button className="subcardButtons" onClick = {this.editButton}>EDIT</button>
+                     <button className="subcardButtons" onClick = {this.addButton}>ADD</button>
+                     <button className="subcardButtons" onClick = {this.deleteButton}>DELETE</button>
+                     <button className="subcardButtons" onClick = {this.exploreButton}>EXPLORE</button>
+                     <button className="subcardButtons" onClick = {this.locationButton}>LOCATION</button>
                  </div>
     }
 
@@ -298,7 +298,9 @@ class CareerApp extends React.Component {
 		return(
 				<div className="careerApp">
         <SandBox/>
+        <br></br>
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+                <br></br>
 					{this.state.onIntro && <div id="inline">
 						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
 						<section id="inline">

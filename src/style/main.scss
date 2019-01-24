@@ -46,7 +46,40 @@ a{
 }
 
 .cardButtons {
-  width: 280px;
+  width: 275px;
+    text-align: center;
+
+}
+
+.subcardButtons{
+  background-color: white;
+  padding: 9px;
+  border-radius: 6px;
   font-size: 12px;
-  margin-left: 15px;
+  margin-left: 18px;
+border: 2px darkgreen solid;
+margin-top: 10px;
+}
+
+.subcardButtons:active {
+  outline: none;
+}
+
+.pageButtons {
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 2px darkgreen solid;
+}
+
+.pageButtons:active {
+  outline: none;
+}
+
+.editableTimeline {
+  padding: 50px;
+  border: 2px darkgrey solid;
+  font-size: 14px;
+  margin: 10px;
 }

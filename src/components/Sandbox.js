@@ -89,9 +89,9 @@ class SandBox extends React.Component {
 
     return (
       <div>
-        <Button
-        className="sandBoxButton"
-        onClick={this.handleDrawerOpen}>Open Sandbox</Button>
+        <button
+        className="pageButtons"
+        onClick={this.handleDrawerOpen}>OPEN SANDBOX</button>
 
 
         <Drawer
@@ -100,16 +100,19 @@ class SandBox extends React.Component {
         variant="persistent">
 
 
-        <Button onClick={this.handleDrawerClose}>
-          CLOSE
-        </Button>
+
+
 
           <div
             tabIndex={0}
             role="button">
   {sideList}
           </div>
-
+					<Button
+					className="pageButtons"
+					onClick={this.handleDrawerClose}>
+						CLOSE
+					</Button>
         </Drawer>
 
       </div>

@@ -62,7 +62,7 @@ class TemporaryDrawer extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleDrawerOpen}>Open Menu</Button>
+        <button className="pageButtons" onClick={this.handleDrawerOpen}>OPEN MENU</button>
         <Drawer
         variant="persistent"
         open={open}
