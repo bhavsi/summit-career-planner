@@ -23,7 +23,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
-import CareerCards from './CareerCards.js';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -57,12 +56,17 @@ class CareerApp extends React.Component {
 		showFields: false,
 		showCareers: true,
 		showNet: false,
+    showButtons: false,
 		net: 0,
 	}
 
 	constructor(props){
 		super(props);
 		this.onDragEnd = this.onDragEnd.bind(this);
+    this.editButton = this.editButton.bind(this);
+    this.addButton = this.addButton.bind(this);
+    this.deleteButton = this.deleteButton.bind(this);
+    this.locationButton = this.locationButton.bind(this);
 	};
 
 	//Executed whenever a field/career is selected
@@ -77,6 +81,7 @@ class CareerApp extends React.Component {
 			let showCareers = prevState.showCareers;
 			let showNet = prevState.showNet;
 			let net = prevState.net;
+      let showButtons = prevState.showButtons;
 
 			//***ADD SOURCE TO TARGET***
 			if (target % 1 == 0)
@@ -147,8 +152,9 @@ class CareerApp extends React.Component {
 			}
 
 			//Upon receiving this info, additional timeline items can be inserted HERE
-			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate, showFields, showCareers, showNet, net};
+			return {targets, lowerBound, buttonIsVisible, openGradDate, gradDate, showFields, showCareers, showNet, net, showButtons};
 		});
+
 	}
 
 	handleClose = () => {
@@ -180,6 +186,7 @@ class CareerApp extends React.Component {
   			newState.buttonIsVisible = false;
   			newState.showNet = true;
   			newState.onIntro = false;
+        newState.showButtons = true;
 
   			//***SAMPLE CODE***
   			//For test purposes only.
@@ -221,6 +228,30 @@ class CareerApp extends React.Component {
   		});
   	}
 
+    //Button functions
+    editButton() {
+      alert('You can drag another field/career step into this box from the left-hand side panel');
+    //  <TemporaryDrawer open= true />
+    }
+
+    addButton() {
+
+    }
+
+    deleteButton() {
+      this.setState(prevState => {
+        this.state.targets = '';
+        		});
+    }
+
+    exploreButton() {
+      console.log('Redirecting to another page...')
+    }
+
+    locationButton() {
+
+    }
+
 	render(){
 		const style = {
 		background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -239,6 +270,7 @@ class CareerApp extends React.Component {
 		};
 
 		let netBox;
+    let buttons;
 
 		if (this.state.net < 0)
 		{
@@ -249,10 +281,26 @@ class CareerApp extends React.Component {
 			netBox = <div><section className="filler"></section><section className="earnings"><p>Net Gain: ${this.state.net}</p></section></div>
 		}
 
+    if (this.state.buttonIsVisible == false) {
+      buttons = <div className="cardButtons">
+                     <button className="subcardButtons" onClick = {this.editButton}>EDIT</button>
+                     <button className="subcardButtons" onClick = {this.addButton}>ADD</button>
+                     <button className="subcardButtons" onClick = {this.deleteButton}>DELETE</button>
+                     <button className="subcardButtons" onClick = {this.exploreButton}>EXPLORE</button>
+                     <button className="subcardButtons" onClick = {this.locationButton}>LOCATION</button>
+                 </div>
+    }
+
+    else {
+      buttons = <div></div>
+    }
+
 		return(
 				<div className="careerApp">
         <SandBox/>
+        <br></br>
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+                <br></br>
 					{this.state.onIntro && <div id="inline">
 						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
 						<section id="inline">
@@ -269,15 +317,19 @@ class CareerApp extends React.Component {
 								<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
 									{this.state.targets.map((item, index) => (
 										<Draggable key={item.id} draggableId={item.id} index={index}>
+
 											{(provided, snapshot) => (
 											<div ref={provided.innerRef}  {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} id="inline" className="inlineCard">
+                           {this.state.showButtons && <div>{buttons}</div>}
 											{this.state.targets[index].isVisible && <DraggableTarget canDrag={true}
 																									 prompt={this.state.targets[index].prompt}
 																									 index={index}
 																									 career={this.state.targets[index].career}
 																									 field={this.state.targets[index].field}
 																									 finance={this.state.targets[index].finance}
-																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>
+                                                }
+
 											{!this.state.targets[index].isVisible && <div id="hide"><DraggableTarget canDrag={false}
 																									 prompt={this.state.targets[index].prompt}
 																								  	 index={index}
@@ -285,17 +337,21 @@ class CareerApp extends React.Component {
 																									 field={this.state.targets[index].field}
 																									 finance={this.state.targets[index].finance}
 																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+
 											</div>
 											)}
+
 										</Draggable>
+
 									))}
 									{provided.placeholder}
 								</div>
+
 							)}
 						</Droppable>
+
 					</DragCardsContext>
 					</div>
-
 					{this.state.onIntro && <div id="inline" className="inlineCard">
 						{this.state.buttonIsVisible && <Button onClick={this.buildTimeline} style={style}>How do I get there?</Button>}
 						{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}
