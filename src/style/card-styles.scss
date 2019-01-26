@@ -8,6 +8,7 @@ html, body{
 }
 
 h1{
+	font-family: "Helvetica";
 	margin-top: 10px;
 	margin-bottom: 0px;
 }
@@ -35,6 +36,14 @@ p{
 	vertical-align: middle;
 }
 
+.timelineTitle{
+	background: white;
+	width: 120px;
+	border-radius: 2px;
+	font-size: 10px;
+	padding-top: 3px;
+	padding-bottom: 10px;
+}
 .inlineCard{
 	margin-left: 50px;
 	align-items: center;
@@ -87,11 +96,15 @@ p{
 	display: inline-block;
 }
 
+.careerTitle{
+	height: 55px;
+}
+
 .innerCareers{
 	background-color: #ffb5ca;
 	text-align: center;
 	width: 270px;
-	height: 80vh;
+	height: 77vh;
 	overflow-y: scroll;
 }
 
