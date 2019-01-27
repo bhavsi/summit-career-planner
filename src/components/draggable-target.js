@@ -12,7 +12,7 @@ import Search from './search-bar.js';
 
 const itemTarget = {
 	drop(props, monitor, component){
-		return {id: props.index};
+		return {id: props.id};
 	}
 }
 
@@ -51,11 +51,10 @@ showDropdownMenu(event) {
 
   }
 
-
 	handleDrop = (target, type, name) => {
 		if (target < 0)
 		{
-			return this.props.handleDrop(this.props.index + .1, type, name);
+			return this.props.handleDrop(this.props.id + .1, type, name);
 		}
 		else
 		{
