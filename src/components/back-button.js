@@ -9,7 +9,7 @@ import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { withStyles } from '@material-ui/core/styles';
-
+//just go back to original fields panel
 class BackButton extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +23,7 @@ handleClick() {
     return (
       <button
       className="backButton"
-      onClick={this.handleClick()}>
+      onClick={this.handleClick}>
         BACK
       </button>
     );
