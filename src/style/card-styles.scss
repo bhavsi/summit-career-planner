@@ -37,18 +37,48 @@ p{
 }
 
 .timelineTitle{
-	background: white;
+	background: #e1b5ff;
 	width: 120px;
-	border-radius: 6px;
+	height: 40px;
+	border-radius: 6px 0px 0px 6px;
 	font-size: 10px;
-	padding-top: 3px;
-	padding-bottom: 10px;
+	border: 2px solid black;
+	border-right: 0;
+	margin-left: 10px;
+}
+
+.timelineInfo{
+	line-height:100px;
+}
+
+.cloneTimeline{
+	background: #e1b5ff;
+	width: 70px;
+	height: 44px;
+	border: 2px solid black;
+	border-right: 0;
+}
+
+.deleteTimeline{
+	background: #e1b5ff;
+	width: 70px;
+	height: 44px;
+	border-radius: 0px 6px 6px 0px;
 	border: 2px solid black;
 }
+
 .inlineCard{
 	margin-left: 50px;
 	align-items: center;
 	//margin-bottom: 600px;
+}
+
+.promptCard{
+	padding-top: 90px;
+	line-height: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
+	//line-height: 235px;
 }
 
 .careerApp{

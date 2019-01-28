@@ -48,7 +48,7 @@ class CareerApp extends React.Component {
 		//CARDS
 		cards: {
 			'card-0': { id: "card-0", prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
-			'card-1': { id: "card-1", prompt: "In the future, I'd like to have ...", career: '', field: '', finance: 0, isVisible: false},
+			'card-1': { id: "card-1", prompt: "In the future, I'd like to be in ...", career: '', field: '', finance: 0, isVisible: false},
 		},
 
 		//TIMELINES (Abbreviated as "time-#"" for short)
@@ -84,6 +84,7 @@ class CareerApp extends React.Component {
 	    this.locationButton = this.locationButton.bind(this);
 	    this.buildTimeline = this.buildTimeline.bind(this);
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
+	    this.deleteTimeline = this.deleteTimeline.bind(this);
 	};
 
 	//Finds Timeline based on given card
@@ -193,8 +194,8 @@ class CareerApp extends React.Component {
   			newState.cards['card-1'].finance = 80000;
   			newState.cards['card-' + cardsSize] = { id: "card-" + cardsSize, prompt: "", career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true};
   			newState.cards['card-' + (cardsSize + 1)] = { id: "card-" + (cardsSize + 1), prompt: "", career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true};
-  			newState.timelines['time-0'].cardIds.push('card-' + cardsSize);
-  			newState.timelines['time-0'].cardIds.push('card-' + (cardsSize + 1));
+  			newState.timelines['time-0'].cardIds.splice(1,0,'card-' + cardsSize);
+  			newState.timelines['time-0'].cardIds.splice(2,0,'card-' + (cardsSize + 1));
 
   			for (var i = 0; i < newState.timelines['time-0'].cardIds.length; i++)
   			{
@@ -234,7 +235,43 @@ class CareerApp extends React.Component {
   		});
   	}
 
-  	//REDO
+  	deleteTimeline = (timeId) => {
+  		this.setState(prevState => {
+  			let newState = prevState;
+  			delete newState.timelines[timeId];
+  			for (var i = 0; i < newState.timelineOrder.length; i++)
+  			{
+  				if (newState.timelineOrder[i] == timeId) newState.timelineOrder.splice(i,1);
+  			}
+  			return newState;
+  		});
+  	}
+
+  	timelineInfo = (timeId) => {
+  		let content;
+  		let timeline = this.state.timelines[timeId];
+  		let firstCard = this.state.cards[timeline.cardIds[0]];
+  		let lastCard = this.state.cards[timeline.cardIds[timeline.cardIds.length -1]];
+  		let origin;
+  		let destination;
+
+  		if (firstCard.field == "") origin = <p><b>{firstCard.career}</b></p>
+  		else origin =<p><b>{firstCard.career} in {firstCard.field}</b></p>
+  		if (lastCard.field == "") destination = <p><b>{lastCard.career}</b></p>
+  		else destination =<p><b>{lastCard.career} in {lastCard.field}</b></p>
+
+  		content = <div className="timelineInfo">
+  					<center>
+  					<h1>{timeline.title}</h1>
+  					{origin}
+  					<p>to</p>
+  					{destination}
+  					</center>
+   					</div>
+
+  		return(<div>{content}</div>);
+  	}
+
   	onDragEnd(result) {
   		const { destination, source, draggableId, type } = result;
 
@@ -378,8 +415,13 @@ class CareerApp extends React.Component {
 								<Draggable draggableId={timeline.id} index={index}>
 								{(provided, snapshot) => (
 								<div {...provided.draggableProps} ref={provided.innerRef}>
-									{this.state.showTimelineTitle && <div {...provided.dragHandleProps} className="timelineTitle"><center><h1>{timeline.title}</h1></center></div>}
-									{this.state.showTimelineTitle && <button className="subcardButtons" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>}
+									{this.state.showTimelineTitle &&
+									<div>
+										<div {...provided.dragHandleProps} className="timelineTitle" id="inline"><center><h1>{timeline.title}</h1></center></div>
+										<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
+										<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
+									</div>} 
+
 									<div id="inline">
 									<div id="inline">
 									<Droppable droppableId={timeline.id} direction="horizontal" type="card">
@@ -421,7 +463,7 @@ class CareerApp extends React.Component {
 
 									{!this.state.onIntro && <div id="inline" className="inlineCard">
 										<div className="filler"/>
-										<div className="target" id="whiteBackground">Timeline Info</div>
+										<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
 										<p id="clear">.</p>
 										<center>{netBox}</center>
 									</div>}
