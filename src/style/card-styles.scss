@@ -8,6 +8,7 @@ html, body{
 }
 
 h1{
+	font-family: "Helvetica";
 	margin-top: 10px;
 	margin-bottom: 0px;
 }
@@ -22,6 +23,10 @@ p{
 	opacity: 0.0;
 }
 
+#whiteBackground{
+	background-color: white;
+}
+
 #hide{
 	opacity: 0.5;
 }
@@ -31,9 +36,49 @@ p{
 	vertical-align: middle;
 }
 
+.timelineTitle{
+	background: #e1b5ff;
+	width: 120px;
+	height: 40px;
+	border-radius: 6px 0px 0px 6px;
+	font-size: 10px;
+	border: 2px solid black;
+	border-right: 0;
+	margin-left: 10px;
+}
+
+.timelineInfo{
+	line-height:100px;
+}
+
+.cloneTimeline{
+	background: #e1b5ff;
+	width: 70px;
+	height: 44px;
+	border: 2px solid black;
+	border-right: 0;
+}
+
+.deleteTimeline{
+	background: #e1b5ff;
+	width: 70px;
+	height: 44px;
+	border-radius: 0px 6px 6px 0px;
+	border: 2px solid black;
+}
+
 .inlineCard{
 	margin-left: 50px;
+	align-items: center;
 	//margin-bottom: 600px;
+}
+
+.promptCard{
+	padding-top: 90px;
+	line-height: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
+	//line-height: 235px;
 }
 
 .careerApp{
@@ -82,11 +127,15 @@ p{
 	display: inline-block;
 }
 
+.careerTitle{
+	height: 55px;
+}
+
 .innerCareers{
 	background-color: #ffb5ca;
 	text-align: center;
 	width: 270px;
-	height: 80vh;
+	height: 77vh;
 	overflow-y: scroll;
 }
 
@@ -152,7 +201,7 @@ p{
 
 .filler{
 	width: 250px;
-	height: 315px;
+	height: 90px;
 }
 span{
 	display: inline-block;

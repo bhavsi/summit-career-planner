@@ -12,7 +12,7 @@ import Search from './search-bar.js';
 
 const itemTarget = {
 	drop(props, monitor, component){
-		return {id: props.index};
+		return {id: props.id};
 	}
 }
 
@@ -51,11 +51,10 @@ showDropdownMenu(event) {
 
   }
 
-
 	handleDrop = (target, type, name) => {
 		if (target < 0)
 		{
-			return this.props.handleDrop(this.props.index + .1, type, name);
+			return this.props.handleDrop(this.props.id + .1, type, name);
 		}
 		else
 		{
@@ -71,7 +70,7 @@ showDropdownMenu(event) {
 
 		if (this.props.career === '' && this.props.field === '')
 		{
-			content = <p>{this.props.prompt}</p>;
+			content = <p className="promptCard"><b>{this.props.prompt}</b></p>;
 		}
 		else if (this.props.career === '')
 		{
@@ -96,7 +95,11 @@ showDropdownMenu(event) {
 		{
 			label = <center><p><b>You Are Here</b></p></center>
 		}
-		else if (this.props.prompt == "In the future, I'd like to have ..." && this.props.career != '')
+		else if (this.props.prompt == "In the future, I'd like to be in ..." && this.props.career == '' && this.props.field != "")
+		{
+			label = <center><p><i>Please enter a career</i></p></center>
+		}
+		else if (this.props.prompt == "In the future, I'd like to be in ..." && this.props.career != '')
 		{
 			label = <center><p><b>Your Goal</b></p></center>
 		}

@@ -70,7 +70,7 @@ class CareerPanel extends React.Component {
 
 		return connectDropTarget(
 			<div className="careerPanel">
-				<h1>Careers</h1>
+				<div className="careerTitle"><h1>Careers</h1></div>
 				<br/>
 				{careers}
 			</div>
