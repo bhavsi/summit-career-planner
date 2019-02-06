@@ -3,7 +3,6 @@
 //    Holds everything inside
 //***************************************************
 
-//todo: delete raw id's from state and elsewhere
 import React from 'react';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -61,8 +60,21 @@ class CareerApp extends React.Component {
 			},
 		},
 
-		//TIMELINE ORDER
-		timelineOrder: ['time-0',],
+		zones: {
+			//MAIN ZONE
+			'zone-0': {
+				id: 'zone-0',
+				title: 'Main Zone',
+				timeIds: ['time-0',],
+			},
+			//SANBOX ZONE
+			'zone-1': {
+				id: 'zone-1',
+				title: 'Sandbox Zone',
+				timeIds: [],
+			}
+		},
+
 		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
@@ -176,6 +188,31 @@ class CareerApp extends React.Component {
   		});
   	}
 
+  	promptTimeline = () => {
+  		//Now go back and deal with everything else ...
+  		this.setState(prevState => {
+  			let newState = prevState;
+  			let timelinesLength = Object.keys(this.state.timelines).length;
+  			let cardsLength = Object.keys(this.state.cards).length;
+
+  			let cardA = 'card-' + (cardsLength + 1);
+  			let cardB = 'card-' + (cardsLength + 2);
+  			newState.cards[cardA] = { id: cardA, prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
+  			newState.cards[cardB] = { id: cardB, prompt: "In the future, I'd like to be in ...", career: '', field: '', finance: 0, isVisible: false},
+
+  			//Create new timeX
+  			newState.timelines['time-' + timelinesLength] = {
+				id: 'time-' + timelinesLength,
+				title: 'Timeline ' + (timelinesLength + 1),
+				net: 0,
+				cardIds: [cardA, cardB],
+			}
+
+  			newState.zones['zone-0'].timeIds.push('time-' + timelinesLength);
+  			return newState;
+  		});
+  	}
+
   	buildTimeline = () => {
   		this.setState(prevState => {
   			let newState = prevState;
@@ -230,7 +267,7 @@ class CareerApp extends React.Component {
   				newState.timelines['time-' + timelinesLength].cardIds.push(newCardId);
   			}
 
-  			newState.timelineOrder.push('time-' + timelinesLength);
+  			newState.zones['zone-0'].timeIds.push('time-' + timelinesLength);
   			return newState;
   		});
   	}
@@ -239,9 +276,9 @@ class CareerApp extends React.Component {
   		this.setState(prevState => {
   			let newState = prevState;
   			delete newState.timelines[timeId];
-  			for (var i = 0; i < newState.timelineOrder.length; i++)
+  			for (var i = 0; i < newState.zones['zone-0'].timeIds.length; i++)
   			{
-  				if (newState.timelineOrder[i] == timeId) newState.timelineOrder.splice(i,1);
+  				if (newState.zones['zone-0'].timeIds[i] == timeId) newState.zones['zone-0'].timeIds.splice(i,1);
   			}
   			return newState;
   		});
@@ -285,16 +322,65 @@ class CareerApp extends React.Component {
 
   		if (type === 'timeline')
   		{
-  			const newTimelineOrder = Array.from(this.state.timelineOrder);
-  			newTimelineOrder.splice(source.index,1);
-  			newTimelineOrder.splice(destination.index,0,draggableId);
+  			const start = this.state.zones[source.droppableId];
+  			const finish = this.state.zones[destination.droppableId];
 
-  			const newState ={
-  				...this.state,
-  				timelineOrder: newTimelineOrder,
-  			};
-  			this.setState(newState);
-  			return;
+  			//REORDERING WITHIN A ZONE
+  			if (start === finish)
+  			{
+  				const zone = this.state.zones[source.droppableId];
+	  			const newTimeIds = Array.from(zone.timeIds);
+	  			newTimeIds.splice(source.index,1);
+	  			newTimeIds.splice(destination.index,0,draggableId);
+
+	  			//Adds new
+	  			const newZone = {
+	  				...zone,
+	  				timeIds: newTimeIds,
+	  			};
+
+	  			const newState = {
+	  				...this.state,
+	  				zones: {
+	  					...this.state.zones,
+	  					[newZone.id]: newZone,
+	  				},
+	  			};
+
+	  			this.setState(newState);
+	  			return;
+  			}
+  			//REORDERING BETWEEN ZONES
+  			else
+  			{
+  				//Adjusts Starting Zone
+  				const startTimeIds = Array.from(start.timeIds);
+  				startTimeIds.splice(source.index,1);
+  				const newStart = {
+  					...start,
+  					timeIds: startTimeIds,
+  				};
+
+  				//Adjusts Finishing Zone
+  				const finishTimeIds = Array.from(finish.timeIds);
+  				finishTimeIds.splice(destination.index,0,draggableId);
+  				const newFinish = {
+  					...finish,
+  					timeIds: finishTimeIds,
+  				};
+
+  				const newState = {
+  					...this.state,
+  					zones: {
+  						...this.state.zones,
+  						[newStart.id]: newStart,
+  						[newFinish.id]: newFinish,
+  					},
+  				};
+
+  				this.setState(newState);
+  				return;
+  			}
   		}
   		else if (type === 'card')
   		{
@@ -331,10 +417,19 @@ class CareerApp extends React.Component {
 
     }
 
-    deleteButton() {
-      this.setState(prevState => {
-        this.state.targets = '';
-        		});
+    deleteButton(timeId, cardId) {
+    	console.log('DELETE Time: ' + timeId);
+    	console.log('DELETE CARD: ' + cardId);
+	  this.setState(prevState => {
+		let newState = prevState;
+		delete newState.cards[cardId];
+		for (var i = 0; i < newState.timelines[timeId].cardIds.length; i++)
+		{
+			if (newState.timelines[timeId].cardIds[i] == cardId) newState.timelines[timeId].cardIds.splice(i,1);
+		}
+		return newState;
+	  });
+	  console.log(this.state);
     }
 
     exploreButton() {
@@ -363,7 +458,6 @@ class CareerApp extends React.Component {
 		};
 
 		let netBox;
-   		let buttons;
 
 		if (this.state.timelines['time-0'].net < 0)
 		{
@@ -374,26 +468,18 @@ class CareerApp extends React.Component {
 			netBox = <div className="earnings"><p>Net Gain: ${this.state.timelines['time-0'].net}</p></div>
 		}
 
-    if (this.state.buttonIsVisible == false) {
-      buttons = <div className="cardButtons">
-                     <button className="subcardButtons" onClick = {this.editButton}>EDIT</button>
-                     <button className="subcardButtons" onClick = {this.addButton}>ADD</button>
-                     <button className="subcardButtons" onClick = {this.deleteButton}>DELETE</button>
-                     <button className="subcardButtons" onClick = {this.exploreButton}>EXPLORE</button>
-                     <button className="subcardButtons" onClick = {this.locationButton}>LOCATION</button>
-                 </div>
-    }
-
-    else {
-      buttons = <div></div>
-    }
-
 		return(
 				<div className="careerApp">
-        <SandBox/>
-        <br></br>
+        		<DragCardsContext onDragEnd={this.onDragEnd}>
+        			{/*PULLOUT DRAWER*/}
 					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-                <br></br>
+                	<br/>
+
+	                {/*SANDBOX ZONE*/}
+	                <SandBox/>
+	                <br/>
+
+             	   {/*CAREER & FIELD PANELS*/}
 					{this.state.onIntro && <div id="inline">
 						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
 						<section id="inline">
@@ -402,16 +488,16 @@ class CareerApp extends React.Component {
 						</section>
 					</div>}
 
-					{/*ALL TIMELINES*/}
+					{/*MAIN ZONE*/}
 					<div id="inline">
-						<DragCardsContext onDragEnd={this.onDragEnd}>
-						<Droppable droppableId="all-Timelines" type="timeline">
+						<Droppable droppableId="zone-0" type="timeline">
 						{(provided, snapshot) => (
-						<div {...provided.droppableProps} ref={provided.innerRef}>
-						{this.state.timelineOrder.map((timeId, index) => {
+						<div className="mainZone" {...provided.droppableProps} ref={provided.innerRef}>
+						{this.state.zones['zone-0'].timeIds.map((timeId, index) => {
 							const timeline = this.state.timelines[timeId];
 							{/*TIMELINE*/}
 							return (
+								<div>
 								<Draggable draggableId={timeline.id} index={index}>
 								{(provided, snapshot) => (
 								<div {...provided.draggableProps} ref={provided.innerRef}>
@@ -428,26 +514,36 @@ class CareerApp extends React.Component {
 									{(provided, snapshot) => (
 									<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
 									{timeline.cardIds.map((cardId, index) =>{
+										const card = this.state.cards[cardId];
 										{/*CARD*/}
 										return (
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
 											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef} id="inline" className="inlineCard">
-												{this.state.showButtons && <div>{buttons}</div>}
+												{this.state.showButtons && this.state.timelines[timeline.id].cardIds.length > 2  && <div className="cardButtons">
+													<button className="subcardButtons" onClick = {this.editButton}>EDIT</button>
+												    <button className="subcardButtons" onClick = {this.addButton}>ADD</button>
+												    <button className="subcardButtons" onClick = {(timeId, cardId) => this.deleteButton(timeline.id, card.id)}>DELETE</button>
+												   </div>}
 												{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
-																									 prompt={this.state.cards[cardId].prompt} 
-																									 id={cardId.substring(5)}
-																									 career={this.state.cards[cardId].career} 
-																									 field={this.state.cards[cardId].field} 
-																									 finance={this.state.cards[cardId].finance}
-																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+													 prompt={this.state.cards[cardId].prompt} 
+													 id={cardId.substring(5)}
+													 career={this.state.cards[cardId].career} 
+													 field={this.state.cards[cardId].field} 
+													 finance={this.state.cards[cardId].finance}
+													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 												{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
-																									 prompt={this.state.cards[cardId].prompt} 
-																								  	 id={cardId.substring(5)}
-																									 career={this.state.cards[cardId].career} 
-																									 field={this.state.cards[cardId].field} 
-																									 finance={this.state.cards[cardId].finance}
-																									 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}		
+													 prompt={this.state.cards[cardId].prompt} 
+												  	 id={cardId.substring(5)}
+													 career={this.state.cards[cardId].career} 
+													 field={this.state.cards[cardId].field} 
+													 finance={this.state.cards[cardId].finance}
+													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+												{this.state.showButtons && this.state.timelines[timeline.id].cardIds.length > 2 && <div className="cardButtons">
+																			<button className="subcardButtons" onClick = {this.exploreButton}>EXPLORE</button>
+																			<button className="subcardButtons" onClick = {this.locationButton}>LOCATION</button>
+																		   </div>
+												}		
 											</div>)}
 											</Draggable>);
 									})}
@@ -461,21 +557,56 @@ class CareerApp extends React.Component {
 										<div className="zilch"></div>
 									</div>}
 
-									{!this.state.onIntro && <div id="inline" className="inlineCard">
-										<div className="filler"/>
+									{!this.state.onIntro && this.state.timelines[timeline.id].cardIds.length > 2 && <div id="inline" className="inlineCard">
 										<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
 										<p id="clear">.</p>
 										<center>{netBox}</center>
 									</div>}
 									</div>
 								</div>)}
-								</Draggable>);
+								</Draggable>
+								<br/>
+								</div>);
 						})}
 						{provided.placeholder}
 						</div>)}
 						</Droppable>
-						</DragCardsContext>
 					</div>
+
+					{/*TEMPORARY SANDBOX ZONE*/}
+					{/*This demonstrates proof of concept.
+						Ultimatey, this component ought to be implemented into the actual Sandbox.js*/}
+        			{!this.state.onIntro && <div className="sandboxBoundary">
+        				<div className="sandboxTitle">
+        				<center>
+        					<h1>Sandbox</h1>
+	        				<p>Drag a timeline via its purple label!</p>
+        				</center>
+        				</div>
+	        			<Droppable droppableId="zone-1" type="timeline">
+	        			{(provided, snapshot) => (
+	        			<div className ="temporarySandbox" {...provided.droppableProps} ref={provided.innerRef}>
+	        			{this.state.zones['zone-1'].timeIds.map((timeId, index) => {
+	        				const timeline = this.state.timelines[timeId];
+	        				{/*TIMELINE ICON*/}
+	        				return (
+		        				<div>
+		        				<Draggable draggableId={timeline.id} index={index}>
+		        				{(provided, snapshot) => (
+
+		        				<div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+		        					<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+		        				</div>)}
+		        				</Draggable>
+		        				</div>);
+	        			})}
+	        			</div>
+	        			)}
+	        			</Droppable>
+        			</div>}
+					<br/>
+
+					{!this.state.onIntro && <button onClick={()=>this.promptTimeline()} className="generateTimeline">GENERATE NEW TIMELINE</button>}
 
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>
  						<DialogTitle>Expected Graduation Date</DialogTitle>
@@ -495,6 +626,7 @@ class CareerApp extends React.Component {
  							<Button onClick={this.handleClose} color="primary">Ok</Button>
  						</DialogActions>
  					</Dialog>
+ 				</DragCardsContext>
 				</div>
 		);
 	}
