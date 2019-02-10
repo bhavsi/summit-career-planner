@@ -31,6 +31,10 @@ p{
 	opacity: 0.5;
 }
 
+#inlineX{
+	display: inline-block;
+}
+
 #inline{
 	display:inline-block;
 	vertical-align: middle;
@@ -70,7 +74,6 @@ p{
 .inlineCard{
 	margin-left: 50px;
 	align-items: center;
-	//margin-bottom: 600px;
 }
 
 .promptCard{
@@ -78,7 +81,6 @@ p{
 	line-height: 30px;
 	padding-left: 20px;
 	padding-right: 20px;
-	//line-height: 235px;
 }
 
 .careerApp{
@@ -199,10 +201,52 @@ p{
 	transparency: 0;
 }
 
-.filler{
-	width: 250px;
-	height: 90px;
+
+.generateTimeline{
+	width: 200px;
+	height: 100px;
+	border-radius: 5px;
+	background-color: #33ccff;
+  	font-size: 16px;
+	border: 3px black solid;	
+	font-weight: bold;
 }
+
+.timelineIcon{
+	width: 200px;
+	height: 200px;
+	font-size: 16px;
+	border-radius: 5px;
+	background-color: #e1b5ff;
+}
+
+.sandboxTitle{
+	width: 300px;
+	height: 80px;
+	background-color: #42d9f4;
+}
+
+.sandboxBoundary{
+	width: 300px;
+	vertical-align: top;
+	display:inline-block;
+	//overflow-x: scroll;
+}
+
+.temporarySandbox{
+	width: 1000px;
+	height: 84vh;
+	background-color: #91eeff;
+	display:inline-block;
+	vertical-align: top;
+	overflow-y: scroll;
+}
+
+.mainZone{
+	//overflow-y:scroll;
+	//height: 100vh;
+}
+
 span{
 	display: inline-block;
  	vertical-align: middle;

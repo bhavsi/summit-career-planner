@@ -13,6 +13,7 @@ import DraggableTarget from './draggable-target.js';
 import DraggableSource from './draggable-source.js';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext as DragCardsContext } from 'react-beautiful-dnd';
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -34,14 +35,6 @@ const styles = {
   }
 };
 
-function collect(connect, monitor){
-	return{
-		connectDropTarget: connect.dropTarget(),
-		hovered: monitor.isOver(),
-		item: monitor.getItem(),
-	}
-}
-
 class SandBox extends React.Component {
 
   constructor(){
@@ -52,6 +45,31 @@ class SandBox extends React.Component {
     open: false,
   };
 
+  timelineInfo = (timeId) => {
+      let content;
+      let timeline = this.props.state.timelines[timeId];
+      let firstCard = this.props.state.cards[timeline.cardIds[0]];
+      let lastCard = this.props.state.cards[timeline.cardIds[timeline.cardIds.length -1]];
+      let origin;
+      let destination;
+
+      if (firstCard.field == "") origin = <p><b>{firstCard.career}</b></p>
+      else origin =<p><b>{firstCard.career} in {firstCard.field}</b></p>
+      if (lastCard.field == "") destination = <p><b>{lastCard.career}</b></p>
+      else destination =<p><b>{lastCard.career} in {lastCard.field}</b></p>
+
+      content = <div className="timelineInfo">
+            <center>
+            <h1>{timeline.title}</h1>
+            {origin}
+            <p>to</p>
+            {destination}
+            </center>
+            </div>
+
+      return(<div>{content}</div>);
+    }
+
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -61,60 +79,51 @@ class SandBox extends React.Component {
     this.setState({ open: false });
   };
 
-  handleDrop = (target, type, name) => {
-    return this.props.handleDrop(target, type, name);
-  };
-
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-    const { connectDropTarget, hovered, item } = this.props;
 
-    let content;
-
-    content = <div>
-          <DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-          <p>in</p>
-          <DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-          </div>
-
-
-    const sideList = (
-      <div className={classes.list}>
-            <div className="editableTimeline">Empty Timeline Slot</div>
-            <div className="editableTimeline">Empty Timeline Slot</div>
-            <div className="editableTimeline">Empty Timeline Slot</div>
-      </div>
-    );
 
     return (
       <div>
-        <button
-        className="pageButtons"
-        onClick={this.handleDrawerOpen}>OPEN SANDBOX</button>
-
-
-        <Drawer
-        open={open}
-        anchor="right"
-        variant="persistent">
-
-
-
-
-
+        <button className="pageButtons" onClick={this.handleDrawerOpen}>OPEN SANDBOX</button>
+        <Drawer open={open} anchor="right" variant="persistent">
           <div
             tabIndex={0}
             role="button">
-  {sideList}
+            <div className="sandboxBoundary">
+                <div className="sandboxTitle">
+                <center>
+                  <h1>Sandbox</h1>
+                  <p>Drag a timeline via its purple label!</p>
+                </center>
+                </div>
+                <Droppable droppableId="zone-1" type="timeline">
+                {(provided, snapshot) => (
+                <div className ="temporarySandbox" {...provided.droppableProps} ref={provided.innerRef}>
+                {this.props.state.zones['zone-1'].timeIds.map((timeId, index) => {
+                  const timeline = this.props.state.timelines[timeId];
+                  {/*TIMELINE ICON*/}
+                  return (
+                    <div>
+                    <Draggable draggableId={timeline.id} index={index}>
+                    {(provided, snapshot) => (
+
+                    <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+                      <div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+                    </div>)}
+                    </Draggable>
+                    </div>);
+                })}
+                </div>
+                )}
+                </Droppable>
+              </div>
           </div>
-					<Button
-					className="pageButtons"
-					onClick={this.handleDrawerClose}>
+					<Button className="pageButtons" onClick={this.handleDrawerClose}>
 						CLOSE
 					</Button>
         </Drawer>
-
       </div>
     );
   }
