@@ -476,7 +476,7 @@ class CareerApp extends React.Component {
                 	<br/>
 
 	                {/*SANDBOX ZONE*/}
-	                <SandBox/>
+	                <SandBox state={this.state}/>
 	                <br/>
 
              	   {/*CAREER & FIELD PANELS*/}
@@ -572,38 +572,6 @@ class CareerApp extends React.Component {
 						</div>)}
 						</Droppable>
 					</div>
-
-					{/*TEMPORARY SANDBOX ZONE*/}
-					{/*This demonstrates proof of concept.
-						Ultimatey, this component ought to be implemented into the actual Sandbox.js*/}
-        			{!this.state.onIntro && <div className="sandboxBoundary">
-        				<div className="sandboxTitle">
-        				<center>
-        					<h1>Sandbox</h1>
-	        				<p>Drag a timeline via its purple label!</p>
-        				</center>
-        				</div>
-	        			<Droppable droppableId="zone-1" type="timeline">
-	        			{(provided, snapshot) => (
-	        			<div className ="temporarySandbox" {...provided.droppableProps} ref={provided.innerRef}>
-	        			{this.state.zones['zone-1'].timeIds.map((timeId, index) => {
-	        				const timeline = this.state.timelines[timeId];
-	        				{/*TIMELINE ICON*/}
-	        				return (
-		        				<div>
-		        				<Draggable draggableId={timeline.id} index={index}>
-		        				{(provided, snapshot) => (
-
-		        				<div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
-		        					<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
-		        				</div>)}
-		        				</Draggable>
-		        				</div>);
-	        			})}
-	        			</div>
-	        			)}
-	        			</Droppable>
-        			</div>}
 					<br/>
 
 					{!this.state.onIntro && <button onClick={()=>this.promptTimeline()} className="generateTimeline">GENERATE NEW TIMELINE</button>}

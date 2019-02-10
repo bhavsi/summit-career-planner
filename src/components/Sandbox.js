@@ -45,6 +45,31 @@ class SandBox extends React.Component {
     open: false,
   };
 
+  timelineInfo = (timeId) => {
+      let content;
+      let timeline = this.props.state.timelines[timeId];
+      let firstCard = this.props.state.cards[timeline.cardIds[0]];
+      let lastCard = this.props.state.cards[timeline.cardIds[timeline.cardIds.length -1]];
+      let origin;
+      let destination;
+
+      if (firstCard.field == "") origin = <p><b>{firstCard.career}</b></p>
+      else origin =<p><b>{firstCard.career} in {firstCard.field}</b></p>
+      if (lastCard.field == "") destination = <p><b>{lastCard.career}</b></p>
+      else destination =<p><b>{lastCard.career} in {lastCard.field}</b></p>
+
+      content = <div className="timelineInfo">
+            <center>
+            <h1>{timeline.title}</h1>
+            {origin}
+            <p>to</p>
+            {destination}
+            </center>
+            </div>
+
+      return(<div>{content}</div>);
+    }
+
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -53,10 +78,6 @@ class SandBox extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
-
-  onDragEnd(result){
-    console.log("An item has been dragged into Sandbox!");
-  }
 
   render() {
     const { classes } = this.props;
@@ -70,16 +91,34 @@ class SandBox extends React.Component {
           <div
             tabIndex={0}
             role="button">
-            <h1>Sandbox</h1>
-              <DragCardsContext onDragEnd={this.onDragEnd}>
-            <Droppable droppableId="sandbox" type="timeline">
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                <p>Drag an entire timeline to the sandbox via the timeline's purple tab!</p>
+            <div className="sandboxBoundary">
+                <div className="sandboxTitle">
+                <center>
+                  <h1>Sandbox</h1>
+                  <p>Drag a timeline via its purple label!</p>
+                </center>
+                </div>
+                <Droppable droppableId="zone-1" type="timeline">
+                {(provided, snapshot) => (
+                <div className ="temporarySandbox" {...provided.droppableProps} ref={provided.innerRef}>
+                {this.props.state.zones['zone-1'].timeIds.map((timeId, index) => {
+                  const timeline = this.props.state.timelines[timeId];
+                  {/*TIMELINE ICON*/}
+                  return (
+                    <div>
+                    <Draggable draggableId={timeline.id} index={index}>
+                    {(provided, snapshot) => (
+
+                    <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+                      <div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+                    </div>)}
+                    </Draggable>
+                    </div>);
+                })}
+                </div>
+                )}
+                </Droppable>
               </div>
-              )}
-            </Droppable>
-            </DragCardsContext>
           </div>
 					<Button className="pageButtons" onClick={this.handleDrawerClose}>
 						CLOSE
