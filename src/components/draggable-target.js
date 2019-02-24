@@ -62,70 +62,56 @@ showDropdownMenu(event) {
 		}
 	}
 
+	deleteButton = () => {return this.props.deleteButton();}
+
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
 		const backgroundColor = hovered ? 'lightblue' : 'white';
 
 		let content;
 
-		if (this.props.career === '' && this.props.field === '')
+		if (this.props.card.career === '' && this.props.card.field === '')
 		{
-			content = <p className="promptCard"><b>{this.props.prompt}</b></p>;
+			content = <p className="promptCard"><b>{this.props.card.prompt}</b></p>;
 		}
-		else if (this.props.career === '')
+		else if (this.props.card.career === '')
 		{
-			content = <DraggableSource canDrag={this.props.canDrag} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
+			content = <DraggableSource canDrag={this.props.canDrag} type="field" item={{name: this.props.card.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
-		else if(this.props.field === '')
+		else if(this.props.card.field === '')
 		{
-			content = <DraggableSource canDrag={this.props.canDrag} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
+			content = <DraggableSource canDrag={this.props.canDrag} type="career" item={{name: this.props.card.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>;
 		}
 		else
 		{
 			content = <div>
-						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="career" item={{name: this.props.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="career" item={{name: this.props.card.career}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 						<p>in</p>
-						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="field" item={{name: this.props.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+						<DraggableSource canDrag={this.props.canDrag} targetIndex = {this.props.index} type="field" item={{name: this.props.card.field}} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 						</div>
 		}
 
 		let label;
 
-		if (this.props.prompt == "Right now, I'm in ..." && this.props.career != '')
-		{
-			label = <center><p><b>You Are Here</b></p></center>
-		}
-		else if (this.props.prompt == "In the future, I'd like to be in ..." && this.props.career == '' && this.props.field != "")
-		{
-			label = <center><p><i>Please enter a career</i></p></center>
-		}
-		else if (this.props.prompt == "In the future, I'd like to be in ..." && this.props.career != '')
-		{
-			label = <center><p><b>Your Goal</b></p></center>
-		}
-		else
-		{
-			label = <p id="clear">.</p>
-		}
+		if (this.props.card.prompt == "Right now, I'm in ..." && this.props.card.career != '') label = <center><p><b>You Are Here</b></p></center>
+		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career == '' && this.props.card.field != "") label = <center><p><i>Please enter a career</i></p></center>
+		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career != '') label = <center><p><b>Your Goal</b></p></center>
+		else label = <p id="clear">.</p>
 
 		let costEarnings;
 
-		if (this.props.finance > 0)
-		{
-			costEarnings = <div className="earnings"><p>+{this.props.finance}</p></div>
-		}
-		else if (this.props.finance < 0)
-		{
-			costEarnings = <div className="cost"><p>{this.props.finance}</p></div>
-		}
-		else
-		{
-			costEarnings = <div className="zilch"></div>;
-		}
+		if (this.props.card.finance > 0) costEarnings = <div className="earnings"><p>+{this.props.card.finance}</p></div>
+		else if (this.props.card.finance < 0) costEarnings = <div className="cost"><p>{this.props.card.finance}</p></div>
+		else costEarnings = <div className="zilch"></div>;
 
 		return connectDropTarget(
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
+					{this.props.canDrag && <div className="cardButtons">
+						<button className="subcardButtons">✏️</button>
+						<button className="subcardButtons">➕</button>
+						<button className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
+					</div>}
 					<span>{content}</span>
 				</div>
 				{label}

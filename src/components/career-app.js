@@ -520,30 +520,15 @@ class CareerApp extends React.Component {
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
 											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef} id="inline" className="inlineCard">
-												{this.state.showButtons && this.state.timelines[timeline.id].cardIds.length > 2  && <div className="cardButtons">
-													<button className="subcardButtons" onClick = {this.editButton}>EDIT</button>
-												    <button className="subcardButtons" onClick = {this.addButton}>ADD</button>
-												    <button className="subcardButtons" onClick = {(timeId, cardId) => this.deleteButton(timeline.id, card.id)}>DELETE</button>
-												   </div>}
 												{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
-													 prompt={this.state.cards[cardId].prompt} 
+													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
-													 career={this.state.cards[cardId].career} 
-													 field={this.state.cards[cardId].field} 
-													 finance={this.state.cards[cardId].finance}
-													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
+													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
+													 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
 												{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
-													 prompt={this.state.cards[cardId].prompt} 
-												  	 id={cardId.substring(5)}
-													 career={this.state.cards[cardId].career} 
-													 field={this.state.cards[cardId].field} 
-													 finance={this.state.cards[cardId].finance}
+													 card={this.state.cards[cardId]}
+													 id={cardId.substring(5)}
 													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
-												{this.state.showButtons && this.state.timelines[timeline.id].cardIds.length > 2 && <div className="cardButtons">
-																			<button className="subcardButtons" onClick = {this.exploreButton}>EXPLORE</button>
-																			<button className="subcardButtons" onClick = {this.locationButton}>LOCATION</button>
-																		   </div>
-												}		
 											</div>)}
 											</Draggable>);
 									})}
