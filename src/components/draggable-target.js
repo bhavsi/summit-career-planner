@@ -63,6 +63,10 @@ showDropdownMenu(event) {
 	}
 
 	deleteButton = () => {return this.props.deleteButton();}
+	addButton = () => {return this.props.addButton();}
+	editButton = () => {return this.props.editButton();}
+	locationButton = () => {return this.props.locationButton();}
+	exploreButton = () => {return this.props.exploreButton();}
 
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
@@ -108,11 +112,14 @@ showDropdownMenu(event) {
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
 					{this.props.canDrag && <div className="cardButtons">
-						<button className="subcardButtons">✏️</button>
-						<button className="subcardButtons">➕</button>
+						<button className="subcardButtons" onClick = {() => this.editButton()}>✏️</button>
+						<button className="subcardButtons" onClick = {() => this.addButton()}>➕</button>
 						<button className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
 					</div>}
 					<span>{content}</span>
+					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
+					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
+
 				</div>
 				{label}
 				<center>{costEarnings}</center>

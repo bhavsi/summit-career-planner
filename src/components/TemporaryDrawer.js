@@ -53,8 +53,9 @@ class TemporaryDrawer extends React.Component {
 
   const sideList = (
       <div className={classes.list}>
+        <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
         <FieldPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-          <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+
       </div>
     );
 

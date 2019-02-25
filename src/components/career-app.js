@@ -138,7 +138,7 @@ class CareerApp extends React.Component {
 
 				if (type == 'career' && target-.1 == 0) newState.lowerBound = 0;
 			}
-			
+
 			//VISIBILITY: Check if 1st spot is filled
 			if (newState.cards[firstCardId].career != "") visibility = true;
 			else visibility = false;
@@ -218,12 +218,12 @@ class CareerApp extends React.Component {
   			let newState = prevState;
   			let cardsSize = Object.keys(this.state.cards).length;
   			newState.showFields = false;
-			newState.showCareers = false;
+			  newState.showCareers = false;
   			newState.buttonIsVisible = false;
   			newState.showNet = true;
   			newState.onIntro = false;
-       		newState.showButtons = true;
-       		newState.showTimelineTitle = true;
+       	newState.showButtons = true;
+       	newState.showTimelineTitle = true;
 
        		//***TEMPORARY SAMPLE CODE***
   			//For test purposes only.
@@ -239,7 +239,7 @@ class CareerApp extends React.Component {
   				let currCardId = newState.timelines['time-0'].cardIds[i];
   				newState.timelines['time-0'].net += newState.cards[currCardId].finance;
   			}
-  			
+
   			return newState;
   		});
   	}
@@ -389,7 +389,7 @@ class CareerApp extends React.Component {
 	  		newCardIds.splice(source.index,1);
 	  		newCardIds.splice(destination.index, 0, draggableId);
 
-	  		//Adds new 
+	  		//Adds new
 	  		const newTimeline = {
 	  			...timeline,
 	  			cardIds: newCardIds,
@@ -409,12 +409,23 @@ class CareerApp extends React.Component {
 
     //Button functions
     editButton() {
-      alert('You can drag another field/career step into this box from the left-hand side panel');
-    //  <TemporaryDrawer open= true />
+      console.log("working edit");
+      alert('You can drag a different field or occupation from the drawer at the left!');
+      TemporaryDrawer.handleDrawerOpen;
     }
 
-    addButton() {
+    addButton(timeId, cardId) {
+        console.log('working add');
+this.setState(prevState => {
+    let newState = prevState;
+    for (var i = 0; i < newState.timelines[timeId].cardIds.length; i++) {
+      	if (newState.timelines[timeId].cardIds[i] == cardId) {
+          newState.timelines[timeId].cardIds.push(i);
+        }
+    }
 
+    return newState;
+  });
     }
 
     deleteButton(timeId, cardId) {
@@ -433,7 +444,7 @@ class CareerApp extends React.Component {
     }
 
     exploreButton() {
-      console.log('Redirecting to another page...')
+      console.log('Redirecting to another page...');
     }
 
     locationButton() {
@@ -506,7 +517,7 @@ class CareerApp extends React.Component {
 										<div {...provided.dragHandleProps} className="timelineTitle" id="inline"><center><h1>{timeline.title}</h1></center></div>
 										<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
 										<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
-									</div>} 
+									</div>}
 
 									<div id="inline">
 									<div id="inline">
@@ -524,7 +535,12 @@ class CareerApp extends React.Component {
 													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
 													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
-													 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
+                           addButton={() => this.addButton(timeline.id,card.id)}
+													 deleteButton={() => this.deleteButton(timeline.id,card.id)}
+                            locationButton={() => this.locationButton()}
+                             exploreButton={() => this.exploreButton()}
+                           editButton={() => this.editButton()}/>}
+
 												{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
 													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
