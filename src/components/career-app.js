@@ -23,6 +23,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
+import OptionStack from './option-stack.js';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -93,10 +94,10 @@ class CareerApp extends React.Component {
 	    this.editButton = this.editButton.bind(this);
 	    this.addButton = this.addButton.bind(this);
 	    this.deleteButton = this.deleteButton.bind(this);
-	    this.locationButton = this.locationButton.bind(this);
 	    this.buildTimeline = this.buildTimeline.bind(this);
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
 	    this.deleteTimeline = this.deleteTimeline.bind(this);
+	    this.chooseOption = this.chooseOption.bind(this);
 	};
 
 	//Finds Timeline based on given card
@@ -418,8 +419,6 @@ class CareerApp extends React.Component {
     }
 
     deleteButton(timeId, cardId) {
-    	console.log('DELETE Time: ' + timeId);
-    	console.log('DELETE CARD: ' + cardId);
 	  this.setState(prevState => {
 		let newState = prevState;
 		delete newState.cards[cardId];
@@ -432,12 +431,21 @@ class CareerApp extends React.Component {
 	  console.log(this.state);
     }
 
-    exploreButton() {
-      console.log('Redirecting to another page...')
-    }
+    chooseOption(timeId, career,field){
+    	this.setState(prevState => {
+  			let newState = prevState;
+  			let cardsLength = Object.keys(this.state.cards).length;
+  			let finance;
 
-    locationButton() {
+  			//Temporary Code: For Testing Purposes Only
+  			if (career === 'Occupation') finance = 65000;
+  			else finance = -22000;
 
+  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: career, field: field, finance: finance, isVisible: true};
+  			newState.timelines[timeId].cardIds.push('card-' + cardsLength);
+
+  			return newState;
+  		});
     }
 
 	render(){
@@ -501,6 +509,7 @@ class CareerApp extends React.Component {
 								<Draggable draggableId={timeline.id} index={index}>
 								{(provided, snapshot) => (
 								<div {...provided.draggableProps} ref={provided.innerRef}>
+									{/*TIMELINE TITLE*/}
 									{this.state.showTimelineTitle &&
 									<div>
 										<div {...provided.dragHandleProps} className="timelineTitle" id="inline"><center><h1>{timeline.title}</h1></center></div>
@@ -508,8 +517,9 @@ class CareerApp extends React.Component {
 										<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
 									</div>} 
 
+									{/*TIMELINE EVENTS*/}
 									<div id="inline">
-									<div id="inline">
+									<div id="inline" className="timeline">
 									<Droppable droppableId={timeline.id} direction="horizontal" type="card">
 									{(provided, snapshot) => (
 									<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
@@ -535,6 +545,8 @@ class CareerApp extends React.Component {
 									</div>)}
 									</Droppable>
 									</div>
+
+									{/*HOW DO I GET THERE?*/}
 									{this.state.onIntro && <div id="inline" className="inlineCard">
 										{this.state.buttonIsVisible && <Button onClick={() => this.buildTimeline()} style={style}>How do I get there?</Button>}
 										{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}
@@ -542,10 +554,16 @@ class CareerApp extends React.Component {
 										<div className="zilch"></div>
 									</div>}
 
-									{!this.state.onIntro && this.state.timelines[timeline.id].cardIds.length > 2 && <div id="inline" className="inlineCard">
-										<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
-										<p id="clear">.</p>
-										<center>{netBox}</center>
+									{/*SUBSEQUENT STEP & TIMELINE INFO*/}
+									{!this.state.onIntro && this.state.timelines[timeline.id].cardIds.length > 2 && <div id="inline">
+										<div id="inline" className="inlineCard">
+											<OptionStack chooseOption={(career,field)=> this.chooseOption(timeline.id,career,field)}/>
+										</div>
+										<div id="inline" className="inlineCard">
+											<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+											<p id="clear">.</p>
+											<center>{netBox}</center>
+										</div>
 									</div>}
 									</div>
 								</div>)}
