@@ -437,11 +437,7 @@ class CareerApp extends React.Component {
   			let cardsLength = Object.keys(this.state.cards).length;
   			let finance;
 
-  			//Temporary Code: For Testing Purposes Only
-  			if (item.career === 'Occupation') finance = 65000;
-  			else finance = -22000;
-
-  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: item.career, field: item.field, finance: finance, isVisible: true};
+  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: item.career, field: item.field, finance: item.finance, isVisible: true};
   			newState.timelines[timeId].cardIds.push('card-' + cardsLength);
 
   			return newState;

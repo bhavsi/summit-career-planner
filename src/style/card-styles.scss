@@ -32,6 +32,16 @@ p{
 	background-color: white;
 }
 
+#green{
+	background-color: #00b300;
+	color: white;
+}
+
+#red{
+	background-color: #ff3333;
+	color: white;
+}
+
 #hide{
 	opacity: 0.5;
 }
@@ -270,6 +280,18 @@ p{
 .optionBar{
 	margin-top: 5px;
 	margin-bottom: 5px;
+	z-index: 0;
+	position: relative;
+}
+.hoverBubble{
+	width: 150px;
+	height: 40px;
+	border-radius: 5px;
+	background-color: white;
+	position: relative;
+	z-index: 1;
+	float: right;
+	vertical-align: middle;
 }
 
 span{
