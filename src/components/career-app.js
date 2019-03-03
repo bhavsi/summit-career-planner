@@ -431,17 +431,17 @@ class CareerApp extends React.Component {
 	  console.log(this.state);
     }
 
-    chooseOption(timeId, career,field){
+    chooseOption(timeId, item){
     	this.setState(prevState => {
   			let newState = prevState;
   			let cardsLength = Object.keys(this.state.cards).length;
   			let finance;
 
   			//Temporary Code: For Testing Purposes Only
-  			if (career === 'Occupation') finance = 65000;
+  			if (item.career === 'Occupation') finance = 65000;
   			else finance = -22000;
 
-  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: career, field: field, finance: finance, isVisible: true};
+  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: item.career, field: item.field, finance: finance, isVisible: true};
   			newState.timelines[timeId].cardIds.push('card-' + cardsLength);
 
   			return newState;
@@ -557,7 +557,7 @@ class CareerApp extends React.Component {
 									{/*SUBSEQUENT STEP & TIMELINE INFO*/}
 									{!this.state.onIntro && this.state.timelines[timeline.id].cardIds.length > 2 && <div id="inline">
 										<div id="inline" className="inlineCard">
-											<OptionStack chooseOption={(career,field)=> this.chooseOption(timeline.id,career,field)}/>
+											<OptionStack chooseOption={(item)=> this.chooseOption(timeline.id,item)}/>
 										</div>
 										<div id="inline" className="inlineCard">
 											<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>

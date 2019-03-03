@@ -10,12 +10,12 @@ class OptionStack extends React.Component {
 	state = {
 		//SUGGESTIONS
 		suggestions: [
-			{career: 'Masters', field: 'Degree 1'},
-			{career: 'Masters', field: 'Degree 2'},
-			{career: 'Masters', field: 'Degree 3'},
-			{career: 'Occupation', field: 'Job 1'},
-			{career: 'Occupation', field: 'Job 2'},
-			{career: 'Occupation', field: 'Job 3'},
+			{career: 'Occupation', field: 'Job 1', frequency: .45},
+			{career: 'Occupation', field: 'Job 2', frequency: .23},
+			{career: 'Occupation', field: 'Job 3', frequency: .21},
+			{career: 'Masters', field: 'Degree 1', frequency: .06},
+			{career: 'Masters', field: 'Degree 2', frequency: .03},
+			{career: 'Masters', field: 'Degree 3', frequency: .02},
 		],
 	}
 
@@ -30,20 +30,22 @@ class OptionStack extends React.Component {
 	render(){
 		//Note: Material UI Buttons require in-code styling
 		const style = {
-			width:230,
+			width:240,
 			height: 58,
 			background: '#33ccff',
+			fontSize: 12,
 		};
 
 		return(
 			<div className="optionStack">
 			<center><h1>Choose The Next Step:</h1></center>
 			{this.state.suggestions.map((item,index) => {
+				let percentage = item.frequency * 100;
 				return (
 				<div className="optionBar">
 					<center>
-						<Button onClick={() => this.chooseOption(item.career,item.field)} style={style}>
-							{item.career} in {item.field}
+						<Button onClick={() => this.chooseOption(item)} style={style}>
+							<h1>{percentage}% &nbsp;</h1><p><b>{item.career} in {item.field}</b></p>
 						</Button>
 					</center>
 				</div>);
