@@ -71,6 +71,24 @@ p{
 	margin-left: 10px;
 }
 
+.timeStamp{
+	text-align: center;
+	margin-left: 50px;
+}
+
+.timeBar{
+	width: 330px;
+	height: 5px;
+	background-color: black;
+}
+
+.timeCircle{
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	margin-left: 190px;
+	background-color: black;
+}
 .timelineInfo{
 	line-height:100px;
 }
@@ -276,6 +294,10 @@ p{
 
 .optionStack h1{
 	font-size: 22px;
+}
+
+.optionLabel{
+	font-size: 11px;
 }
 .optionBar{
 	margin-top: 5px;
