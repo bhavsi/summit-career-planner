@@ -21,6 +21,8 @@ import Select from '@material-ui/core/Select';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 import OptionStack from './option-stack.js';
@@ -47,13 +49,14 @@ class CareerApp extends React.Component {
 	state = {
 		//CARDS
 		cards: {
-			'card-0': { id: "card-0", prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
-			'card-1': { id: "card-1", prompt: "In the future, I'd like to be in ...", career: '', field: '', finance: 0, isVisible: false},
+			'card-0': { id: "card-0", prompt: "Right now, I'm in ...", career: '', field: '', duration: 0, finance: 0, isVisible: true},
+			'card-1': { id: "card-1", prompt: "In the future, I'd like to be in ...", career: '', field: '', duration: 0, finance: 0, isVisible: false},
 		},
 
 		//TIMELINES (Abbreviated as "time-#"" for short)
 		timelines: {
 			'time-0': {
+				built: false,
 				id: 'time-0',
 				title: 'Timeline 1',
 				net: 0,
@@ -79,6 +82,7 @@ class CareerApp extends React.Component {
 		lowerBound: 0,
 		buttonIsVisible: false,
 		openGradDate: false,
+		age: 17,
 		gradDate: 2020,
 		onIntro: true,
 		showFields: false,
@@ -198,8 +202,8 @@ class CareerApp extends React.Component {
 
   			let cardA = 'card-' + (cardsLength + 1);
   			let cardB = 'card-' + (cardsLength + 2);
-  			newState.cards[cardA] = { id: cardA, prompt: "Right now, I'm in ...", career: '', field: '', finance: 0, isVisible: true},
-  			newState.cards[cardB] = { id: cardB, prompt: "In the future, I'd like to be in ...", career: '', field: '', finance: 0, isVisible: false},
+  			newState.cards[cardA] = { id: cardA, prompt: "Right now, I'm in ...", career: '', field: '', duration: 0, finance: 0, isVisible: true},
+  			newState.cards[cardB] = { id: cardB, prompt: "In the future, I'd like to be in ...", career: '', field: '', duration: 0, finance: 0, isVisible: false},
 
   			//Create new timeX
   			newState.timelines['time-' + timelinesLength] = {
@@ -225,15 +229,27 @@ class CareerApp extends React.Component {
   			newState.onIntro = false;
        		newState.showButtons = true;
        		newState.showTimelineTitle = true;
+       		newState.timelines['time-0'].built = true;
 
        		//***TEMPORARY SAMPLE CODE***
   			//For test purposes only.
   			//Ultimately, relevant data/cards will be placed here.
-  			newState.cards['card-1'].finance = 80000;
-  			newState.cards['card-' + cardsSize] = { id: "card-" + cardsSize, prompt: "", career: 'Bachelors', field: 'Engineering', finance: -35000, isVisible: true};
-  			newState.cards['card-' + (cardsSize + 1)] = { id: "card-" + (cardsSize + 1), prompt: "", career: 'Masters', field: 'Computer Science', finance: -21000, isVisible: true};
-  			newState.timelines['time-0'].cardIds.splice(1,0,'card-' + cardsSize);
-  			newState.timelines['time-0'].cardIds.splice(2,0,'card-' + (cardsSize + 1));
+  			newState.cards['card-0'].duration = newState.gradDate - 2019;
+
+  			if(newState.cards['card-1'].career === 'Bachelors')
+  			{
+  				newState.cards['card-1'].finance = -25000;
+  				newState.cards['card-1'].duration = 4;
+  			}
+  			else
+  			{
+	  			newState.cards['card-1'].finance = 80000;
+	  			newState.cards['card-1'].duration = 5; //alternative: cap off total duration to 10
+	  			newState.cards['card-' + cardsSize] = { id: "card-" + cardsSize, prompt: "", career: 'Bachelors', field: 'Engineering', duration: 4, finance: -35000, isVisible: true};
+	  			newState.cards['card-' + (cardsSize + 1)] = { id: "card-" + (cardsSize + 1), prompt: "", career: 'Masters', field: 'Computer Science', duration: 2, finance: -21000, isVisible: true};
+	  			newState.timelines['time-0'].cardIds.splice(1,0,'card-' + cardsSize);
+	  			newState.timelines['time-0'].cardIds.splice(2,0,'card-' + (cardsSize + 1));
+  			}
 
   			for (var i = 0; i < newState.timelines['time-0'].cardIds.length; i++)
   			{
@@ -253,6 +269,7 @@ class CareerApp extends React.Component {
 
   			//Create new timeX
   			newState.timelines['time-' + timelinesLength] = {
+				built: true,
 				id: 'time-' + timelinesLength,
 				title: 'Timeline ' + (timelinesLength + 1),
 				net: 0,
@@ -264,7 +281,7 @@ class CareerApp extends React.Component {
   				let currCardId = newState.timelines[timeId].cardIds[i];
   				let currCard = newState.cards[currCardId];
   				let newCardId = 'card-' + (cardsLength + i);
-  				newState.cards[newCardId] = { id: newCardId, prompt: "", career: currCard.career, field: currCard.field, finance: currCard.finance, isVisible: true};
+  				newState.cards[newCardId] = { id: newCardId, prompt: "", career: currCard.career, field: currCard.field, duration: currCard.duration, finance: currCard.finance, isVisible: true};
   				newState.timelines['time-' + timelinesLength].cardIds.push(newCardId);
   			}
 
@@ -414,8 +431,7 @@ class CareerApp extends React.Component {
     //  <TemporaryDrawer open= true />
     }
 
-    addButton() {
-
+    addButton(timeId,cardId) {
     }
 
     deleteButton(timeId, cardId) {
@@ -437,7 +453,7 @@ class CareerApp extends React.Component {
   			let cardsLength = Object.keys(this.state.cards).length;
   			let finance;
 
-  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: item.career, field: item.field, finance: item.finance, isVisible: true};
+  			newState.cards['card-' + cardsLength] = { id: "card-" + cardsLength, prompt: "", career: item.career, field: item.field, duration: item.duration, finance: item.finance, isVisible: true};
   			newState.timelines[timeId].cardIds.push('card-' + cardsLength);
 
   			return newState;
@@ -461,16 +477,7 @@ class CareerApp extends React.Component {
 	  	letterSpacing: 1,
 		};
 
-		let netBox;
-
-		if (this.state.timelines['time-0'].net < 0)
-		{
-			netBox = <div><section className="filler"></section><section className="cost"><p>Net Loss: ${this.state.timelines['time-0'].net}</p></section></div>
-		}
-		else
-		{
-			netBox = <div className="earnings"><p>Net Gain: ${this.state.timelines['time-0'].net}</p></div>
-		}
+		
 
 		return(
 				<div className="careerApp">
@@ -499,6 +506,18 @@ class CareerApp extends React.Component {
 						<div className="mainZone" {...provided.droppableProps} ref={provided.innerRef}>
 						{this.state.zones['zone-0'].timeIds.map((timeId, index) => {
 							const timeline = this.state.timelines[timeId];
+							let net = 0;
+
+							for (var i = 0; i < this.state.timelines[timeline.id].cardIds.length; i++)
+							{
+								let currCard = this.state.timelines[timeline.id].cardIds[i];
+								net+= this.state.cards[currCard].finance;
+							}
+
+							let netBox;
+							if (net < 0) netBox = <div><section className="filler"></section><section className="cost"><p>Net Loss: ${net}</p></section></div>;
+							else netBox = <div className="earnings"><p>Net Gain: ${net}</p></div>;
+
 							{/*TIMELINE*/}
 							return (
 								<div>
@@ -521,22 +540,46 @@ class CareerApp extends React.Component {
 									<div ref={provided.innerRef} style={getListSpecs(snapshot.isDraggingOver)} {...provided.droppableProps}>
 									{timeline.cardIds.map((cardId, index) =>{
 										const card = this.state.cards[cardId];
+										let totalTime = 0;
+										for (var i = 0; i <= index; i++)
+										{
+											console.log("BLUE: " + this.state.timelines[timeline.id].cardIds[i]);
+											let currCard = this.state.cards[this.state.timelines[timeline.id].cardIds[i]];
+											totalTime += currCard.duration;
+										}
+										let age = this.state.age + totalTime;
+										let date = 2019 + totalTime;
 										{/*CARD*/}
 										return (
+											<div>
+												{timeline.built && <div>
+													<div className="timeStamp">
+														<center>
+														<p>Complete By {date}</p>
+														<p>Complete By {age} Years Old</p>
+														</center>
+													</div>
+													<div className="timeBar">
+														<div className="timeCircle"/>
+													</div>
+												</div>}
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
 											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef} id="inline" className="inlineCard">
 												{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
+													 timeline={timeline}
 													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
 													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
 													 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
 												{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
+													 timeline={timeline}
 													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
 													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
 											</div>)}
-											</Draggable>);
+											</Draggable>
+											</div>);
 									})}
 									</div>)}
 									</Droppable>
@@ -551,9 +594,9 @@ class CareerApp extends React.Component {
 									</div>}
 
 									{/*SUBSEQUENT STEP & TIMELINE INFO*/}
-									{!this.state.onIntro && this.state.timelines[timeline.id].cardIds.length > 2 && <div id="inline">
+									{!this.state.onIntro && this.state.timelines[timeline.id].built && <div id="inline">
 										<div id="inline" className="inlineCard">
-											<OptionStack chooseOption={(item)=> this.chooseOption(timeline.id,item)}/>
+											<OptionStack state={this.state} timeline={timeline} chooseOption={(item)=> this.chooseOption(timeline.id,item)}/>
 										</div>
 										<div id="inline" className="inlineCard">
 											<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
@@ -576,10 +619,29 @@ class CareerApp extends React.Component {
 					{!this.state.onIntro && <button onClick={()=>this.promptTimeline()} className="generateTimeline">GENERATE NEW TIMELINE</button>}
 
  					<Dialog open={this.state.openGradDate} onClose={this.handleClose}>
- 						<DialogTitle>Expected Graduation Date</DialogTitle>
+ 						<DialogTitle>Tell Us A Little About Yourself</DialogTitle>
  						<DialogContent>
+ 							<DialogContentText>
+ 								This will help us provide a relevant timeline!
+ 							</DialogContentText>
+ 							<br/>
  							<FormControl>
- 								<Select value={this.state.gradDate} onChange={this.handleChange('gradDate')}>
+ 								<p>Age</p>
+ 								<Select width="50" value={this.state.age} onChange={this.handleChange('age')}>
+ 									<option value=""/>
+ 									<option value={13}>13</option>
+ 									<option value={14}>14</option>
+ 									<option value={15}>15</option>
+ 									<option value={16}>16</option>
+ 									<option value={17}>17</option>
+ 									<option value={18}>18</option>
+ 									<option value={19}>19</option>
+ 									<option value={20}>20</option>
+ 									<option value={21}>21</option>
+ 								</Select>
+ 								<br/>
+ 								<p>Expected Graduation Date</p>
+ 								<Select width="50" value={this.state.gradDate} onChange={this.handleChange('gradDate')}>
  									<option value=""/>
  									<option value={2018}>2018</option>
  									<option value={2019}>2019</option>

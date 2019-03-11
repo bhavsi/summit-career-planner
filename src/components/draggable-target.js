@@ -107,10 +107,14 @@ showDropdownMenu(event) {
 		return connectDropTarget(
 			<div>
 				<div className = "target" style = {{ background: backgroundColor}}>
-					{this.props.canDrag && <div className="cardButtons">
-						<button className="subcardButtons">✏️</button>
-						<button className="subcardButtons">➕</button>
-						<button className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
+					{/*this.props.canDrag && this.props.timeline.built && <div className="subcardDuration">
+						<p>{this.props.card.duration} years</p>
+					</div>*/}
+					{this.props.canDrag && this.props.timeline.built && <div className="cardButtons">
+						<p id="inline" className="subcardDuration">{this.props.card.duration} years</p>
+						<button id="inline" className="subcardButtons">✏️</button>
+						<button id="inline" className="subcardButtons">➕</button>
+						<button id="inline" className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
 					</div>}
 					<span>{content}</span>
 				</div>
