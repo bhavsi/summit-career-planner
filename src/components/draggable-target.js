@@ -9,6 +9,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
 import Button from '@material-ui/core/Button';
 import Search from './search-bar.js';
+import TemporaryDrawer from './TemporaryDrawer.js';
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -110,13 +111,17 @@ showDropdownMenu(event) {
 
 		return connectDropTarget(
 			<div>
+
 				<div className = "target" style = {{ background: backgroundColor}}>
 					{this.props.canDrag && <div className="cardButtons">
-						<button className="subcardButtons" onClick = {() => this.editButton()}>✏️</button>
-						<button className="subcardButtons" onClick = {() => this.addButton()}>➕</button>
-						<button className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
+						<button className="editButton" onClick = {() => this.editButton()}>✏️</button>
+						<button className="deleteButton" onClick = {() => this.deleteButton()}>✖️</button>
 					</div>}
-					<span>{content}</span>
+					<span>
+
+					{content}
+					<button className="addButton" onClick = {() => this.addButton()}>➕</button>
+					</span>
 					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
 					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
 

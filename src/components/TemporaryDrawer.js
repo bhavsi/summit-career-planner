@@ -83,4 +83,5 @@ TemporaryDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const drawer = new TemporaryDrawer();
 export default withStyles(styles)(TemporaryDrawer);

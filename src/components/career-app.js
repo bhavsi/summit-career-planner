@@ -14,6 +14,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
+import drawer from './TemporaryDrawer.js';
 import TemporaryDrawer from './TemporaryDrawer.js';
 import SandBox from './Sandbox.js';
 import Button from '@material-ui/core/Button';
@@ -411,20 +412,26 @@ class CareerApp extends React.Component {
     editButton() {
       console.log("working edit");
       alert('You can drag a different field or occupation from the drawer at the left!');
-      TemporaryDrawer.handleDrawerOpen;
+      drawer.handleDrawerOpen;
     }
 
     addButton(timeId, cardId) {
         console.log('working add');
 this.setState(prevState => {
     let newState = prevState;
-    for (var i = 0; i < newState.timelines[timeId].cardIds.length; i++) {
-      	if (newState.timelines[timeId].cardIds[i] == cardId) {
-          newState.timelines[timeId].cardIds.push(i);
-        }
-    }
+    let cardsLength = Object.keys(this.state.cards).length;
+    let newCard = 'card-' +(cardsLength);
+      newState.cards[newCard] = {
+        if: newCard,
+        prompt: 'Please drag in a career & field',
+        career: '',
+        field: '',
+        finance: '',
+        isVisible: true,
+      }
+      newState.timelines[timeId].cardIds.splice(cardId,0,newCard);
+      return newState;
 
-    return newState;
   });
     }
 
@@ -448,7 +455,7 @@ this.setState(prevState => {
     }
 
     locationButton() {
-
+      console.log('Pick a location from the drop down menu');
     }
 
 	render(){
