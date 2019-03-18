@@ -48,8 +48,13 @@ a{
 .cardButtons {
   width: auto;
     text-align: center;
+  width: 365px;
+  text-align: left;
+  padding-left: 15px;
 }
-
+.subcardDuration{
+  padding-right: 46px;
+}
 .subcardButtons{
   background-color: white;
   padding: 9px;

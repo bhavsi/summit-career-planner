@@ -113,7 +113,11 @@ showDropdownMenu(event) {
 			<div>
 
 				<div className = "target" style = {{ background: backgroundColor}}>
-					{this.props.canDrag && <div className="cardButtons">
+{/*this.props.canDrag && this.props.timeline.built && <div className="subcardDuration">
+	<p>{this.props.card.duration} years</p>
+</div>*/}
+					{this.props.canDrag && this.props.timeline.built && <div className="cardButtons">
+						<p id="inline" className="subcardDuration">{this.props.card.duration} years</p>
 						<button className="editButton" onClick = {() => this.editButton()}>✏️</button>
 						<button className="deleteButton" onClick = {() => this.deleteButton()}>✖️</button>
 					</div>}

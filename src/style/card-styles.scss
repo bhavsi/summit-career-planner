@@ -32,6 +32,16 @@ p{
 	background-color: white;
 }
 
+#green{
+	background-color: #00b300;
+	color: white;
+}
+
+#red{
+	background-color: #ff3333;
+	color: white;
+}
+
 #hide{
 	opacity: 0.5;
 }
@@ -45,6 +55,11 @@ p{
 	vertical-align: middle;
 }
 
+.timeline{
+	max-width: 1320px;
+	overflow-x: auto;
+}
+
 .timelineTitle{
 	background: #e1b5ff;
 	width: 120px;
@@ -56,6 +71,24 @@ p{
 	margin-left: 10px;
 }
 
+.timeStamp{
+	text-align: center;
+	margin-left: 50px;
+}
+
+.timeBar{
+	width: 330px;
+	height: 5px;
+	background-color: black;
+}
+
+.timeCircle{
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	margin-left: 190px;
+	background-color: black;
+}
 .timelineInfo{
 	line-height:100px;
 }
@@ -178,25 +211,25 @@ p{
 
 .earnings{
 	width: 250px;
-	height: 70px;
+	height: 50px;
 	font-family: "Helvetica";
 	letter-spacing: 1px;
 	color: white;
 	background-color: #00b300;
 	text-align: center;
-	padding-top: 30px;
+	padding-top: 10px;
 	border-radius: 6px;
 }
 
 .cost{
 	width: 250px;
-	height: 70px;
+	height: 50px;
 	font-family: "Helvetica";
 	letter-spacing: 1px;
 	color: white;
 	background-color: #ff3333;
 	text-align: center;
-	padding-top: 30px;
+	padding-top: 10px;
 	border-radius: 6px;
 }
 
@@ -239,7 +272,7 @@ p{
 }
 
 .temporarySandbox{
-	width: 1000px;
+	width: 1500px;
 	height: 84vh;
 	background-color: #91eeff;
 	display:inline-block;
@@ -250,6 +283,37 @@ p{
 .mainZone{
 	//overflow-y:scroll;
 	//height: 100vh;
+}
+
+.optionStack{
+	width: 250px;
+	height: 420px;
+	background-color: white;
+	border-radius: 5px;
+}
+
+.optionStack h1{
+	font-size: 22px;
+}
+
+.optionLabel{
+	font-size: 11px;
+}
+.optionBar{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	z-index: 0;
+	position: relative;
+}
+.hoverBubble{
+	width: 150px;
+	height: 40px;
+	border-radius: 5px;
+	background-color: white;
+	position: relative;
+	z-index: 1;
+	float: right;
+	vertical-align: middle;
 }
 
 span{
