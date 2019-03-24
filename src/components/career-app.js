@@ -103,6 +103,7 @@ class CareerApp extends React.Component {
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
 	    this.deleteTimeline = this.deleteTimeline.bind(this);
 	    this.chooseOption = this.chooseOption.bind(this);
+  
 	};
 
 	//Finds Timeline based on given card
@@ -430,7 +431,7 @@ class CareerApp extends React.Component {
     editButton() {
       console.log("working edit");
       alert('You can drag a different field or occupation from the drawer at the left!');
-      drawer.handleDrawerOpen;
+      drawer.handleDrawerOpen();
     }
 
     addButton(timeId, cardId) {
