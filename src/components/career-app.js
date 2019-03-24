@@ -553,30 +553,43 @@ class CareerApp extends React.Component {
 										return (
 											<div>
 												{timeline.built && <div>
-													<div className="timeStamp">
-														<center>
-														<p>Complete By {date}</p>
-														<p>Complete By {age} Years Old</p>
-														</center>
-													</div>
+													{index == 0 && <div id="inline">
+														<div id="inline">
+															<p>Complete By</p>
+															<p>Age</p>
+														</div>
+														<div className="timeStampX" id="inline">
+															<p>{date}</p>
+															<p>{age} y/o</p>
+														</div>
+													</div>}
+													{index != 0 && <div className="timeStamp" id="inline">
+														{/*<center>*/}
+														<p>{date}</p>
+														<p>{age} y/o</p>
+														{/*</center>*/}
+													</div>}
 													<div className="timeBar">
-														<div className="timeCircle"/>
+														{/*<div className="timeHandle"/>*/}
 													</div>
 												</div>}
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
-											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef} id="inline" className="inlineCard">
-												{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
-													 timeline={timeline}
-													 card={this.state.cards[cardId]}
-													 id={cardId.substring(5)}
-													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
-													 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
-												{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
-													 timeline={timeline}
-													 card={this.state.cards[cardId]}
-													 id={cardId.substring(5)}
-													 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef}>
+												{timeline.built && <div className="timeHandle"/>}
+												<div id="inline" className="inlineCard">
+													{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
+														 timeline={timeline}
+														 card={this.state.cards[cardId]}
+														 id={cardId.substring(5)}
+														 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
+														 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
+													{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
+														 timeline={timeline}
+														 card={this.state.cards[cardId]}
+														 id={cardId.substring(5)}
+														 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
+												</div>
 											</div>)}
 											</Draggable>
 											</div>);
