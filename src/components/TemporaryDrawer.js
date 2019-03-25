@@ -58,11 +58,13 @@ class TemporaryDrawer extends React.Component {
       </div>
     );
 
+  //console.log("DRAWER: " + this.props.label);
+
 
 
     return (
       <div>
-        <button className="pageButtons" onClick={this.handleDrawerOpen}>OPEN MENU</button>
+        <button className="pageButtons" onClick={this.handleDrawerOpen}>{this.props.label}</button>
         <Drawer
         variant="persistent"
         open={open}

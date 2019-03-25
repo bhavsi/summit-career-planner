@@ -63,6 +63,7 @@ showDropdownMenu(event) {
 	}
 
 	deleteButton = () => {return this.props.deleteButton();}
+	addButton = () => {return this.props.addButton();}
 
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
@@ -106,20 +107,20 @@ showDropdownMenu(event) {
 
 		return connectDropTarget(
 			<div>
+				<div id="inline">
 				<div className = "target" style = {{ background: backgroundColor}}>
-					{/*this.props.canDrag && this.props.timeline.built && <div className="subcardDuration">
-						<p>{this.props.card.duration} years</p>
-					</div>*/}
 					{this.props.canDrag && this.props.timeline.built && <div className="cardButtons">
 						<p id="inline" className="subcardDuration">{this.props.card.duration} years</p>
-						<button id="inline" className="subcardButtons">✏️</button>
-						<button id="inline" className="subcardButtons">➕</button>
 						<button id="inline" className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
 					</div>}
 					<span>{content}</span>
 				</div>
 				{label}
 				<center>{costEarnings}</center>
+				</div>
+				{this.props.timeline.built && <div id="inline">
+					<button id="inline" className="addButton" onClick = {() => this.addButton()}>➕</button>
+				</div>}
 			</div>
 		);
 

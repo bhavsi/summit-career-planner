@@ -116,6 +116,15 @@ class CareerApp extends React.Component {
 		}
 		console.log("Error: Card Not Found");
 	}
+
+	indexOfCard = (timeId,cardId) => {
+		for (var i = 0; i < this.state.timelines[timeId].cardIds.length; i++)
+		{
+			let currCardId = this.state.timelines[timeId].cardIds[i];
+			if (cardId == currCardId) return i;
+		}
+	}
+
 	//Executed whenever a field/career is dragged & dropped
 	updateTarget = (target, type, name) => {
 		this.setState(prevState => {
@@ -432,6 +441,17 @@ class CareerApp extends React.Component {
     }
 
     addButton(timeId,cardId) {
+    	this.setState(prevState => {
+  			let newState = prevState;
+  			let timelinesLength = Object.keys(this.state.timelines).length;
+  			let cardsLength = Object.keys(this.state.cards).length;
+  			let newCardId = 'card-' + (cardsLength);
+  			let index = this.indexOfCard(timeId,cardId) + 1;
+
+  			newState.cards[newCardId] = { id: newCardId, prompt: "Drag a career & field from the drawer", career: "", field: "", duration: 0, finance: 0, isVisible: true};
+  			newState.timelines[timeId].cardIds.splice(index,0,newCardId);
+  			return newState;
+  		});
     }
 
     deleteButton(timeId, cardId) {
@@ -483,7 +503,7 @@ class CareerApp extends React.Component {
 				<div className="careerApp">
         		<DragCardsContext onDragEnd={this.onDragEnd}>
         			{/*PULLOUT DRAWER*/}
-					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+					<TemporaryDrawer label="OPEN MENU" handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
                 	<br/>
 
 	                {/*SANDBOX ZONE*/}
@@ -564,26 +584,24 @@ class CareerApp extends React.Component {
 														</div>
 													</div>}
 													{index != 0 && <div className="timeStamp" id="inline">
-														{/*<center>*/}
 														<p>{date}</p>
 														<p>{age} y/o</p>
-														{/*</center>*/}
 													</div>}
 													<div className="timeBar">
-														{/*<div className="timeHandle"/>*/}
 													</div>
 												</div>}
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
 											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef}>
 												{timeline.built && <div className="timeHandle"/>}
-												<div id="inline" className="inlineCard">
+												<div id="inline">
 													{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
 														 timeline={timeline}
 														 card={this.state.cards[cardId]}
 														 id={cardId.substring(5)}
 														 handleDrop={(target, type, name) => this.updateTarget(target, type, name)}
-														 deleteButton={() => this.deleteButton(timeline.id,card.id)}/>}
+														 deleteButton={() => this.deleteButton(timeline.id,card.id)}
+														 addButton={() => this.addButton(timeline.id,card.id)}/>}
 													{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
 														 timeline={timeline}
 														 card={this.state.cards[cardId]}
@@ -592,6 +610,7 @@ class CareerApp extends React.Component {
 												</div>
 											</div>)}
 											</Draggable>
+											{timeline.built && <div className="editButton"><TemporaryDrawer label="✏️" handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/></div>}
 											</div>);
 									})}
 									</div>)}
