@@ -3,6 +3,11 @@
 //    Holds everything inside
 //***************************************************
 
+//***************************************************
+//    career-app.js    Author: Austin George
+//    Holds everything inside
+//***************************************************
+
 import React from 'react';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -91,6 +96,7 @@ class CareerApp extends React.Component {
 		showNet: false,
 	    showButtons: false,
 	    showTimelineTitle: false,
+      isTempDrawerOpen: false,
 	}
 
 	constructor(props){
@@ -104,7 +110,6 @@ class CareerApp extends React.Component {
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
 	    this.deleteTimeline = this.deleteTimeline.bind(this);
 	    this.chooseOption = this.chooseOption.bind(this);
-    
 
 	};
 
@@ -434,9 +439,6 @@ class CareerApp extends React.Component {
       this.setState({
         isTempDrawerOpen: true,
       });
-    //  console.log("working edit");
-    //  alert('You can drag a different field or occupation from the drawer at the left!');
-      //drawer.handleDrawerOpen();
     }
 
     addButton(timeId, cardId) {
