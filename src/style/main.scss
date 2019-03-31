@@ -52,7 +52,7 @@ a{
   //background-color: yellow;
 }
 .subcardDuration{
-  padding-right: 46px;
+  padding-right: 125px;
 }
 .subcardButtons{
   background-color: white;
@@ -62,6 +62,21 @@ a{
   margin-right: 2px;
 border: 2px darkgreen solid;
 margin-top: 10px;
+}
+
+.addButton{
+  background-color: white;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 2px darkgreen solid;
+  margin-bottom: 130px;
+
+}
+
+.editButton{
+  margin-top: 8px;
+  margin-left: 125px;
 }
 
 .subcardButtons:active {

@@ -71,15 +71,24 @@ p{
 	margin-left: 10px;
 }
 
+.timeLabel{
+	text-align: left;
+}
+.timeStampX{
+	text-align:right;
+	margin-left: 130px;
+}
+
 .timeStamp{
-	text-align: center;
-	margin-left: 50px;
+	text-align: right;
+	margin-left: 230px;
+	//margin-left: 200px;
 }
 
 .timeBar{
 	width: 330px;
 	height: 5px;
-	background-color: black;
+	background-color: white;
 }
 
 .timeCircle{
@@ -88,6 +97,15 @@ p{
 	border-radius: 5px;
 	margin-left: 190px;
 	background-color: black;
+}
+
+.timeHandle{
+	width: 10px;
+	height: 50px;
+	float: right;
+	background-color: white;
+	margin-right: 65px;
+	//border-radius: 5px 5px 0px 0px;
 }
 .timelineInfo{
 	line-height:100px;
@@ -199,11 +217,11 @@ p{
 	font-family: "Helvetica";
 	letter-spacing: 1px;
 	color: black;
-	margin-top: 15px;
+	margin-top: 0px;
 	margin-bottom: 15px;
 	margin-left: 15px;
 	margin-right: 15px;
-	border-radius: 6px;
+	border-radius: 6px 0px 6px 6px;
 	text-align: center;
 	display: inline-block;
 	align: right;
@@ -235,7 +253,7 @@ p{
 
 .zilch{
 	width: 250px;
-	height: 100px;
+	height: 50px;
 	transparency: 0;
 }
 
