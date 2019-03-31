@@ -97,13 +97,15 @@ class CareerApp extends React.Component {
 		super(props);
 		this.onDragEnd = this.onDragEnd.bind(this);
 	    this.editButton = this.editButton.bind(this);
+
 	    this.addButton = this.addButton.bind(this);
 	    this.deleteButton = this.deleteButton.bind(this);
 	    this.buildTimeline = this.buildTimeline.bind(this);
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
 	    this.deleteTimeline = this.deleteTimeline.bind(this);
 	    this.chooseOption = this.chooseOption.bind(this);
-  
+    
+
 	};
 
 	//Finds Timeline based on given card
@@ -429,9 +431,12 @@ class CareerApp extends React.Component {
 
     //Button functions
     editButton() {
-      console.log("working edit");
-      alert('You can drag a different field or occupation from the drawer at the left!');
-      drawer.handleDrawerOpen();
+      this.setState({
+        isTempDrawerOpen: true,
+      });
+    //  console.log("working edit");
+    //  alert('You can drag a different field or occupation from the drawer at the left!');
+      //drawer.handleDrawerOpen();
     }
 
     addButton(timeId, cardId) {
@@ -512,8 +517,7 @@ this.setState(prevState => {
 				<div className="careerApp">
         		<DragCardsContext onDragEnd={this.onDragEnd}>
         			{/*PULLOUT DRAWER*/}
-					<TemporaryDrawer handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-                	<br/>
+<TemporaryDrawer isOpen={this.state.isTempDrawerOpen} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>                	<br/>
 
 	                {/*SANDBOX ZONE*/}
 	                <SandBox state={this.state}/>
@@ -595,7 +599,8 @@ this.setState(prevState => {
 											<Draggable draggableId={cardId} index={index}>
 											{(provided, snapshot) => (
 											<div {...provided.draggableProps} {...provided.dragHandleProps} style={getItemSpecs(snapshot.isDragging, provided.draggableProps.style)} ref={provided.innerRef} id="inline" className="inlineCard">
-												{this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
+
+                        {this.state.cards[cardId].isVisible && <DraggableTarget canDrag={true}
 													 timeline={timeline}
 													 card={this.state.cards[cardId]}
 													 id={cardId.substring(5)}
