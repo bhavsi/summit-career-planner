@@ -1,6 +1,11 @@
 @import "card-styles.scss";
 @import "animations.scss";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
+html, body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #4ABDAC;
+}
 #container{
     margin-top: 5rem;
 }
@@ -16,7 +21,7 @@ a{
   border: solid 1px grey;
   width: 150px;
   height: 25px;
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .searchBarInput:focus {
@@ -135,4 +140,49 @@ margin-top: 100px;
   font-size: 14px;
   margin: 10px;
   margin-top:40px;
+}
+
+.careerPanel {
+  margin-top: -8px;
+  background-color: #F7B733;
+}
+
+.fieldPanel {
+  background-color: #ff592b;
+}
+//FC4A1A
+.innerCareers {
+    background-color: #f7c665;
+}
+
+.innerFields {
+  background-color: #ff8360;
+}
+
+.career {
+  background-color: #F7B733;
+}
+
+.field {
+  background-color: #ff592b;
+
+}
+.careerApp {
+  background-color: #4ABDAC;
+}
+
+.generateTimeline {
+  background-color: #DFDCE3;
+}
+
+.header {
+  background-color: #026657;
+  boxShadow: none;
+}
+
+.headertext {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 3px;
+
+
 }

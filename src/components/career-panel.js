@@ -47,7 +47,7 @@ class CareerPanel extends React.Component {
 			}
 			if (newLowerBound == this.props.options.careers.length) newLowerBound--;
 
-			this.props.changeLB(newLowerBound); 
+			this.props.changeLB(newLowerBound);
 		}
 
 		return this.props.handleDrop(target, type, name);
@@ -55,7 +55,7 @@ class CareerPanel extends React.Component {
 
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
-		
+
 		let careers;
 
 		if(isLoaded(this.props.options))
@@ -70,7 +70,7 @@ class CareerPanel extends React.Component {
 
 		return connectDropTarget(
 			<div className="careerPanel">
-				<div className="careerTitle"><h1>Careers</h1></div>
+				<div className="careerTitle"><h1>Career</h1><h1>Step</h1></div>
 				<br/>
 				{careers}
 			</div>
