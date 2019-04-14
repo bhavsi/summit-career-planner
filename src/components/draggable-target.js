@@ -54,7 +54,7 @@ showDropdownMenu(event) {
 	handleDrop = (target, type, name) => {
 		if (target < 0)
 		{
-			return this.props.handleDrop(this.props.id + .1, type, name);
+			return this.props.handleDrop(parseInt(this.props.id) + .1, type, name);
 		}
 		else
 		{
@@ -111,7 +111,7 @@ showDropdownMenu(event) {
 				<div className = "target" style = {{ background: backgroundColor}}>
 					{this.props.canDrag && this.props.timeline.built && <div className="cardButtons">
 						<p id="inline" className="subcardDuration">{this.props.card.duration} years</p>
-						<button id="inline" className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>
+						{this.props.timeline.cardIds.length > 1 && <button id="inline" className="subcardButtons" onClick = {() => this.deleteButton()}>✖️</button>}
 					</div>}
 					<span>{content}</span>
 				</div>
