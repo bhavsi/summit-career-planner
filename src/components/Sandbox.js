@@ -86,7 +86,6 @@ class SandBox extends React.Component {
 
     return (
       <div>
-        <button className="pageButtons" onClick={this.handleDrawerOpen}>OPEN SANDBOX</button>
         <Drawer open={open} anchor="right" variant="persistent">
           <div
             tabIndex={0}
