@@ -35,6 +35,13 @@ class TemporaryDrawer extends React.Component {
     open: false,
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.open !== this.props.isOpen) {
+      this.setState({ open : this.props.isOpen });
+    }
+  }
+
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -53,14 +60,16 @@ class TemporaryDrawer extends React.Component {
 
   const sideList = (
       <div className={classes.list}>
+        <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
         <FieldPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-          <CareerPanel handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
+
       </div>
     );
 
+
+
     return (
       <div>
-        <button className="pageButtons" onClick={this.handleDrawerOpen}>{this.props.label}</button>
         <Drawer
         variant="persistent"
         open={open}
@@ -78,6 +87,9 @@ class TemporaryDrawer extends React.Component {
 
 TemporaryDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool,
+
 };
 
+//const drawer = new TemporaryDrawer();
 export default withStyles(styles)(TemporaryDrawer);

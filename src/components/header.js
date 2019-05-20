@@ -19,7 +19,7 @@ class Header extends React.Component{
 	    }
 	}
     }
-    
+
     logout(){
 	this.props.firebase.logout();
 	this.setState({
@@ -41,7 +41,7 @@ class Header extends React.Component{
 	    }
 	});
     }
-    
+
     render(){
 	let greeting;
 	if(!this.props.auth.isLoaded){
@@ -84,13 +84,15 @@ class Header extends React.Component{
 	}
 
 	return(
-	    <div>
+	    <div className="header">
 		<AppBar>
-		    <Toolbar>
+		    <Toolbar className="header">
 			    <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
-				<Link to="/">
-				    Summit Career Planner
+				<Link to="/" className="headertext">
+				    <h2>SandBox</h2>
+            <h5>Lets Explore the Future Together</h5>
 				</Link>
+
 			    </Typography>
 			<div>
 			    {greeting}

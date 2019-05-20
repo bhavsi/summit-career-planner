@@ -37,26 +37,12 @@ class CareerPanel extends React.Component {
 
 	//Executed whenever a field/career is selected
 	handleDrop = (target, type, name) => {
-		//The following feature has been intentionally commented for the purposes of the demo
-		//Customization: Eliminate all lower-level career options
-		/*if (target == 0)
-		{
-			let newLowerBound;
-			for (var i = 0; i < this.props.options.careers.length; i++)
-			{
-				if (this.props.options.careers[i].name == name) newLowerBound = i + 1;
-			}
-			if (newLowerBound == this.props.options.careers.length) newLowerBound--;
-
-			this.props.changeLB(newLowerBound); 
-		}*/
-
 		return this.props.handleDrop(target, type, name);
 	}
 
 	render(){
 		const { connectDropTarget, hovered, item } = this.props;
-		
+
 		let careers;
 
 		if(isLoaded(this.props.options))
@@ -71,7 +57,7 @@ class CareerPanel extends React.Component {
 
 		return connectDropTarget(
 			<div className="careerPanel">
-				<div className="careerTitle"><h1>Careers</h1></div>
+				<div className="careerTitle"><h1>Career</h1><h1>Step</h1></div>
 				<br/>
 				{careers}
 			</div>
