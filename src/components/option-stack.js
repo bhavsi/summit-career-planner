@@ -81,8 +81,8 @@ class OptionStack extends React.Component {
 
 				let info;
 
-				if (item.finance > 0) info = <div className="hoverBubble" id="green"><center><p>Salary: ${item.finance}</p></center></div>;
-				else info = <div className="hoverBubble" id="red"><center><p>Tuition: ${item.finance * -1}</p></center></div>;
+				if (item.finance > 0) info = <div className="hoverBubble" id="green"><center><p>10 Yr: ${item.finance}</p></center></div>;
+				else info = <div className="hoverBubble" id="red"><center><p>10 Yr: ${item.finance * -1}</p></center></div>;
 
 				return (
 					<ReactHover options={options}>
