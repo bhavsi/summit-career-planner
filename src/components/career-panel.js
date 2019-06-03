@@ -12,6 +12,9 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
 
 const itemTarget = {
 	drop(props, monitor, component){

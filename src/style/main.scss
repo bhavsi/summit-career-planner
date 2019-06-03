@@ -2,9 +2,12 @@
 @import "animations.scss";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
+
 html, body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: helvetica;
   background-color: #4ABDAC;
+  line-height: 150%;
+  letter-spacing: 1px;
 }
 #container{
     margin-top: 5rem;
@@ -13,6 +16,22 @@ html, body {
 a{
     text-decoration: none;
     color: inherit;
+}
+
+.target {
+  font-family: helvetica, sans-serif;
+
+}
+
+.earnings {
+  font-family: helvetica, sans-serif;
+
+}
+
+.cost {
+  font-family: helvetica, sans-serif;
+  background-color: #140000;
+
 }
 
 .searchBarInput {
@@ -28,13 +47,17 @@ a{
   outline: none;
 }
 
+.searchBar {
+  margin-top: 10px;
+}
+
 .backButton {
   padding: 10px;
   color: black;
   background-color: transparent;
   letter-spacing: 1px;
   border-radius: 2px;
-  height: 40px;
+  height: 2em;
   border: none;
   font-size: 15px;
   transition: 0.5s;
@@ -56,10 +79,11 @@ a{
   padding-left: 15px;
 }
 .subcardDuration{
-  padding-right: 46px;
+  padding-right: 20px;
     margin-left: 15px;
 }
 .subcardButtons{
+
   background-color: white;
   padding: 9px;
   border-radius: 6px;
@@ -142,29 +166,53 @@ margin-top: 100px;
   margin-top:40px;
 }
 
-.careerPanel {
-  margin-top: -8px;
-  background-color: #F7B733;
+.panelpair {
+  display: inline-block;
 }
 
 .fieldPanel {
-  background-color: #ff592b;
+  height: 60em;
+  background-color: #F7B733;
+  font-family: helvetica, sans-serif;
+  overflow-y: visible;
+    position: sticky;
 }
-//FC4A1A
-.innerCareers {
-    background-color: #f7c665;
+
+.temporarySandbox {
+  overflow-x: hidden;
+}
+.careerPanel {
+  height: 60em;
+  background-color: #f77754;
+  font-family: helvetica, sans-serif;
+  overflow-y: visible;
+  position: sticky;
+
+
+}
+
+.panelpairdrawer{
+  display: flex;
 }
 
 .innerFields {
-  background-color: #ff8360;
+  height: 50em;
+    background-color: #f7c665;
 }
 
-.career {
-  background-color: #F7B733;
+.innerCareers {
+  height: 50em;
+  background-color: #fc9579;
 }
 
 .field {
-  background-color: #ff592b;
+  height: 5em;
+  background-color: #F7B733;
+}
+
+.career {
+  height: 5em;
+  background-color: #f77754;
 
 }
 .careerApp {
@@ -176,13 +224,76 @@ margin-top: 100px;
 }
 
 .header {
+  padding-top: 10px;
+  font-family: helvetica, sans-serif;
   background-color: #026657;
-  boxShadow: none;
+  font-weight: bold;
 }
 
 .headertext {
-  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-family: helvetica, sans-serif;
   letter-spacing: 3px;
+}
+.timeStamp {
+  line-height: 150%;
+  padding-bottom: 10px;
+  margin-left: 60px;
+}
+
+.timeBar {
+    line-height: 200%;
+}
+
+.timelineInfo {
+  font-size: 0.9em;
+}
+
+.timelineTitle {
+  background-color: #026657;
+  color: white;
+
+}
+
+.timelineIcon {
+
+  background-color: #026657;
+  color: white;
+
+}
+
+.deleteTimeline {
+  background-color: #026657;
+color: white;
+
+}
+.cloneTimeline {
+  background-color: #026657;
+  color: white;
+
+}
+
+.optionStack {
+    font-size: 1em;
+
+}
+
+.optionBar h1 {
+      font-size: 1.1em;
+      margin-bottom: 1.5em;
+}
+
+.optionLabel {
+      font-size: 0.8em;
+}
 
 
+h1 {
+  font-family: helvetica, sans-serif;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+p {
+  font-family: helvetica, sans-serif;
 }

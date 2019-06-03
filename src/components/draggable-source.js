@@ -6,6 +6,9 @@
 
 import React from 'react';
 import { DragSource } from 'react-dnd';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 const itemSource = {
 	canDrag(props, monitor){

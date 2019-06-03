@@ -12,6 +12,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
 import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 
 const styles = {

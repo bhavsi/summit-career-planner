@@ -32,6 +32,10 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 import OptionStack from './option-stack.js';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -91,7 +95,7 @@ class CareerApp extends React.Component {
 		age: 17,
 		gradDate: 2020,
 		onIntro: true,
-		showFields: false,
+		showFields: true,
 		showCareers: true,
 		showNet: false,
 	    showButtons: false,
@@ -102,7 +106,6 @@ class CareerApp extends React.Component {
 	constructor(props){
 		super(props);
 		this.onDragEnd = this.onDragEnd.bind(this);
-	    this.editButton = this.editButton.bind(this);
 
 	    this.addButton = this.addButton.bind(this);
 	    this.deleteButton = this.deleteButton.bind(this);
@@ -155,7 +158,7 @@ class CareerApp extends React.Component {
 
 			//VISIBILITY: Check if 1st spot is filled
 			if (newState.cards[firstCardId].career != "") visibility = true;
-			else visibility = false;
+			else visibility = true;
 
 			newState.showFields = visibility;
 			for (var i = 1; i < newState.timelines[timeId].cardIds.length; i++)
@@ -231,8 +234,8 @@ class CareerApp extends React.Component {
   		this.setState(prevState => {
   			let newState = prevState;
   			let cardsSize = Object.keys(this.state.cards).length;
-  			newState.showFields = false;
-			  newState.showCareers = false;
+  			newState.showFields = true;
+			  newState.showCareers = true;
   			newState.buttonIsVisible = false;
   			newState.showNet = true;
   			newState.onIntro = false;
@@ -519,7 +522,6 @@ this.setState(prevState => {
 				<div className="careerApp">
         		<DragCardsContext onDragEnd={this.onDragEnd}>
         			{/*PULLOUT DRAWER*/}
-<TemporaryDrawer isOpen={this.state.isTempDrawerOpen} handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>                	<br/>
 
 	                {/*SANDBOX ZONE*/}
 	                <SandBox state={this.state}/>
@@ -527,11 +529,15 @@ this.setState(prevState => {
 
              	   {/*CAREER & FIELD PANELS*/}
 					{this.state.onIntro && <div id="inline">
-						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
+          <div className="panelpair">
+						<section id="inline">
+              {this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
+              </section>
 						<section id="inline">
 							{this.state.showFields && <FieldPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 							{!this.state.showFields && <div id="hide"><FieldPanel canDrag={false} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
 						</section>
+            </div>
 					</div>}
 
 					{/*MAIN ZONE*/}
