@@ -128,7 +128,7 @@ showDropdownMenu(event) {
 					<span>
 					<div className="contentcss">{content}</div>
 					</span>
-					<button className="addButton" onClick = {() => this.addButton()}>➕</button>
+					{this.props.timeline.built && <button className="addButton" onClick = {() => this.addButton()}>➕</button>}
 					<div className="subcardGroup">
 					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
 					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>

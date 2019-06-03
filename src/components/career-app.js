@@ -446,23 +446,17 @@ class CareerApp extends React.Component {
   	  });
     }
 
-    addButton(timeId, cardId) {
-		this.setState(prevState => {
-		    let newState = prevState;
-		    let cardsLength = Object.keys(this.state.cards).length;
-		    let newCard = 'card-' +(cardsLength);
-		      newState.cards[newCard] = {
-		        if: newCard,
-		        prompt: 'Please drag in a career & field',
-		        career: '',
-		        field: '',
-		        finance: '',
-		        isVisible: true,
-		      }
-		      newState.timelines[timeId].cardIds.splice(cardId,0,newCard);
-		      return newState;
-
-		  });
+    addButton(timeId,cardId) {
+    	this.setState(prevState => {
+  			let newState = prevState;
+  			let timelinesLength = Object.keys(this.state.timelines).length;
+  			let cardsLength = Object.keys(this.state.cards).length;
+  			let newCardId = 'card-' + (cardsLength);
+  			let index = this.indexOfCard(timeId,cardId) + 1;
+  			newState.cards[newCardId] = { id: newCardId, prompt: "Drag a career & field from the drawer", career: "", field: "", duration: 0, finance: 0, isVisible: true};
+  			newState.timelines[timeId].cardIds.splice(index,0,newCardId);
+  			return newState;
+  		});
     }
 
     deleteButton(timeId, cardId) {
@@ -514,6 +508,7 @@ class CareerApp extends React.Component {
 	  	fontWeight: 'bold',
 	  	fontSize: 16,
 	  	letterSpacing: 1,
+	  	marginBottom: 15,
 		};
 
 
@@ -565,13 +560,13 @@ class CareerApp extends React.Component {
 								<Draggable draggableId={timeline.id} index={index}>
 								{(provided, snapshot) => (
 								<div {...provided.draggableProps} ref={provided.innerRef}>
-									{/*TIMELINE TITLE*/}
+									{/*TIMELINE TITLE - UNCOMMENT TO REIMPLEMENT
 									{this.state.showTimelineTitle &&
 									<div>
 										<div {...provided.dragHandleProps} className="timelineTitle" id="inline"><center><h1>{timeline.title}</h1></center></div>
 										<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
 										<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
-									</div>}
+									</div>}*/}
 
 									{/*TIMELINE EVENTS*/}
 									<div id="inline">
@@ -658,8 +653,13 @@ class CareerApp extends React.Component {
 										<div id="inline" className="inlineCard">
 											<OptionStack state={this.state} timeline={timeline} chooseOption={(item)=> this.chooseOption(timeline.id,item)}/>
 										</div>
-										<div id="inline" className="inlineCard">
-											<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+										<div id="inline" className="inlineInfo">
+											<div className="cardBackground" {...provided.dragHandleProps}></div>
+											<div className="target" id="whiteBackground">
+												{this.timelineInfo(timeline.id)}
+												<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
+												<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
+											</div>
 											<p id="clear">.</p>
 											<center>{netBox}</center>
 										</div>
