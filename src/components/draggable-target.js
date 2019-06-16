@@ -58,7 +58,7 @@ showDropdownMenu(event) {
 	handleDrop = (target, type, name) => {
 		if (target < 0)
 		{
-			return this.props.handleDrop(this.props.id + .1, type, name);
+			return this.props.handleDrop(parseInt(this.props.id) + .1, type, name);
 		}
 		else
 		{
@@ -136,7 +136,6 @@ showDropdownMenu(event) {
 					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
 					</div>
 				</div>
-
 				{label}
 				<center>{costEarnings}</center>
 
