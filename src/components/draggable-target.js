@@ -10,9 +10,6 @@ import DraggableSource from './draggable-source.js';
 import Button from '@material-ui/core/Button';
 import Search from './search-bar.js';
 import TemporaryDrawer from './TemporaryDrawer.js';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -128,13 +125,12 @@ showDropdownMenu(event) {
 
 					<span>
 					<div className="contentcss">{content}</div>
-
 					</span>
-					<button className="addButton" onClick = {() => this.addButton()}>➕</button>
+					{this.props.timeline.built && <button className="addButton" onClick = {() => this.addButton()}>➕</button>}
 					<div className="subcardGroup">
 					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
 					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
-					</div>
+</div>
 				</div>
 				{label}
 				<center>{costEarnings}</center>

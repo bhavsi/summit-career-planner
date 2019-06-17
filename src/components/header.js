@@ -89,6 +89,8 @@ class Header extends React.Component{
 	    <div className="header">
 		<AppBar>
 		    <Toolbar className="header">
+        <img src="http://pngriver.com/wp-content/uploads/2017/11/Open_book-free-PNG-transparent-background-images-free-download-clipart-pics-open-book-icon-89881.png" height="100" />
+
 			    <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
 				<Link to="/" className="headertext">
 				    <p><h1>SandBox</h1>

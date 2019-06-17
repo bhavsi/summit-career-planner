@@ -19,8 +19,6 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import FieldPanel from './field-panel.js';
 import CareerPanel from './career-panel.js';
 import DraggableTarget from './draggable-target.js';
-import drawer from './TemporaryDrawer.js';
-import TemporaryDrawer from './TemporaryDrawer.js';
 import SandBox from './Sandbox.js';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -32,10 +30,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 import OptionStack from './option-stack.js';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-
-
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -95,7 +89,7 @@ class CareerApp extends React.Component {
 		age: 17,
 		gradDate: 2020,
 		onIntro: true,
-		showFields: true,
+		showFields: false,
 		showCareers: true,
 		showNet: false,
 	    showButtons: false,
@@ -106,7 +100,6 @@ class CareerApp extends React.Component {
 	constructor(props){
 		super(props);
 		this.onDragEnd = this.onDragEnd.bind(this);
-
 	    this.addButton = this.addButton.bind(this);
 	    this.deleteButton = this.deleteButton.bind(this);
 	    this.buildTimeline = this.buildTimeline.bind(this);
@@ -164,7 +157,7 @@ class CareerApp extends React.Component {
 
 			//VISIBILITY: Check if 1st spot is filled
 			if (newState.cards[firstCardId].career != "") visibility = true;
-			else visibility = true;
+			else visibility = false;
 
 			newState.showFields = visibility;
 			for (var i = 1; i < newState.timelines[timeId].cardIds.length; i++)
@@ -240,8 +233,6 @@ class CareerApp extends React.Component {
   		this.setState(prevState => {
   			let newState = prevState;
   			let cardsSize = Object.keys(this.state.cards).length;
-  			newState.showFields = true;
-			  newState.showCareers = true;
   			newState.buttonIsVisible = false;
   			newState.showNet = true;
   			newState.onIntro = false;
@@ -444,31 +435,18 @@ class CareerApp extends React.Component {
   	}
 
     //Button functions
-    editCard(cardId) {
-      this.setState(prevState => {
-      	let newState = prevState;
-      	newState.cards[cardId].canDrag = false;
-      	return newState;
-  	  });
-    }
 
-    addButton(timeId, cardId) {
-		this.setState(prevState => {
-		    let newState = prevState;
-		    let cardsLength = Object.keys(this.state.cards).length;
-		    let newCard = 'card-' +(cardsLength);
-		      newState.cards[newCard] = {
-		        if: newCard,
-		        prompt: 'Please drag in a career & field',
-		        career: '',
-		        field: '',
-		        finance: '',
-		        isVisible: true,
-		      }
-		      newState.timelines[timeId].cardIds.splice(cardId,0,newCard);
-		      return newState;
-
-		  });
+    addButton(timeId,cardId) {
+    	this.setState(prevState => {
+  			let newState = prevState;
+  			let timelinesLength = Object.keys(this.state.timelines).length;
+  			let cardsLength = Object.keys(this.state.cards).length;
+  			let newCardId = 'card-' + (cardsLength);
+  			let index = this.indexOfCard(timeId,cardId) + 1;
+  			newState.cards[newCardId] = { id: newCardId, prompt: "Drag a career & field from the drawer", career: "", field: "", duration: 0, finance: 0, isVisible: true};
+  			newState.timelines[timeId].cardIds.splice(index,0,newCardId);
+  			return newState;
+  		});
     }
 
     deleteButton(timeId, cardId) {
@@ -520,6 +498,7 @@ class CareerApp extends React.Component {
 	  	fontWeight: 'bold',
 	  	fontSize: 16,
 	  	letterSpacing: 1,
+	  	marginBottom: 15,
 		};
 
 
@@ -528,6 +507,8 @@ class CareerApp extends React.Component {
 				<div className="careerApp">
         		<DragCardsContext onDragEnd={this.onDragEnd}>
         			{/*PULLOUT DRAWER*/}
+					{this.state.timelines['time-0'].built && <div>
+                		<br/>
 
 	                {/*SANDBOX ZONE*/}
 	                <SandBox state={this.state}/>
@@ -535,17 +516,16 @@ class CareerApp extends React.Component {
 	                </div>}
 
              	   {/*CAREER & FIELD PANELS*/}
-					{this.state.onIntro && <div id="inline">
-          <div className="panelpair">
-						<section id="inline">
-              {this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}
-              </section>
+					<div id="inline">
+            <div className = "panels">
+						<section id="inline">{this.state.showCareers && <CareerPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)} lowerBound={this.state.lowerBound} changeLB={(newLB) => this.changeLB(newLB)}/>}</section>
 						<section id="inline">
 							{this.state.showFields && <FieldPanel canDrag={true} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/>}
 							{!this.state.showFields && <div id="hide"><FieldPanel canDrag={false} handleDrop={(target, type, name) => this.updateTarget(target, type, name)}/></div>}
 						</section>
             </div>
-					</div>}
+					</div>
+
 
 					{/*MAIN ZONE*/}
 					<div id="inline">
@@ -572,13 +552,13 @@ class CareerApp extends React.Component {
 								<Draggable draggableId={timeline.id} index={index}>
 								{(provided, snapshot) => (
 								<div {...provided.draggableProps} ref={provided.innerRef}>
-									{/*TIMELINE TITLE*/}
+									{/*TIMELINE TITLE - UNCOMMENT TO REIMPLEMENT
 									{this.state.showTimelineTitle &&
 									<div>
 										<div {...provided.dragHandleProps} className="timelineTitle" id="inline"><center><h1>{timeline.title}</h1></center></div>
 										<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
 										<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
-									</div>}
+									</div>}*/}
 
 									{/*TIMELINE EVENTS*/}
 									<div id="inline">
@@ -636,8 +616,7 @@ class CareerApp extends React.Component {
 														 deleteButton={() => this.deleteButton(timeline.id,card.id)}
 														 addButton={() => this.addButton(timeline.id,card.id)}
 														 locationButton={() => this.locationButton()}
-							                             exploreButton={() => this.exploreButton()}
-							                           editButton={() => this.editButton()}/>}
+							                             exploreButton={() => this.exploreButton()}/>}
 													{!this.state.cards[cardId].isVisible && <div id="hide"><DraggableTarget canDrag={false}
 														 timeline={timeline}
 														 card={this.state.cards[cardId]}
@@ -665,8 +644,13 @@ class CareerApp extends React.Component {
 										<div id="inline" className="inlineCard">
 											<OptionStack state={this.state} timeline={timeline} chooseOption={(item)=> this.chooseOption(timeline.id,item)}/>
 										</div>
-										<div id="inline" className="inlineCard">
-											<div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
+										<div id="inline" className="inlineInfo">
+											<div className="cardBackground" {...provided.dragHandleProps}></div>
+											<div className="target" id="whiteBackground">
+												{this.timelineInfo(timeline.id)}
+												<button className="cloneTimeline" id="inline" onClick = {(timeId) => this.cloneTimeline(timeline.id)}>CLONE</button>
+												<button className="deleteTimeline" id="inline" onClick = {(timeId) => this.deleteTimeline(timeline.id)}>DELETE</button>
+											</div>
 											<p id="clear">.</p>
 											<center>{netBox}</center>
 										</div>
