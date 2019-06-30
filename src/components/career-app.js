@@ -3,11 +3,6 @@
 //    Holds everything inside
 //***************************************************
 
-//***************************************************
-//    career-app.js    Author: Austin George
-//    Holds everything inside
-//***************************************************
-
 import React from 'react';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -143,6 +138,7 @@ class CareerApp extends React.Component {
 			}
 
 			//ADD SOURCE TO TARGET
+			if(target < 0) return;
 			let cardId = 'card-' + target;
 			let timeId = this.findTimeline(cardId); //Heavy Command
 			let firstCardId = newState.timelines[timeId].cardIds[0];
