@@ -65,7 +65,6 @@ showDropdownMenu(event) {
 
 	deleteButton = () => {return this.props.deleteButton();}
 	addButton = () => {return this.props.addButton();}
-	editButton = () => {return this.props.editButton();}
 	locationButton = () => {return this.props.locationButton();}
 	exploreButton = () => {return this.props.exploreButton();}
 
@@ -118,7 +117,6 @@ showDropdownMenu(event) {
 	<p>{this.props.card.duration} years</p>
 </div>*/}
 					{this.props.canDrag && this.props.timeline.built && <div className="cardButtons">
-					<button className="editButton" onClick = {() => this.editButton()}>✏️</button>
 											<button className="deleteButton" onClick = {() => this.deleteButton()}>✖️</button>
 						<p id="inline" className="subcardDuration">{this.props.card.duration} years</p>
 
@@ -128,7 +126,7 @@ showDropdownMenu(event) {
 					<span>
 					<div className="contentcss">{content}</div>
 					</span>
-					<button className="addButton" onClick = {() => this.addButton()}>➕</button>
+					{this.props.timeline.built && <button className="addButton" onClick = {() => this.addButton()}>➕</button>}
 					<div className="subcardGroup">
 					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
 					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>

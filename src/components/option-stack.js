@@ -4,8 +4,11 @@
 //**********************************************
 
 import React from 'react';
-import Button from '@material-ui/core/Button'; 
+import Button from '@material-ui/core/Button';
 import ReactHover from 'react-hover';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 class OptionStack extends React.Component {
 	state = {
@@ -24,7 +27,7 @@ class OptionStack extends React.Component {
 		const style = {
 			width:240,
 			height: 58,
-			background: '#33ccff',
+			background: '#ef7a8b',
 			fontSize: 12,
 		};
 

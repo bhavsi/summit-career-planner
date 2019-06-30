@@ -5,9 +5,11 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
 
 class Header extends React.Component{
     constructor(props){
@@ -52,11 +54,11 @@ class Header extends React.Component{
 	if(this.props.auth.isLoaded && !this.props.auth.isEmpty){
 	    // user is logged in!
 	    greeting = <span>Hello {this.props.auth.email}!
-		<Link to="/sandwiches">
+		<Link to="/">
 		    <Button variant="contained"
 			style={{marginLeft: 30}}
 			    color="secondary">
-			Muh Sandwiches
+
 		    </Button>
 	    	</Link>
 
@@ -87,10 +89,12 @@ class Header extends React.Component{
 	    <div className="header">
 		<AppBar>
 		    <Toolbar className="header">
+        <img src="http://pngriver.com/wp-content/uploads/2017/11/Open_book-free-PNG-transparent-background-images-free-download-clipart-pics-open-book-icon-89881.png" height="100" />
+
 			    <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
 				<Link to="/" className="headertext">
-				    <h2>SandBox</h2>
-            <h5>Lets Explore the Future Together</h5>
+				    <p><h1>SandBox</h1>
+            <h5>Let{`'`}s Explore the Future Together</h5></p>
 				</Link>
 
 			    </Typography>

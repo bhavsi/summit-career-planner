@@ -14,6 +14,9 @@ import { DropTarget } from 'react-dnd';
 import DraggableSource from './draggable-source.js';
 import BackButton from './back-button.js';
 import Search from './search-bar.js';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -121,7 +124,9 @@ if (this.state.showFields){
 		return connectDropTarget(
 			<div className="fieldPanel">
 				<h1>Fields</h1>
+				<div className="searchBar">
 							<Search/>
+							</div>
 				{fields}
 					<button
 						className="backButton"

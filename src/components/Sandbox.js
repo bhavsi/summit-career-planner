@@ -14,6 +14,9 @@ import DraggableSource from './draggable-source.js';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { DragDropContext as DragCardsContext } from 'react-beautiful-dnd';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 const itemTarget = {
 	drop(props, monitor, component){
@@ -42,7 +45,7 @@ class SandBox extends React.Component {
 }
 
   state = {
-    open: false,
+    open: true,
   };
 
   timelineInfo = (timeId) => {
