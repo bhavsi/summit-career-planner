@@ -587,7 +587,7 @@ class CareerApp extends React.Component {
 															<p>{age} y/o</p>
 														</div>
 													</div>}
-													{index != 0 && <div className="timeStamp" id="inline">
+													{index != 0 && <div className="timeStampX" id="inline">
 														<p>{date}</p>
 														<p>{age} y/o</p>
 													</div>}
