@@ -629,8 +629,8 @@ class CareerApp extends React.Component {
 
 									{/*HOW DO I GET THERE?*/}
 									{this.state.onIntro && <div id="inline" className="inlineCard">
-										{this.state.buttonIsVisible && <Button onClick={() => this.buildTimeline()} style={style}>How do I get there?</Button>}
-										{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}
+										{this.state.buttonIsVisible && <Button onClick={() => this.buildTimeline()} style={style}>Where do I go from here?</Button>}
+										{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>Where do I go from here?</Button></div>}
 										<p id="clear">.</p>
 										<div className="zilch"></div>
 									</div>}

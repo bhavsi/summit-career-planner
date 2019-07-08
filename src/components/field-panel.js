@@ -34,32 +34,33 @@ function collect(connect, monitor){
 
 class FieldPanel extends React.Component {
 	state = {
-		level: -1,
-		isToggleOn: false,
-		showFields: false,
+		levelA: -1,
+		levelB: -1,
 	}
 
 	constructor(props) {
     super(props);
 
     // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
-		this.showFields = this.showFields.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+	this.showFields = this.showFields.bind(this);
   }
 
-
-	handleClick() {
+	handleChange(name,value) {
+		//Evade Categories That Do Not Contain Level C
+		if(name == 'levelB' && typeof this.props.options.fields[this.state.levelA].fields[value].fields === "undefined") return;
 	    this.setState(prevState => ({
-				level: 4,
-				isToggleOn: !prevState.isToggleOn,
-				showFields: !prevState.showFields,
+				[name]: value
 	    }));
 	  }
 
 	showFields() {
-		this.setState(prevState => ({
-				showFields: !prevState.showFields,
-		}));
+		this.setState(prevState => {
+			let newState = prevState;
+			if(newState.levelB >= 0) newState.levelB = -1;
+			else if (newState.levelA >= 0) newState.levelA = -1;
+			return newState;
+		});
 console.log("prsssed");
 
 }
@@ -75,51 +76,58 @@ console.log("prsssed");
 		let fields;
 
 		if(isLoaded(this.props.options)){
-			if (this.state.level < 0 || this.state.showFields) {
-			fields = <div className="innerFields"
-			onClick={this.handleClick}>
+			//LEVEL A
+			if (this.state.levelA < 0 || this.state.showFields) {
+			fields = <div className="innerFields">
 						{this.props.options.fields.map((item, index) => (
-							<DraggableSource
+							<div onClick={() => this.handleChange('levelA',index)}><DraggableSource
+							origin="panel"
 							canDrag={this.props.canDrag}
 							key={index}
 							type="field"
 							index={index}
 							item={item}
+							handleClick={() => this.setLevel(index)}
+							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/></div>
+							))}
+					</div>;
+			}
+
+			//LEVEL B
+			else if (this.state.levelB < 0) {
+			fields = <div className="innerFields">
+						{this.props.options.fields[this.state.levelA].fields.map((item, index) => (
+							<div onClick={() => this.handleChange('levelB',index)}><DraggableSource
+							origin="panel"
+							canDrag={this.props.canDrag}
+							key={index}
+							type="field"
+							index={index}
+							item={item}
+							handleClick={() => this.setLevel(index)}
+							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/></div>
+							))}
+					</div>;
+
+			}
+
+			//LEVEL C
+			else {
+			fields = <div className="innerFields">
+						{this.props.options.fields[this.state.levelA].fields[this.state.levelB].fields.map((item, index) => (
+							<DraggableSource
+							origin="panel"
+							canDrag={this.props.canDrag}
+							key={index}
+							type="field"
+							index={index}
+							item={item}
+							handleClick={() => this.setLevel(index)}
 							handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
 							))}
 					</div>;
+			}
 		}
-else {
-			fields =  <div className="innerFields"
-			onClick={this.handleClick}>
-					{this.props.options.fields[this.state.level].sublevels.map((item, index) => (
-				<DraggableSource
-				canDrag={this.props.canDrag}
-				key={index}
-				type="field"
-				index={index}
-				item={item}
-				handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-				))}
-						</div>;
-
-	}
-
-if (this.state.showFields){
-		fields = <div className="innerFields"
-		onClick={this.handleClick}>
-					{this.props.options.fields.map((item, index) => (
-						<DraggableSource
-						canDrag={this.props.canDrag}
-						key={index}
-						type="field"
-						index={index}
-						item={item}
-						handleDrop={(target, type, name) => this.handleDrop(target, type, name)}/>
-						))}
-				</div>;
-	}
-}
 
 		return connectDropTarget(
 			<div className="fieldPanel">
