@@ -243,7 +243,8 @@ div#inline.timeline {
   font-size: 1vw;
   border: 2px darkgreen solid;
   margin-right: 3.5vw;
-  margin-top: 20px;
+  margin-top: 2vw;
+  margin-bottom: -5vw;
   z-index: 1000;
 }
 
@@ -285,7 +286,7 @@ span {
 }
 
 .fieldPanel {
-  margin-top: -4vw;
+  margin-top: 0vw;
   height: auto;
   width: 12.5vw;
   background-color: #F7B733;
@@ -297,7 +298,7 @@ span {
 
 
 .careerPanel {
-  margin-top: -5vw;
+  margin-top: 0vw;
   height: auto;
   width: 12.5vw;
   background-color: #f77754;
