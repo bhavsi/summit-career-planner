@@ -26,7 +26,7 @@ const itemTarget = {
 
 const styles = {
   root: {
-      backgroundColor: "transparent",
+
   },
 
   list: {
@@ -82,6 +82,19 @@ class SandBox extends React.Component {
     this.setState({ open: false });
   };
 
+	handleClick = () => {
+	 this.setState({
+		 open: true
+	 });
+ }
+
+ toggleDrawer = (side, open) => () => {
+	 this.setState({
+		 [side]: open,
+	 });
+ };
+
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -89,8 +102,15 @@ class SandBox extends React.Component {
 
     return (
       <div>
-        <Drawer open={open} anchor="right" variant="persistent">
-          <div
+			<button
+				className="sandboxButton"
+				onClick={this.toggleDrawer('right',true)}>Open SandBox</button>
+        <Drawer
+						open={this.state.right}
+						onClose={this.toggleDrawer('right',false)}
+						anchor="right"
+						variant="persistent">
+				  <div
             tabIndex={0}
             role="button">
             <div className="sandboxBoundary">
@@ -108,9 +128,9 @@ class SandBox extends React.Component {
                   {/*TIMELINE ICON*/}
                   return (
                     <div>
+
                     <Draggable draggableId={timeline.id} index={index}>
                     {(provided, snapshot) => (
-
                     <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
                       <div className="target" id="whiteBackground">{this.timelineInfo(timeline.id)}</div>
                     </div>)}
@@ -122,7 +142,7 @@ class SandBox extends React.Component {
                 </Droppable>
               </div>
           </div>
-					<Button className="pageButtons" onClick={this.handleDrawerClose}>
+					<Button className="pageButtons" onClick={this.toggleDrawer('right',false)}>
 						CLOSE
 					</Button>
         </Drawer>
@@ -132,7 +152,8 @@ class SandBox extends React.Component {
 }
 
 SandBox.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool,
 };
 
-export default withStyles(styles)(SandBox);
+export default SandBox

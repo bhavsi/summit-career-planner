@@ -30,6 +30,13 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import DialogActions from '@material-ui/core/DialogActions';
 import OptionStack from './option-stack.js';
+import {
+  ReflexContainer,
+  ReflexSplitter,
+  ReflexElement
+} from 'react-reflex'
+
+import 'react-reflex/styles.css';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -508,11 +515,10 @@ class CareerApp extends React.Component {
         		<DragCardsContext onDragEnd={this.onDragEnd}>
         			{/*PULLOUT DRAWER*/}
 					{this.state.timelines['time-0'].built && <div>
-                		<br/>
+
 
 	                {/*SANDBOX ZONE*/}
 	                <SandBox state={this.state}/>
-	                <br/>
 	                </div>}
 
              	   {/*CAREER & FIELD PANELS*/}
@@ -529,6 +535,7 @@ class CareerApp extends React.Component {
 
 					{/*MAIN ZONE*/}
 					<div id="inline">
+
 						<Droppable droppableId="zone-0" type="timeline">
 						{(provided, snapshot) => (
 						<div className="mainZone" {...provided.droppableProps} ref={provided.innerRef}>
@@ -543,8 +550,8 @@ class CareerApp extends React.Component {
 							}
 
 							let netBox;
-							if (net < 0) netBox = <div><section className="filler"></section><section className="cost"><p>Net Loss: ${net}</p></section></div>;
-							else netBox = <div className="earnings"><p>Net Gain: ${net}</p></div>;
+							if (net < 0) netBox = <div><section className="filler"></section><section className="cost"><p>Net Loss: ${net.toLocaleString()}</p></section></div>;
+							else netBox = <div className="Netearnings"><p>Net Gain: ${net.toLocaleString()}</p></div>;
 
 							{/*TIMELINE*/}
 							return (

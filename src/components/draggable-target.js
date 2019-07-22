@@ -98,14 +98,14 @@ showDropdownMenu(event) {
 		let label;
 
 		if (this.props.card.prompt == "Right now, I'm in ..." && this.props.card.career != '') label = <center><p><b>You Are Here</b></p></center>
-		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career == '' && this.props.card.field != "") label = <center><p><i>Please enter a career</i></p></center>
-		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career != '') label = <center><p><b>Your Goal</b></p></center>
+		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career == '' && this.props.card.field != "") label = <p><i>Please enter a career</i></p>
+		else if (this.props.card.prompt == "In the future, I'd like to be in ..." && this.props.card.career != '') label = <p><b>Your Goal</b></p>
 		else label = <p id="clear">.</p>
 
 		let costEarnings;
 
-		if (this.props.card.finance > 0) costEarnings = <div className="earnings"><p>+{this.props.card.finance}</p></div>
-		else if (this.props.card.finance < 0) costEarnings = <div className="cost"><p>{this.props.card.finance}</p></div>
+		if (this.props.card.finance > 0) costEarnings = <div className="earnings"><p>+{this.props.card.finance.toLocaleString()}</p></div>
+		else if (this.props.card.finance < 0) costEarnings = <div className="cost"><p>{this.props.card.finance.toLocaleString()}</p></div>
 		else costEarnings = <div className="zilch"></div>;
 
 		return connectDropTarget(
@@ -127,12 +127,14 @@ showDropdownMenu(event) {
 					<div className="contentcss">{content}</div>
 					</span>
 					{this.props.timeline.built && <button className="addButton" onClick = {() => this.addButton()}>➕</button>}
-					<div className="subcardGroup">
-					<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
-					<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
-</div>
+
 				</div>
-				{label}
+
+		<div className="cardlabel">{label}</div>
+		<div className="subcardGroup">
+		<button className="subcardButtons" onClick = {() => this.locationButton()}>Location</button>
+		<button className="subcardButtons" onClick = {() => this.exploreButton()}>Explore</button>
+</div>
 				<center>{costEarnings}</center>
 
 			</div>
