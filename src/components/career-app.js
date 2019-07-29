@@ -246,7 +246,7 @@ class CareerApp extends React.Component {
   				newState.cards['card-1'].finance = -25000;
   				newState.cards['card-1'].duration = 4;
   			}
-  			else
+  			else //NOT BACHELORS
   			{
 	  			newState.cards['card-1'].finance = 80000;
 	  			newState.cards['card-1'].duration = 5; //alternative: cap off total duration to 10
@@ -256,6 +256,7 @@ class CareerApp extends React.Component {
 	  			newState.timelines['time-0'].cardIds.splice(2,0,'card-' + (cardsSize + 1));
   			}
 
+  			//Determine net gain/loss
   			for (var i = 0; i < newState.timelines['time-0'].cardIds.length; i++)
   			{
   				let currCardId = newState.timelines['time-0'].cardIds[i];

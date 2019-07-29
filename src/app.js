@@ -56,13 +56,6 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-
-
-
-
-
-
-
 /*
    --------
    setup redux and router
