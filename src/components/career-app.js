@@ -3,11 +3,6 @@
 //    Holds everything inside
 //***************************************************
 
-//***************************************************
-//    career-app.js    Author: Austin George
-//    Holds everything inside
-//***************************************************
-
 import React from 'react';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -143,6 +138,7 @@ class CareerApp extends React.Component {
 			}
 
 			//ADD SOURCE TO TARGET
+			if(target < 0) return;
 			let cardId = 'card-' + target;
 			let timeId = this.findTimeline(cardId); //Heavy Command
 			let firstCardId = newState.timelines[timeId].cardIds[0];
@@ -250,7 +246,7 @@ class CareerApp extends React.Component {
   				newState.cards['card-1'].finance = -25000;
   				newState.cards['card-1'].duration = 4;
   			}
-  			else
+  			else //NOT BACHELORS
   			{
 	  			newState.cards['card-1'].finance = 80000;
 	  			newState.cards['card-1'].duration = 5; //alternative: cap off total duration to 10
@@ -260,6 +256,7 @@ class CareerApp extends React.Component {
 	  			newState.timelines['time-0'].cardIds.splice(2,0,'card-' + (cardsSize + 1));
   			}
 
+  			//Determine net gain/loss
   			for (var i = 0; i < newState.timelines['time-0'].cardIds.length; i++)
   			{
   				let currCardId = newState.timelines['time-0'].cardIds[i];
@@ -591,7 +588,7 @@ class CareerApp extends React.Component {
 															<p>{age} y/o</p>
 														</div>
 													</div>}
-													{index != 0 && <div className="timeStamp" id="inline">
+													{index != 0 && <div className="timeStampX" id="inline">
 														<p>{date}</p>
 														<p>{age} y/o</p>
 													</div>}
@@ -633,8 +630,8 @@ class CareerApp extends React.Component {
 
 									{/*HOW DO I GET THERE?*/}
 									{this.state.onIntro && <div id="inline" className="inlineCard">
-										{this.state.buttonIsVisible && <Button onClick={() => this.buildTimeline()} style={style}>How do I get there?</Button>}
-										{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>How do I get there?</Button></div>}
+										{this.state.buttonIsVisible && <Button onClick={() => this.buildTimeline()} style={style}>Where do I go from here?</Button>}
+										{!this.state.buttonIsVisible && <div id="hide"><Button style={style}>Where do I go from here?</Button></div>}
 										<p id="clear">.</p>
 										<div className="zilch"></div>
 									</div>}

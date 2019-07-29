@@ -4,6 +4,9 @@
 //**********************************************
 
 import React from 'react';
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import {firebaseConnect, isLoaded, isEmpty} from "react-redux-firebase";
 import Button from '@material-ui/core/Button';
 import ReactHover from 'react-hover';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +15,9 @@ import Typography from '@material-ui/core/Typography';
 
 class OptionStack extends React.Component {
 	state = {
+		track: "",
+		optionA: -1,
+		optionB: -1,
 	}
 
 	constructor(props){
@@ -19,9 +25,31 @@ class OptionStack extends React.Component {
 	    this.chooseOption = this.chooseOption.bind(this);
 	};
 
-	chooseOption(career,field){
-		return this.props.chooseOption(career,field);
+	//Note: you should set optionA or optionB here
+	chooseOption(item, index){
+		if(this.state.optionA < 0)
+		{
+			/*this.setState(prevState => ({
+				optionA: index
+			}));*/
+
+	  		this.setState(prevState => {
+	  			let newState = prevState;
+	  			newState.optionA = index;
+	  			console.log('bruh: ' + newState.optionA);
+	  			return newState;
+	  		});
+  		}
+		return this.props.chooseOption(item);
 	}
+
+	setTrack(value) {
+		console.log("here's the value: " + value);
+	    this.setState(prevState => ({
+	    	track: value
+	    }));
+	  }
+
 	render(){
 		//Note: Material UI Buttons require in-code styling
 		const style = {
@@ -37,62 +65,55 @@ class OptionStack extends React.Component {
 		  shiftY: 0,
 		}
 
+		let data = require('../career-data.json');
+
 		let timeline = this.props.timeline;
-		console.log("Hopeful Last Card ID:" + timeline.cardIds[timeline.cardIds.length-1]);
 		let lastCard = this.props.state.cards[timeline.cardIds[timeline.cardIds.length-1]];
+		//2nd might be a vulnerability
+		let secondCard = this.props.state.cards[timeline.cardIds[1]];
+		let track = secondCard.career + " in " + secondCard.field;
 		let suggestions;
 
-		//TEMPORARY LOGIC: Serves to demonstrate proof of concept
-		if(lastCard.career === 'Bachelors')
+		if(this.state.optionA < 0)
 		{
-			suggestions = [
-				{career: 'Masters', field: 'Degree 1', frequency: .06, duration: 2, finance: -19000},
-				{career: 'Masters', field: 'Degree 2', frequency: .03, duration: 2, finance: -19000},
-				{career: 'Masters', field: 'Degree 3', frequency: .02, duration: 2, finance: -22000},
-				{career: 'Occupation', field: 'Job 1', frequency: .45, duration: 5, finance: 65000},
-				{career: 'Occupation', field: 'Job 2', frequency: .23, duration: 5, finance: 62000},
-				{career: 'Occupation', field: 'Job 3', frequency: .21, duration: 5, finance: 64000},
-			];
+			suggestions = data.tracks[track].options;
 		}
-		else if (lastCard.career === 'Masters')
+		else if (this.state.optionB < 0)
 		{
-			suggestions = [
-				{career: 'Doctorate', field: 'Degree 1', frequency: .03, duration: 2, finance: -19000},
-				{career: 'Doctorate', field: 'Degree 2', frequency: .02, duration: 2, finance: -19000},
-				{career: 'Doctorate', field: 'Degree 3', frequency: .01, duration: 2, finance: -22000},
-				{career: 'Occupation', field: 'Job 1', frequency: .53, duration: 5, finance: 95000},
-				{career: 'Occupation', field: 'Job 2', frequency: .26, duration: 5, finance: 115000},
-				{career: 'Occupation', field: 'Job 3', frequency: .15, duration: 5, finance: 120000},
-			];
+			suggestions = data.tracks[track].options[this.state.optionA].options;
 		}
 		else
 		{
 			suggestions = [
-				{career: 'Occupation', field: 'Job 1', frequency: .43, duration: 2, finance: 140000},
-				{career: 'Occupation', field: 'Job 2', frequency: .21, duration: 2, finance: 152000},
-				{career: 'Occupation', field: 'Job 3', frequency: .17, duration: 2, finance: 150000},
-				{career: 'Occupation', field: 'Job 4', frequency: .11, duration: 5, finance: 160000},
-				{career: 'Occupation', field: 'Job 5', frequency: .05, duration: 5, finance: 174000},
-				{career: 'Occupation', field: 'Job 6', frequency: .03, duration: 5, finance: 220000},
+				{career: 'Occupation', field: 'Job 1'},
+				{career: 'Occupation', field: 'Job 2'},
+				{career: 'Occupation', field: 'Job 3'},
+				{career: 'Occupation', field: 'Job 4'},
+				{career: 'Occupation', field: 'Job 5'},
+				{career: 'Occupation', field: 'Job 6'},
 			];
 		}
 		return(
 			<div className="optionStack">
 			<center><h1>Choose The Next Step:</h1></center>
 			{suggestions.map((item,index) => {
-				let percentage = item.frequency * 100;
+				let info, percentage;
 
-				let info;
-
+				//UNCOMMENT WHEN HARSH's FINANCE DATA COMES IN
+				/*percentage = item.frequency * 100;
 				if (item.finance > 0) info = <div className="hoverBubble" id="green"><center><p>10 Yr: ${item.finance}</p></center></div>;
-				else info = <div className="hoverBubble" id="red"><center><p>10 Yr: ${item.finance * -1}</p></center></div>;
+				else info = <div className="hoverBubble" id="red"><center><p>10 Yr: ${item.finance * -1}</p></center></div>;*/
+
+				//TEMPORARY INPUTS
+				info = <div className="hoverBubble" id="red"><center><p>10 Yr: $65000</p></center></div>;
+				percentage = 16;
 
 				return (
 					<ReactHover options={options}>
 						<ReactHover.Trigger type='trigger'>
 							<div className="optionBar">
 							<center>
-								<Button onClick={() => this.chooseOption(item)} style={style}>
+								<Button onClick={() => this.chooseOption(item, index)} style={style}>
 									<h1>{percentage}% &nbsp;</h1><p className="optionLabel"><b>{item.career} in {item.field}</b></p>
 								</Button>
 							</center>
@@ -108,4 +129,9 @@ class OptionStack extends React.Component {
 	}
 }
 
-export default OptionStack
+export default compose(
+	firebaseConnect(props => [{ path: 'tracks'}]),
+	connect((state, props) => ({
+		tracks: state.firebase.data.tracks
+	}))
+	)(OptionStack)
