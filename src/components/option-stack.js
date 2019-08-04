@@ -99,7 +99,7 @@ class OptionStack extends React.Component {
 							</div>
 						</ReactHover.Trigger>
 						<ReactHover.Hover type='hover'>
-							<center>{info}</center>
+							<center>{info.toLocaleString()}</center>
 						</ReactHover.Hover>
 					</ReactHover>);
 				})}
