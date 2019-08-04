@@ -7,6 +7,8 @@ html, body{
 	margin-top: 0px;
 }
 
+
+
 h1{
 	font-family: "Helvetica";
 	margin-top: 10px;
@@ -44,6 +46,7 @@ p{
 
 #hide{
 	opacity: 0.5;
+	//manually enter lighter yellow
 }
 
 #inlineX{
@@ -68,6 +71,7 @@ p{
 .timeline{
 	max-width: 1320px;
 	overflow-x: auto;
+	margin-left: 30px;
 }
 
 .timelineTitle{
@@ -122,24 +126,32 @@ p{
 }
 
 .cloneTimeline{
-	background: #e1b5ff;
-	width: 70px;
-	height: 44px;
-	border: 2px solid black;
-	border-right: 0;
+  background-color: white;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-right: 2px;
+border: 2px darkgreen solid;
 }
 
 .deleteTimeline{
-	background: #e1b5ff;
-	width: 70px;
-	height: 44px;
-	border-radius: 0px 6px 6px 0px;
-	border: 2px solid black;
+  background-color: white;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-right: 2px;
+border: 2px darkgreen solid;
 }
 
 .inlineCard{
 	margin-left: 50px;
 	align-items: center;
+}
+
+.inlineInfo{
+	margin-left: 50px;
+	align-items: center;
+	margin-top: 90px;
 }
 
 .promptCard{
@@ -165,11 +177,11 @@ p{
 }
 
 .innerFields{
+	padding-top: 5px;
 	background-color: #b2f3ff;
 	text-align: center;
 	width: 270px;
 	height: 73vh;
-	overflow-y: scroll;
 }
 
 .field{
@@ -200,11 +212,11 @@ p{
 }
 
 .innerCareers{
+	padding-top: 5px;
 	background-color: #ffb5ca;
 	text-align: center;
 	width: 270px;
 	height: 77vh;
-	overflow-y: scroll;
 }
 
 .career{

@@ -1,0 +1,272 @@
+{
+  "options" : {
+    "careers" : [ {
+      "name" : "High School"
+    }, {
+      "name" : "Bachelors"
+    }, {
+      "name" : "Masters"
+    }, {
+      "name" : "Doctorate"
+    }, {
+      "name" : "Occupation"
+    } ],
+    "fields" : [ {
+      "fields" : [ {
+        "name" : "Philosophy"
+      }, {
+        "name" : "Historian"
+      }, {
+        "name" : "Journalist"
+      }, {
+        "name" : "English"
+      } ],
+      "name" : "Humanities"
+    }, {
+      "fields" : [ {
+        "name" : "Marketing"
+      }, {
+        "name" : "Finance"
+      }, {
+        "name" : "Human Relations"
+      }, {
+        "name" : "Entrepeneurship"
+      } ],
+      "name" : "Business"
+    }, {
+      "fields" : [ {
+        "name" : "Doctor"
+      }, {
+        "name" : "Nurse"
+      }, {
+        "name" : "Home Health Aid"
+      }, {
+        "name" : "Veterinarian"
+      } ],
+      "name" : "Health & Medicine"
+    }, {
+      "fields" : [ {
+        "name" : "Rehabilitation Counselor"
+      }, {
+        "name" : "Therapist"
+      }, {
+        "name" : "Guidance Counselor"
+      }, {
+        "name" : "Social Worker"
+      } ],
+      "name" : "Social Services"
+    }, {
+      "fields" : [ {
+        "fields" : [ {
+          "name" : "Biomedical Engineering"
+        }, {
+          "name" : "Chemical Engineering"
+        }, {
+          "name" : "Computer Science"
+        }, {
+          "name" : "Mechanical Engineering"
+        } ],
+        "name" : "Engineering"
+      }, {
+        "name" : "Biochemist"
+      }, {
+        "name" : "Software Developer"
+      }, {
+        "name" : "Mathematician"
+      } ],
+      "name" : "STEM"
+    }, {
+      "fields" : [ {
+        "name" : "Agricultural Studies"
+      }, {
+        "name" : "Economist"
+      }, {
+        "name" : "Nuclear Technician"
+      }, {
+        "name" : "Sociologist"
+      } ],
+      "name" : "Social Sciences"
+    }, {
+      "fields" : [ {
+        "name" : "Paramedic"
+      }, {
+        "name" : "Electrician"
+      }, {
+        "name" : "Landscaper"
+      }, {
+        "name" : "Auto mechanic"
+      } ],
+      "name" : "Trade Services"
+    } ]
+  },
+  "tracks" : {
+    "Bachelors in Computer Science" : {
+      "options" : [ {
+        "career" : "MS",
+        "field" : "Computer Science"
+      }, {
+        "career" : "Job",
+        "field" : "Software Engineer"
+      }, {
+        "career" : "MS",
+        "field" : "Data Science"
+      }, {
+        "career" : "MBA",
+        "field" : "Technology"
+      }, {
+        "career" : "Entrepeneur (Startup)",
+        "field" : ""
+      }, {
+        "career" : "Job",
+        "field" : "Electrical Engineer"
+      } ]
+    },
+    "Bachelors in Engineering" : {
+      "options" : [ {
+        "career" : "MS",
+        "field" : "Computer Science",
+        "options" : [ {
+          "career" : "PhD",
+          "field" : "Computer Science"
+        }, {
+          "career" : "PhD",
+          "field" : "Machine Learning AI"
+        }, {
+          "career" : "PhD",
+          "field" : "Data Science"
+        }, {
+          "career" : "Job",
+          "field" : "Senior Software Engineer"
+        }, {
+          "career" : "PhD",
+          "field" : "Systems Engineer"
+        } ]
+      }, {
+        "career" : "MS",
+        "field" : "Electrical Engineering",
+        "options" : [ {
+          "career" : "PhD",
+          "field" : "Communications Systems"
+        }, {
+          "career" : "PhD",
+          "field" : "Signal Processing"
+        }, {
+          "career" : "PhD",
+          "field" : "Nanotechnology"
+        }, {
+          "career" : "Job",
+          "field" : "Systems Engineer"
+        }, {
+          "career" : "Job",
+          "field" : "Design Engineer"
+        } ]
+      }, {
+        "career" : "MS",
+        "field" : "Mechanical Engineering",
+        "options" : [ {
+          "career" : "PhD",
+          "field" : "Robotics"
+        }, {
+          "career" : "PhD",
+          "field" : "Industrial Design and Manufacturing"
+        }, {
+          "career" : "PhD",
+          "field" : "Solid Dynamics"
+        }, {
+          "career" : "Job",
+          "field" : "Mechanical Engineer"
+        }, {
+          "career" : "Job",
+          "field" : "Design and Manufacturing"
+        }, {
+          "career" : "Job",
+          "field" : "Aerospace Engineer"
+        } ]
+      }, {
+        "career" : "Job",
+        "field" : "Software Engineer",
+        "options" : [ {
+          "career" : "Job",
+          "field" : "Senior Software Engineer"
+        }, {
+          "career" : "MS",
+          "field" : "Computer Science"
+        }, {
+          "career" : "MS",
+          "field" : "Data Science"
+        }, {
+          "career" : "MS",
+          "field" : "Artificial Intelligence"
+        }, {
+          "career" : "Job",
+          "field" : "Team Lead"
+        } ]
+      }, {
+        "career" : "Job",
+        "field" : "Electrical Engineer",
+        "options" : [ {
+          "career" : "Job",
+          "field" : "Systems Engineer"
+        }, {
+          "career" : "Job",
+          "field" : "Design Engineer"
+        }, {
+          "career" : "Job",
+          "field" : "Team Lead"
+        }, {
+          "career" : "MS",
+          "field" : "Electrical Engineering"
+        }, {
+          "career" : "MS",
+          "field" : "Computer Engineering"
+        }, {
+          "career" : "MS",
+          "field" : "Nanotechnology"
+        } ]
+      }, {
+        "career" : "Job",
+        "field" : "Chemical Engineer",
+        "options" : [ {
+          "career" : "Job",
+          "field" : "Process Engineer"
+        }, {
+          "career" : "MS",
+          "field" : "CHemical Engineer"
+        }, {
+          "career" : "MS",
+          "field" : "Material Sciences"
+        }, {
+          "career" : "MS",
+          "field" : "Biochemical Engineering"
+        }, {
+          "career" : "MS",
+          "field" : "Environmental Engineering"
+        }, {
+          "career" : "MS",
+          "field" : "Nanotechnology"
+        } ]
+      } ]
+    },
+    "Bachelors in Science" : {
+      "options" : [ {
+        "career" : "MS",
+        "field" : "Computer Science"
+      }, {
+        "career" : "MS",
+        "field" : "Applied Biology"
+      }, {
+        "career" : "Medical School",
+        "field" : ""
+      }, {
+        "career" : "Nursing School",
+        "field" : ""
+      }, {
+        "career" : "MS",
+        "field" : "Electrical Engineer"
+      }, {
+        "career" : "Job",
+        "field" : "Healthcare Administration"
+      } ]
+    }
+  }
+}
