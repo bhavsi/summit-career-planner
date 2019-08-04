@@ -102,10 +102,10 @@ class SandBox extends React.Component {
 
     return (
       <div>
-			<br></br>
-			<Button
+			<button
 				className="sandboxButton"
-				onClick={this.toggleDrawer('right',true)}>Open SandBox</Button>
+				onClick={() => this.toggleDrawer('right',true)}>Open SandBox</button>
+			<br></br>
         <Drawer
 						open={this.state.right}
 						onClose={this.toggleDrawer('right',false)}

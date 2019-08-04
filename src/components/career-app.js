@@ -108,6 +108,9 @@ class CareerApp extends React.Component {
 	    this.cloneTimeline = this.cloneTimeline.bind(this);
 	    this.deleteTimeline = this.deleteTimeline.bind(this);
 	    this.chooseOption = this.chooseOption.bind(this);
+      this.toggleDrawer = this.toggleDrawer.bind(this);
+
+
 
 	};
 
@@ -452,6 +455,13 @@ class CareerApp extends React.Component {
   			return newState;
   		});
     }
+
+    toggleDrawer = (side, open) => () => {
+   	 this.setState({
+   		 [side]: open,
+   	 });
+    };
+
 
     deleteButton(timeId, cardId) {
 	  this.setState(prevState => {

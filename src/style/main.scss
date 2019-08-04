@@ -91,7 +91,7 @@ a{
   border-radius: 0.2vw;
   border: solid 1px grey;
   width: 9vw;
-  height: 1vw;
+  height: 0.8vw;
   padding: 0.2vw;
   font-size: 1vw;
   margin-top: 1.5vw;
@@ -102,7 +102,7 @@ a{
 }
 
 .searchBar {
-  margin-top: 0.2vw;
+  margin-top: 0vw;
 }
 
 .Button {
@@ -266,11 +266,12 @@ div#inline.timeline {
 }
 
 .panelpair {
-  display: inline-block;
+
 }
 
 .inlineInfo {
   margin-top: 10vw;
+
 }
 
 .panels {
@@ -286,7 +287,7 @@ span {
 }
 
 .fieldPanel {
-  margin-top: 0vw;
+  margin-top: -1.2vw;
   height: auto;
   width: 12.5vw;
   background-color: #F7B733;
@@ -298,7 +299,7 @@ span {
 
 
 .careerPanel {
-  margin-top: 0vw;
+  margin-top: -0vw;
   height: auto;
   width: 12.5vw;
   background-color: #f77754;
@@ -314,6 +315,7 @@ span {
 
 .innerFields {
     width: 12.5vw;
+    height: 35vw;
     background-color: #f7c665;
     overflow-y: scroll;
 }
@@ -429,23 +431,32 @@ span {
 
 .optionStack {
     font-size: 1vw;
-    margin-left: 30vw;
-    width: 15vw;
+    margin-left: 80vw;
+    height: 30vw;
+    padding: 1.5vw;
 
 }
 
 .optionBar {
-  width: 5vw;
 }
 
 .optionBar h1 {
-      font-size: 1.5vw;
+      font-size: 1vw;
       margin-bottom: 1vw;
+
 }
 
 .optionLabel {
-    width: 5vw;
       font-size: 1vw;
+
+}
+
+.optionbarstyle {
+  width: 20vw;
+  height: 4vw;
+  background-color: pink;
+  border: darkred solid 1px;
+  border-radius: 3px;
 }
 
 .promptCard {
