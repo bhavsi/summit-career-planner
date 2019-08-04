@@ -113,14 +113,14 @@ class OptionStack extends React.Component {
 						<ReactHover.Trigger type='trigger'>
 							<div className="optionBar">
 							<center>
-								<Button onClick={() => this.chooseOption(item, index)} style={style}>
+								<button onClick={() => this.chooseOption(item, index)} className="optionbarstyle">
 									<h1>{percentage}% &nbsp;</h1><p className="optionLabel"><b>{item.career} in {item.field}</b></p>
-								</Button>
+								</button>
 							</center>
 							</div>
 						</ReactHover.Trigger>
 						<ReactHover.Hover type='hover'>
-							<center>{info}</center>
+							<center>{info.toLocaleString()}</center>
 						</ReactHover.Hover>
 					</ReactHover>);
 				})}

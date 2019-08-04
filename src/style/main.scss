@@ -6,11 +6,11 @@
 html, body {
   font-family: helvetica;
   background-color: #4ABDAC;
-  line-height: 150%;
-  letter-spacing: 1px;
+  line-height: 1vw;
+  letter-spacing: 0.1vw;
 }
 #container{
-    margin-top: 5rem;
+    margin-top: -5vw;
 }
 
 a{
@@ -18,29 +18,83 @@ a{
     color: inherit;
 }
 
+.inlineCard {
+  display: inline-flex;
+  margin-left: -35vw;
+  margin-top: 8vw;
+  width: auto;
+}
+
+#inline {
+  vertical-align: center;
+}
+
+.zilch {
+  width: 12vw;
+
+}
+
 .target {
+  height:13vw;
+  width: 13vw;
+  border-radius: 0px 6px 6px 6px;
   font-family: helvetica, sans-serif;
 
 }
 
 .earnings {
+  text-align: center;
+  margin-top: 1vw;
+  width: 7vw;
+  font-size: 1.3vw;
+  height: 1.5vw;
   font-family: helvetica, sans-serif;
+  padding-bottom: 2vw;
+  padding-top: 0.5vw;
+  vertical-align: center;
+  margin-right: 3vw;
+
 
 }
 
+.Netearnings {
+  width: 15vw;
+  height: 3vw;
+  font-size: 1vw;
+  font-family: "Helvetica";
+  letter-spacing: 0.2vw;
+  color: white;
+  background-color: #00b300;
+  text-align: center;
+  padding-top: 1vw;
+  border-radius: 6px;
+}
+
 .cost {
+
+  text-align: center;
+  margin-top: 1vw;
+  width: 7vw;
+  font-size: 1.3vw;
+  height: 1.5vw;
   font-family: helvetica, sans-serif;
+  padding-bottom: 2vw;
+  padding-top: 0.5vw;
+  vertical-align: center;
   background-color: #140000;
+  margin-right: 3vw;
 
 }
 
 .searchBarInput {
   color: black;
-  border-radius: 4px;
+  border-radius: 0.2vw;
   border: solid 1px grey;
-  width: 150px;
-  height: 25px;
-  font-size: 12px;
+  width: 9vw;
+  height: 0.8vw;
+  padding: 0.2vw;
+  font-size: 1vw;
+  margin-top: 1.5vw;
 }
 
 .searchBarInput:focus {
@@ -48,19 +102,24 @@ a{
 }
 
 .searchBar {
-  margin-top: 10px;
+  margin-top: 0vw;
+}
+
+.Button {
+  color: red;
 }
 
 .backButton {
-  padding: 10px;
+  padding: 1vw;
   color: black;
   background-color: transparent;
-  letter-spacing: 1px;
+  letter-spacing: 0.1vw;
   border-radius: 2px;
-  height: 2em;
+  height: auto;
   border: none;
-  font-size: 15px;
+  font-size: 0.7vw;
   transition: 0.5s;
+
 }
 
 .backButton:focus {
@@ -75,28 +134,44 @@ a{
 
 .cardButtons {
   text-align: center;
-  width: 350px;
-  padding-left: 15px;
+  width: 15vw;
+  padding-left: 1vw;
 }
-.subcardDuration{
-  padding-right: 20px;
-    margin-left: 15px;
-}
-.subcardButtons{
 
+.subcardDuration{
+  font-size: 1vw;
+  margin-top: -5vw;
+  padding-right: 2vw;
+  margin-left: -2vw;
+}
+
+.subcardButtons{
+  width: 5vw;
+  height: auto;
   background-color: white;
-  padding: 9px;
-  border-radius: 6px;
-  font-size: 12px;
-  margin-right: 2px;
-border: 2px darkgreen solid;
-margin-top: 100px;
+  padding: 0.5vw;
+  border-radius: 0.5vw;
+  font-size: 1vw;
+  border: 2px darkgreen solid;
+  margin-right: 4vw;
+  position: relative;
+  margin-left: 0.5vw;
+
+}
+
+.cardlabel {
+  width: 12vw;
+  text-align: center;
+  font-size: 1.5vw;
+  margin-top: -1vw;
+  margin-right: 3vw;
+  margin-bottom: 1vw;
 }
 
 .subcardGroup {
-  padding-right: 0px;
-  margin-right: 10px;
-  margin-top: 40px;
+
+
+
 }
 
 .subcardButtons:active {
@@ -105,97 +180,132 @@ margin-top: 100px;
 
 .addButton {
   background-color: white;
-  padding: 5px;
+  padding: 0.4vw;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 1vw;
   border: 2px darkgreen solid;
-  margin-top: 0px;
-  width: 40px;
+  margin-top: 3vw;
+  width: 3vw;
+  height: 3vw;
   float: right;
-  margin-right: -65px;
+  margin-right: -7vw;
+  position: static;
 
+}
+
+div#inline.timeline {
 }
 
 .deleteButton {
   background-color: white;
-  padding: 9px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 0.5vw;
+  border-radius: 2vw;
+  font-size: 0.7vw;
   float:left;
   border: 2px darkgreen solid;
-  margin-top: -15px;
-  margin-left: -10px;
+  margin-top: -2vw;
+  margin-left: -0.5vw;
 
 }
 
-
-
-.editButton {
-  background-color: white;
-  padding: 9px;
-  border-radius: 20px;
-  font-size: 12px;
-  float:right;
-  border: 2px darkgreen solid;
-  margin-top: -15px;
-  margin-right: 120px;
-
-}
 
 .pageButtons {
   background-color: white;
-  padding: 10px;
+  padding: 0.5vw;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 1vw;
   border: 2px darkgreen solid;
 }
 
 .contentcss {
-  margin-bottom: -150px;
+  padding-top: 3vw;
+  margin-top: -4vw;
+  font-size: 1vw;
 }
 
 .pageButtons:active {
   outline: none;
 }
 
+.timeline{
+  margin-top: 5vw;
+  margin-left: 25vw;
+  width: 77vw;
+  overflow-y: scroll;
+}
+
+.sandboxButton {
+  float:right;
+  width: 9vw;
+  background-color: white;
+  padding: 0.5vw;
+  border-radius: 6px;
+  font-size: 1vw;
+  border: 2px darkgreen solid;
+  margin-right: 3.5vw;
+  margin-top: 2vw;
+  margin-bottom: -5vw;
+  z-index: 1000;
+}
+
+
+.timelineInfo {
+  line-height: 2vw;
+}
+
+.cardBackground {
+  width: 13vw;
+  height: 2vw;
+}
+
+.timeHandle {
+  margin-left:10vw;
+}
 .editableTimeline {
-  padding: 50px;
-  border: 2px darkgrey solid;
-  font-size: 14px;
-  margin: 10px;
-  margin-top:40px;
+
 }
 
 .panelpair {
-  display: inline-block;
+
+}
+
+.inlineInfo {
+  margin-top: 10vw;
+
 }
 
 .panels {
-  position: sticky;
+  position: fixed;
+  z-index: 999;
+}
+.temporarySandbox {
+
+}
+
+span {
+  margin-bottom: 2vw;
 }
 
 .fieldPanel {
-  height: 60em;
+  margin-top: -4vw;
+  height: auto;
+  width: 12.5vw;
   background-color: #F7B733;
   font-family: helvetica, sans-serif;
-  overflow-y: visible;
-    position: sticky;
-    position: -webkit-sticky;
-
+  position: sticky;
+  padding-bottom: 1.5vw;
 }
 
-.temporarySandbox {
-  overflow-x: hidden;
-}
+
+
 .careerPanel {
-  height: 60em;
+  margin-top: -0.5vw;
+  height: auto;
+  width: 12.5vw;
   background-color: #f77754;
   font-family: helvetica, sans-serif;
-  overflow-y: visible;
   position: sticky;
-  position: -webkit-sticky;
-
-
+  padding-bottom: 2vw;
 
 }
 
@@ -204,32 +314,38 @@ margin-top: 100px;
 }
 
 .innerFields {
-  height: 50em;
+    width: 12.5vw;
+    height: 35vw;
     background-color: #f7c665;
-        position: sticky;
+    overflow-y: scroll;
 }
 
 .innerCareers {
-  height: 50em;
+  width: 12.5vw;
   background-color: #fc9579;
-      position: sticky;
+
 }
 
 .field {
-  height: 5em;
+  font-size: 1vw;
+  text-align: center;
+  width: 9vw;
+  height: 4vw;
   background-color: #F7B733;
-      position: sticky;
 }
 
 .career {
-  height: 5em;
+  font-size: 1vw;
+  text-align: center;
+  width: 9vw;
+  height: 4vw;
   background-color: #f77754;
-      position: sticky;
 
 }
+
 .careerApp {
   background-color: #4ABDAC;
-  margin-top: 50px;
+  margin-top: 4vw;
 }
 
 .generateTimeline {
@@ -237,34 +353,50 @@ margin-top: 100px;
 }
 
 .header {
-  padding-top: 10px;
+  padding-top: 1.5vw;
+  padding-bottom: 1vw;
   font-family: helvetica, sans-serif;
   background-color: #026657;
   font-weight: bold;
+  height: 5vw;
+  width: auto;
 }
 
 .headertext {
+  font-size: 2vw;
   font-weight: bold;
   font-family: helvetica, sans-serif;
-  letter-spacing: 3px;
+
 }
 .timeStamp {
-  line-height: 150%;
-  padding-bottom: 10px;
+  font-size: 1.2vw;
+  text-align: center;
   font-weight: bolder;
-  margin-left: 35%;
+  margin-left: 1vw;
   background: white;
-  padding: 5px;
-  outline: 1px solid darkgreen;
-  border-radius: 5px;
+  padding: 0.4vw;
+  text-decoration: underline;
+//  border: 1px solid darkgreen;
+  border-radius: 0.5vw;
+  width:12vw;
+  box-shadow: 5px 5px 0px 0px darkgreen;
+  height: 3vw;
+  margin-bottom: 1vw;
+}
+
+.timeStampX {
+
 }
 
 .timeBar {
-    line-height: 200%;
+    line-height: 2vw;
+    width: 25vw;
+
+
 }
 
 .timelineInfo {
-  font-size: 0.9em;
+  font-size: 1vw;
 }
 
 .timelineTitle {
@@ -274,41 +406,69 @@ margin-top: 100px;
 }
 
 .timelineIcon {
-
   background-color: #026657;
   color: white;
 
 }
 
 .deleteTimeline {
+  font-size: 0.7vw;
+  width: 5vw;
+  height:2vw;
   background-color: #026657;
-color: white;
+  color: white;
 
 }
 .cloneTimeline {
+  font-size: 0.7vw;
+  width: 5vw;
+  height: 2vw;
+
   background-color: #026657;
   color: white;
 
 }
 
 .optionStack {
-    font-size: 1em;
+    font-size: 1vw;
+    margin-left: 80vw;
+    height: 30vw;
+    padding: 1.5vw;
 
+}
+
+.optionBar {
 }
 
 .optionBar h1 {
-      font-size: 1.1em;
-      margin-bottom: 1.5em;
+      font-size: 1vw;
+      margin-bottom: 1vw;
+
 }
 
 .optionLabel {
-      font-size: 0.8em;
+      font-size: 1vw;
+
+}
+
+.optionbarstyle {
+  width: 20vw;
+  height: 4vw;
+  background-color: pink;
+  border: darkred solid 1px;
+  border-radius: 3px;
+}
+
+.promptCard {
+  padding-top: 4vw;
+  font-size: 1vw;
 }
 
 
 h1 {
+  font-size: 2.3vw;
   font-family: helvetica, sans-serif;
-  letter-spacing: 1px;
+  letter-spacing: 0.3vw;
   font-weight: bold;
 }
 
